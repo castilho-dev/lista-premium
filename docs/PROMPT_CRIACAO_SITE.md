@@ -5,7 +5,7 @@
 Produto: **Lista Prêmio** - Lista completa e atualizada de fornecedores atacadistas de maquiagem
 Criadora: Juliana Martins (10+ anos de experiência em vendas, 5 anos com revenda)
 Preço: **R$ 67,00**
-Garantia: 7 dias
+Garantia: 15 dias
 
 ### Proposta de Valor Central
 Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiagem, sem necessidade de CNPJ, com atualização diária via grupo VIP exclusivo.
@@ -52,11 +52,11 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
 1. **Prova social massiva**: "+930 clientes reais" (volume supera ceticismo)
 2. **Matemática de lucro concreta**: "Compra a R$3, vende a R$10" (nunca abstrato)
 3. **Depoimentos específicos**: Nome, cidade, situação parecida
-4. **Garantia de 7 dias**: Remove último obstáculo ("se não funcionar, peço de volta")
+4. **Garantia de 15 dias**: Remove último obstáculo ("se não funcionar, peço de volta")
 5. **Sem necessidade de CNPJ**: Resolve barreira direta
 
 ### Crenças a Quebrar Antes da Venda
-1. "Todo fornecedor online pode ser golpe" → Quebrar com: garantia de 7 dias, +930 clientes reais
+1. "Todo fornecedor online pode ser golpe" → Quebrar com: garantia de 15 dias, +930 clientes reais
 2. "Produto digital barato não presta" → Quebrar com: especificidade do conteúdo (marcas, WhatsApp direto)
 3. "Sem CNPJ nunca vou ter acesso" → Quebrar com: "Todos os fornecedores aceitam sem CNPJ"
 
@@ -214,7 +214,7 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
 | Fornecedores não verificados | Cada fornecedor testado pessoalmente |
 | Informações incompletas | Nome, endereço, WhatsApp, Instagram completos |
 | Comprou e ficou sozinha | Suporte contínuo da equipe |
-| Sem garantia | 7 dias de garantia incondicional |
+| Sem garantia | 15 dias de garantia incondicional |
 | Exige CNPJ | 100% SEM necessidade de CNPJ |
 
 **Design**: Tabela visual com ícones ❌ e ✅, cores contrastantes
@@ -227,7 +227,7 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
 **Elementos**:
 - "Apenas R$ 67 - Investimento que se paga na primeira venda"
 - "Acesso imediato - Comece hoje mesmo"
-- Badge: "Garantia de 7 dias - Risco zero"
+- Badge: "Garantia de 15 dias - Risco zero"
 
 ---
 
@@ -237,7 +237,7 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
 **Perguntas Obrigatórias**:
 
 1. **"É seguro? Já caí em golpe antes..."**
-   R: Sim, 100% seguro. Trabalhamos com plataforma de pagamento segura, temos +930 clientes satisfeitas e oferecemos garantia incondicional de 7 dias. Se não gostar, devolvemos seu dinheiro.
+   R: Sim, 100% seguro. Trabalhamos com plataforma de pagamento segura, temos +930 clientes satisfeitas e oferecemos garantia incondicional de 15 dias. Se não gostar, devolvemos seu dinheiro.
 
 2. **"Preciso de CNPJ para comprar desses fornecedores?"**
    R: NÃO! Todos os fornecedores da lista aceitam compras sem CNPJ. É exatamente por isso que criamos a Lista Prêmio.
@@ -249,7 +249,7 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
    R: SIM! Além da lista completa, você entra no grupo VIP onde nossa equipe compartilha TODOS OS DIAS novos fornecedores e oportunidades.
 
 5. **"E se eu não conseguir vender?"**
-   R: A lista te dá acesso aos fornecedores certos com preços de atacado. Com margem de lucro de até 300%, o produto praticamente se vende sozinho. Mas se ainda assim não gostar, tem 7 dias de garantia.
+   R: A lista te dá acesso aos fornecedores certos com preços de atacado. Com margem de lucro de até 300%, o produto praticamente se vende sozinho. Mas se ainda assim não gostar, tem 15 dias de garantia.
 
 6. **"Tem pedido mínimo alto?"**
    R: Os fornecedores da lista trabalham com diferentes valores. Incluímos opções para quem está começando e pode investir pouco.
@@ -267,7 +267,7 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
 
 **Elementos**:
 - Botão grande e visível: "QUERO ACESSO AGORA POR R$ 67"
-- Garantia reforçada: "✅ Garantia de 7 dias - Risco Zero"
+- Garantia reforçada: "✅ Garantia de 15 dias - Risco Zero"
 - Benefícios resumidos:
   - ✅ +150 fornecedores verificados
   - ✅ Sem necessidade de CNPJ
@@ -439,7 +439,7 @@ Acesso imediato a fornecedores atacadistas verificados e confiáveis de maquiage
 
 ### Conversão
 - [ ] Mínimo 3 CTAs visíveis sem scroll
-- [ ] Garantia de 7 dias mencionada pelo menos 3x
+- [ ] Garantia de 15 dias mencionada pelo menos 3x
 - [ ] "+930 clientes" mencionado no hero e depoimentos
 - [ ] Preço (R$ 67) claro e sem esconder
 - [ ] "Sem CNPJ" mencionado no hero, benefícios e FAQ

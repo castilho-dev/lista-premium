@@ -84,7 +84,7 @@ Nomeia o problema: "esse mercado é cheio de pilantra", "nenhuma lista funciona"
 Busca ativamente solução validada: vídeos TikTok com muito engajamento, posts com comentários reais, indicações pessoais. Está disposta a pagar por algo que funcione, mas a desconfiança está no máximo. Nesse ponto, o volume de prova social supera a barreira ("930 mulheres não podem estar erradas ao mesmo tempo").
 
 **Fase 5 — Decisão de compra:**
-Acionada por um dos gatilhos: indicação de alguém igual a ela (máximo), número grande de clientes reais (+930), matemática de lucro concreta (compra R$3, vende R$10), ou urgência financeira real (conta bancária zerada). A garantia de 7 dias elimina o último obstáculo — o risco de "cair de novo".
+Acionada por um dos gatilhos: indicação de alguém igual a ela (máximo), número grande de clientes reais (+930), matemática de lucro concreta (compra R$3, vende R$10), ou urgência financeira real (conta bancária zerada). A garantia de 15 dias elimina o último obstáculo — o risco de "cair de novo".
 
 ---
 
@@ -619,7 +619,7 @@ Não há dados de criativos próprios disponíveis. Base: dados de engajamento d
 | 16 | Descobrir que concorrente local tem produto melhor e mais barato | Ameaça competitiva concreta com nome e rosto | "Ela sabe algo que eu não sei. Preciso descobrir o que é." |
 | 17 | Decidir largar emprego CLT | Ponto sem retorno que força profissionalização | "Agora é de verdade — preciso que funcione de verdade." |
 | 18 | Ler depoimento com matemática concreta ("comprei por R$3 e vendi por R$10") | Cálculo de lucro real derruba barreira de ceticismo | "Se é verdade que compra a R$3 e vende a R$10, o negócio faz sentido." |
-| 19 | Garantia de 7 dias explicitamente mencionada | Remove o último obstáculo: "se não funcionar, peço de volta" | "Não tenho nada a perder. Se for golpe, tenho garantia." |
+| 19 | Garantia de 15 dias explicitamente mencionada | Remove o último obstáculo: "se não funcionar, peço de volta" | "Não tenho nada a perder. Se for golpe, tenho garantia." |
 
 ---
 
@@ -953,7 +953,7 @@ Estrutura de indicação orgânica.
 
 ## As 3 crenças mais paralisantes a quebrar antes da venda
 
-1. **"Todo fornecedor online pode ser golpe"** — Quebrar com: plataforma segura (Kiwify), garantia de 7 dias, +930 clientes reais com nome
+1. **"Todo fornecedor online pode ser golpe"** — Quebrar com: plataforma segura (Kiwify), garantia de 15 dias, +930 clientes reais com nome
 2. **"Produto digital barato não presta"** — Quebrar com: especificidade do conteúdo (marcas, WhatsApp direto), depoimento com resultado concreto (R$3 → R$10)
 3. **"Sem CNPJ nunca vou ter acesso ao atacado de verdade"** — Quebrar com: "todos os fornecedores desta lista aceitam sem CNPJ" — argumento direto
 
