@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="relative min-h-0 py-20 lg:py-28 flex items-center overflow-hidden">
+    <section className="relative min-h-0 pt-12 pb-20 lg:pb-28 flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-rose-900/40" />
 
       <div className="absolute inset-0 opacity-[0.03]"
@@ -14,6 +14,11 @@ export default function Hero() {
       <div className="absolute bottom-20 left-10 w-96 h-96 bg-gold-400/8 rounded-full blur-3xl" />
 
       <div className="relative z-10 container-main section-padding text-center">
+        <img
+          src="/logo-1.png"
+          alt="Lista Premium"
+          className="h-28 sm:h-32 lg:h-40 w-auto object-contain mx-auto mb-12"
+        />
         <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-4xl mx-auto text-balance">
           A Lista de Fornecedores Que Suas Concorrentes <span className="text-[#D5004D]">Não Querem Que Você Conheça</span>
         </h1>

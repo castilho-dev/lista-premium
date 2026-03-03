@@ -4,8 +4,13 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="bg-gray-900 py-10 section-padding">
+    <footer className="bg-gray-900 pt-6 pb-10 section-padding">
       <div className="container-main text-center max-w-md mx-auto">
+        <img
+          src="/logo-1.png"
+          alt="Lista Premium"
+          className="h-16 sm:h-20 lg:h-24 w-auto object-contain mx-auto my-6 opacity-90"
+        />
         <p className="text-gray-500 text-sm leading-relaxed">
           Ajudando mulheres a encontrar os fornecedores certos desde 2024.
         </p>
