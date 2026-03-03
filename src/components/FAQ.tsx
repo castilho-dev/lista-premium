@@ -4,7 +4,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 const faqs = [
   {
     q: 'É seguro? Já caí em golpe antes...',
-    a: 'Sim, 100% seguro. Trabalhamos com plataforma de pagamento segura, temos +930 clientes satisfeitas e oferecemos garantia incondicional de 7 dias. Se não gostar, devolvemos seu dinheiro. Não foi você que errou antes — o mercado é cheio de pilantra mesmo. Aqui é diferente.',
+    a: 'Sim, 100% seguro. Trabalhamos com plataforma de pagamento segura, temos +930 clientes satisfeitas e oferecemos garantia incondicional de 15 dias. Se não gostar, devolvemos seu dinheiro. Não foi você que errou antes — o mercado é cheio de pilantra mesmo. Aqui é diferente.',
   },
   {
     q: 'Como eu sei que os fornecedores são reais?',

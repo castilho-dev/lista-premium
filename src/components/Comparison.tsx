@@ -5,7 +5,7 @@ const rows = [
   { label: 'Verificação', bad: 'Ninguém testou antes de te vender', good: 'Cada fornecedor testado pessoalmente' },
   { label: 'Informações', bad: 'Só nome e um número que não responde', good: 'Nome, endereço, WhatsApp e Instagram' },
   { label: 'Suporte', bad: 'Pagou, sumiu, te bloquearam', good: 'Suporte contínuo da equipe' },
-  { label: 'Garantia', bad: 'Perdeu o Pix? Problema seu', good: '7 dias de garantia incondicional' },
+  { label: 'Garantia', bad: 'Perdeu o Pix? Problema seu', good: '15 dias de garantia incondicional' },
   { label: 'CNPJ', bad: 'Sem CNPJ nem te atendem', good: '100% SEM necessidade de CNPJ' },
   { label: 'Produto', bad: 'Produto falsificado que mancha a pele da cliente', good: 'Fornecedores com produto original e nota' },
   { label: 'Investimento', bad: 'Cursos de R$300 que não dão nenhum contato', good: 'Acesso a +150 fornecedores por uma fração disso' },

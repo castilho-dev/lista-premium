@@ -42,7 +42,7 @@ export default function TermosDeUso() {
           <section>
             <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">3. Reembolso</h2>
             <p>
-              Oferecemos garantia de 7 dias. Se você não estiver satisfeita, pode solicitar o reembolso integral dentro desse prazo, sem necessidade de justificativa. Após o reembolso, o acesso ao produto será revogado.
+              Oferecemos garantia de 15 dias. Se você não estiver satisfeita, pode solicitar o reembolso integral dentro desse prazo, sem necessidade de justificativa. Após o reembolso, o acesso ao produto será revogado.
             </p>
           </section>
 

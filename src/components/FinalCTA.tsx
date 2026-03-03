@@ -86,7 +86,7 @@ export default function FinalCTA() {
 
           {/* Garantia e prova social — fora do container */}
           <p className="mt-10 text-center text-sm text-white/50 leading-relaxed">
-            7 dias pra testar — não gostou, devolvemos cada centavo
+            15 dias pra testar — não gostou, devolvemos cada centavo
           </p>
           <p className="mt-2 text-center text-sm text-white/45">
             Mais de 937 mulheres já estão comprando dos mesmos fornecedores.
