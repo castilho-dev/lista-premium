@@ -1,13 +1,31 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const rows = [
-  { label: 'Fornecedores', bad: 'Números desatualizados', good: 'Atualização DIÁRIA no grupo VIP' },
-  { label: 'Verificação', bad: 'Não verificados', good: 'Cada fornecedor testado pessoalmente' },
-  { label: 'Informações', bad: 'Incompletas e confusas', good: 'Nome, endereço, WhatsApp e Instagram' },
-  { label: 'Suporte', bad: 'Comprou e ficou sozinha', good: 'Suporte contínuo da equipe' },
-  { label: 'Garantia', bad: 'Sem garantia nenhuma', good: '7 dias de garantia incondicional' },
-  { label: 'CNPJ', bad: 'Exige CNPJ', good: '100% SEM necessidade de CNPJ' },
+  { label: 'Fornecedores', bad: 'Lista velha cheia de número que não existe', good: 'Atualização DIÁRIA no grupo VIP' },
+  { label: 'Verificação', bad: 'Ninguém testou antes de te vender', good: 'Cada fornecedor testado pessoalmente' },
+  { label: 'Informações', bad: 'Só nome e um número que não responde', good: 'Nome, endereço, WhatsApp e Instagram' },
+  { label: 'Suporte', bad: 'Pagou, sumiu, te bloquearam', good: 'Suporte contínuo da equipe' },
+  { label: 'Garantia', bad: 'Perdeu o Pix? Problema seu', good: '7 dias de garantia incondicional' },
+  { label: 'CNPJ', bad: 'Sem CNPJ nem te atendem', good: '100% SEM necessidade de CNPJ' },
+  { label: 'Produto', bad: 'Produto falsificado que mancha a pele da cliente', good: 'Fornecedores com produto original e nota' },
+  { label: 'Investimento', bad: 'Cursos de R$300 que não dão nenhum contato', good: 'Acesso a +150 fornecedores por uma fração disso' },
 ]
+
+const IconX = () => (
+  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-600" aria-hidden>
+    <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+    </svg>
+  </span>
+)
+
+const IconCheck = () => (
+  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600" aria-hidden>
+    <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+    </svg>
+  </span>
+)
 
 export default function Comparison() {
   const ref = useScrollReveal<HTMLElement>()
@@ -15,56 +33,60 @@ export default function Comparison() {
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-white section-padding">
       <div className="container-main max-w-4xl">
-        <div className="text-center mb-14 fade-in-section">
+        <div className="text-center mb-12 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
-            Por Que a Lista Prêmio{' '}
-            <span className="text-rose-500">NÃO É</span>{' '}
-            Como As Outras
+            Você <span className="text-rose-500">Já Caiu</span> Nessa Antes
           </h2>
           <p className="mt-4 text-gray-600 text-lg max-w-xl mx-auto">
-            Se você já comprou uma lista que não funcionou, entenda por que esta é diferente
+            Veja por que a Lista Premium é diferente de tudo que você já tentou.
           </p>
         </div>
 
-        <div className="fade-in-section stagger-2 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-          <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
-            <div className="p-4 text-center" />
-            <div className="p-4 text-center border-x border-gray-200">
-              <span className="font-heading font-semibold text-sm text-gray-500 uppercase tracking-wide">
+        <div className="fade-in-section min-w-0 overflow-x-auto">
+          <div className="overflow-hidden rounded-2xl border border-rose-200/60 bg-rose-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] min-w-[320px]">
+          {/* Cabeçalho */}
+          <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-rose-200/80 bg-rose-100/80">
+            <div className="px-5 py-4 sm:px-6 sm:py-5">
+              <span className="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Critério
+              </span>
+            </div>
+            <div className="border-x border-rose-200/60 px-5 py-4 text-center sm:px-6 sm:py-5">
+              <span className="font-heading text-xs font-bold uppercase tracking-wider text-gray-500">
                 Listas Comuns
               </span>
             </div>
-            <div className="p-4 text-center">
-              <span className="font-heading font-semibold text-sm text-green-600 uppercase tracking-wide">
-                Lista Prêmio
+            <div className="px-5 py-4 text-center sm:px-6 sm:py-5 bg-green-50/70">
+              <span className="font-heading text-xs font-bold uppercase tracking-wider text-green-700">
+                Lista Premium
               </span>
             </div>
           </div>
 
+          {/* Linhas */}
           {rows.map((row, i) => (
             <div
-              key={i}
-              className={`grid grid-cols-3 ${i < rows.length - 1 ? 'border-b border-gray-100' : ''} hover:bg-gray-50/50 transition-colors`}
+              key={row.label}
+              className={`grid grid-cols-[1fr_1fr_1fr] border-b border-rose-200/50 last:border-b-0 ${
+                i % 2 === 1 ? 'bg-white/60' : 'bg-rose-50/50'
+              } transition-colors hover:bg-rose-100/40`}
             >
-              <div className="p-4 flex items-center">
-                <span className="font-heading font-semibold text-sm text-gray-700">
+              <div className="px-5 py-4 flex items-center sm:px-6 sm:py-4">
+                <span className="font-heading text-sm font-semibold text-gray-800">
                   {row.label}
                 </span>
               </div>
-              <div className="p-4 flex items-center gap-2 border-x border-gray-100">
-                <svg className="w-5 h-5 text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm text-gray-500">{row.bad}</span>
+              <div className="border-x border-rose-200/40 px-5 py-4 flex items-center gap-3 sm:px-6 sm:py-4">
+                <IconX />
+                <span className="text-sm text-gray-600">{row.bad}</span>
               </div>
-              <div className="p-4 flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm text-gray-800 font-medium">{row.good}</span>
+              <div className="px-5 py-4 flex items-center gap-3 sm:px-6 sm:py-4 bg-green-50/50">
+                <IconCheck />
+                <span className="text-sm font-medium text-gray-800">{row.good}</span>
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </section>

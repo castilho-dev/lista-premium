@@ -7,8 +7,32 @@ const faqs = [
     a: 'Sim, 100% seguro. Trabalhamos com plataforma de pagamento segura, temos +930 clientes satisfeitas e oferecemos garantia incondicional de 7 dias. Se não gostar, devolvemos seu dinheiro. Não foi você que errou antes — o mercado é cheio de pilantra mesmo. Aqui é diferente.',
   },
   {
+    q: 'Como eu sei que os fornecedores são reais?',
+    a: 'Cada fornecedor foi testado com compra real antes de entrar na lista. A gente comprou, recebeu, conferiu qualidade. Fornecedor que não responde ou que manda produto diferente do prometido é removido. E no grupo VIP, as próprias compradoras reportam suas experiências.',
+  },
+  {
+    q: 'Isso é um curso?',
+    a: 'Não. Você não vai assistir 40 horas de aula pra no final não ter nenhum contato de fornecedor. A Lista Premium é ferramenta: você abre, escolhe o fornecedor, manda mensagem e compra. Direto ao ponto.',
+  },
+  {
     q: 'Preciso de CNPJ para comprar desses fornecedores?',
-    a: 'NÃO! Todos os fornecedores da lista aceitam compras sem CNPJ. É exatamente por isso que criamos a Lista Prêmio — para você que quer começar sem burocracia.',
+    a: 'NÃO! Todos os fornecedores da lista aceitam compras sem CNPJ. É exatamente por isso que criamos a Lista Premium — para você que quer começar sem burocracia.',
+  },
+  {
+    q: 'Tem pedido mínimo alto?',
+    a: 'Os fornecedores da lista trabalham com diferentes valores. Incluímos opções para quem está começando e pode investir pouco — dá pra começar com menos de R$ 100.',
+  },
+  {
+    q: 'E se eu comprar produto e encalhar?',
+    a: 'A lista inclui fornecedores que aceitam pedido pequeno — dá pra começar testando com menos de R$100. Você não precisa comprar estoque grande de cara. Testa pouco, vê o que vende na sua região, e aí escala.',
+  },
+  {
+    q: 'Os produtos são originais?',
+    a: 'Sim. Incluímos apenas fornecedores que trabalham com produto original e nota fiscal. Produto falsificado prejudica sua cliente e seu nome — e a gente sabe que sua reputação é o que faz seu negócio crescer.',
+  },
+  {
+    q: 'E se eu não conseguir vender?',
+    a: 'A lista te dá fornecedores com preço de atacado real — margens de 200% a 400%. Mas você não fica sozinha: no grupo VIP, mulheres que já vendem compartilham o que funciona todo dia. O primeiro passo é ter o fornecedor certo. O resto você aprende com quem já tá fazendo.',
   },
   {
     q: 'Como recebo a lista após a compra?',
@@ -17,18 +41,6 @@ const faqs = [
   {
     q: 'A lista é atualizada?',
     a: 'SIM! Além da lista completa, você entra no grupo VIP exclusivo onde nossa equipe compartilha TODOS OS DIAS novos fornecedores e oportunidades de lucro.',
-  },
-  {
-    q: 'E se eu não conseguir vender?',
-    a: 'A lista te dá acesso aos fornecedores certos com preços de atacado. Com margem de lucro de até 400%, o produto praticamente se vende sozinho. E se ainda assim não gostar, tem 7 dias de garantia.',
-  },
-  {
-    q: 'Tem pedido mínimo alto?',
-    a: 'Os fornecedores da lista trabalham com diferentes valores. Incluímos opções para quem está começando e pode investir pouco — dá pra começar com menos de R$ 100.',
-  },
-  {
-    q: 'Quanto tempo leva para chegar?',
-    a: 'É digital! Você recebe AGORA, no mesmo instante após a confirmação do pagamento. Acessa do celular ou computador.',
   },
 ]
 
@@ -73,7 +85,7 @@ export default function FAQ() {
       <div className="container-main max-w-3xl">
         <div className="text-center mb-14 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800">
-            Perguntas Frequentes
+            Ainda Com <span className="text-rose-500">Dúvida</span>?
           </h2>
         </div>
 

@@ -1,14 +1,15 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK, PRICE } from '../constants'
+import { CTA_LINK } from '../constants'
 
 const products = [
-  { img: '/grade/grade1.png', name: 'Marshmallow de Gel', market: 19.90, list: 5.00, discount: 75 },
-  { img: '/grade/grade2.webp', name: 'Máscara Capilar', market: 15.90, list: 4.00, discount: 75 },
-  { img: '/grade/grade3.png', name: 'Gloss Labial Mel', market: 24.90, list: 8.00, discount: 68 },
-  { img: '/grade/grade4.webp', name: 'Gloss Labial Fashion Rosa', market: 18.90, list: 3.79, discount: 80 },
-  { img: '/grade/grade5.png', name: 'Creme em Gel Body Girl', market: 22.90, list: 5.90, discount: 74 },
-  { img: '/grade/grade7.webp', name: 'Máscara Cílios V. Lash', market: 19.90, list: 3.89, discount: 80 },
-  { img: '/grade/grade8.webp', name: 'Paleta de Sombras Luxo', market: 29.90, list: 4.90, discount: 83 },
+  { img: '/lista/lista-1.png', name: 'Sadoer Nicotinamide Marshmallow Body Lotion', market: 48.10, list: 5.00, discount: 90 },
+  { img: '/lista/lista-2.png', name: 'BTX Lisoterapia Organic', market: 23.90, list: 4.00, discount: 83 },
+  { img: '/lista/lista-3.png', name: 'Gloss Labial Liphoney Franciny Ehlke', market: 34.90, list: 8.00, discount: 77 },
+  { img: '/lista/lista-4.png', name: 'Lip Gloss Crystal Magic Wand', market: 29.90, list: 3.79, discount: 87 },
+  { img: '/lista/lista-5.png', name: 'Gel Hidratante Beijável Body Girl', market: 22.90, list: 5.90, discount: 74 },
+  { img: '/lista/lista-6.png', name: 'Máscara De Cílios Long Lash Luisance', market: 20.10, list: 3.89, discount: 81 },
+  { img: '/lista/lista-7.png', name: 'Paleta de Sombras Huda Beauty Nude Medium Obsessions', market: 210.20, list: 32.90, discount: 84 },
+  { img: '/lista/lista-8.png', name: 'Esponja Feels Mood Angle Blender Ruby Rose', market: 29.90, list: 4.90, discount: 83 },
 ]
 
 function formatBRL(v: number) {
@@ -27,60 +28,59 @@ export default function ProductGrid() {
             <span className="text-rose-500">Estar Vendendo Hoje</span>
           </h2>
           <p className="mt-4 text-gray-600 text-lg max-w-xl mx-auto">
-            Compare os preços da lista com os preços do mercado e veja a margem de lucro real
+            Preço do mercado vs. preço com a lista. Faça as contas.
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {products.map((p, i) => (
-            <div
-              key={i}
-              className={`fade-in-section stagger-${Math.min(i + 1, 8)} group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100`}
-            >
-              <div className="relative">
-                <div className="aspect-square bg-gray-50 flex items-center justify-center p-4 overflow-hidden">
-                  <img
-                    src={p.img}
-                    alt={p.name}
-                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
+            <div key={i} className={`fade-in-section stagger-${Math.min(i + 1, 8)}`}>
+              <div className="product-card group bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.06)] cursor-default">
+                <div className="relative overflow-hidden">
+                  <div className="product-card-area aspect-square bg-cream-50 flex items-center justify-center p-4 transition-colors duration-300">
+                    <img
+                      src={p.img}
+                      alt={p.name}
+                      className="product-card-img max-h-full max-w-full object-contain transition-transform duration-400 ease-out"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className="product-card-badge absolute top-3 left-3 bg-rose-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm transition-all duration-300">
+                    -{p.discount}%
+                  </span>
                 </div>
-                <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
-                  -{p.discount}%
-                </span>
-              </div>
 
-              <div className="p-5">
-                <h3 className="font-heading font-semibold text-gray-800 text-sm mb-3 min-h-[40px]">
-                  {p.name}
-                </h3>
+                <div className="p-5">
+                  <h3 className="font-heading font-medium text-gray-700 text-[13px] leading-snug tracking-tight line-clamp-2 min-h-[2.5rem] mb-4">
+                    {p.name}
+                  </h3>
 
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="text-gray-400 line-through text-sm">
-                    {formatBRL(p.market)}
-                  </span>
+                  <div className="space-y-1.5">
+                    <p className="text-gray-400 text-xs">
+                      <span className="line-through tabular-nums">{formatBRL(p.market)}</span>
+                      <span className="text-gray-400/80 ml-1.5">no mercado</span>
+                    </p>
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      <span className="text-green-600 font-bold text-xl tabular-nums tracking-tight">
+                        {formatBRL(p.list)}
+                      </span>
+                      <span className="text-[10px] font-semibold text-green-700 uppercase tracking-wider bg-green-50 px-2 py-0.5 rounded">
+                        Lista Premium
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-green-600 font-bold text-xl">
-                    {formatBRL(p.list)}
-                  </span>
-                  <span className="text-[11px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">
-                    COM A LISTA
-                  </span>
-                </div>
-              </div>
             </div>
+          </div>
           ))}
         </div>
 
         <div className="fade-in-section mt-12 text-center">
-          <p className="text-gray-600 mb-6 text-lg">
-            Imagine comprar a <strong>R$ 3,79</strong> e vender a <strong>R$ 18,90</strong> -
-            isso é mais de <strong className="text-green-600">400% de lucro</strong>
+          <p className="text-gray-600 mb-6 text-lg max-w-2xl mx-auto">
+            Compra a R$ 3,79. Vende a R$ 18,90. Mais de 400% de margem. A diferença entre quem lucra e quem empata? Saber onde comprar.
           </p>
           <a href={CTA_LINK} className="btn-primary">
-            QUERO ACESSO AGORA POR {PRICE}
+            QUERO ACESSO AOS FORNECEDORES
           </a>
         </div>
       </div>

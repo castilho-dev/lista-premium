@@ -1,31 +1,34 @@
-import Hero from './components/Hero'
-import VSL from './components/VSL'
-import Benefits from './components/Benefits'
-import ProductGrid from './components/ProductGrid'
-import ProductGallery from './components/ProductGallery'
-import Testimonials from './components/Testimonials'
-import Comparison from './components/Comparison'
-import FAQ from './components/FAQ'
-import FinalCTA from './components/FinalCTA'
-import Footer from './components/Footer'
-import StickyMobileCTA from './components/StickyMobileCTA'
+import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import TermosDeUso from './pages/TermosDeUso'
+import PoliticaPrivacidade from './pages/PoliticaPrivacidade'
+import WhatsAppButton from './components/WhatsAppButton'
 
 export default function App() {
+  useEffect(() => {
+    const preventContextMenu = (e: MouseEvent) => e.preventDefault()
+    const preventImageDrag = (e: DragEvent) => {
+      if (e.target instanceof HTMLImageElement) e.preventDefault()
+    }
+
+    document.addEventListener('contextmenu', preventContextMenu)
+    document.addEventListener('dragstart', preventImageDrag)
+
+    return () => {
+      document.removeEventListener('contextmenu', preventContextMenu)
+      document.removeEventListener('dragstart', preventImageDrag)
+    }
+  }, [])
+
   return (
-    <>
-      <main>
-        <Hero />
-        <VSL />
-        <Benefits />
-        <ProductGrid />
-        <ProductGallery />
-        <Testimonials />
-        <Comparison />
-        <FAQ />
-        <FinalCTA />
-      </main>
-      <Footer />
-      <StickyMobileCTA />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/termos" element={<TermosDeUso />} />
+        <Route path="/privacidade" element={<PoliticaPrivacidade />} />
+      </Routes>
+      <WhatsAppButton />
+    </BrowserRouter>
   )
 }

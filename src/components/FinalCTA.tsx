@@ -1,6 +1,14 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { CTA_LINK, PRICE } from '../constants'
 
+const checklistItems = [
+  '+150 fornecedores testados com compra real — não é lista copiada do Google',
+  'Grupo VIP com fornecedores novos aparecendo TODO DIA',
+  'Marcas que suas clientes já pedem por nome',
+  '100% sem CNPJ — ninguém vai te barrar na porta',
+  'Paga e recebe na hora, tudo no celular',
+]
+
 export default function FinalCTA() {
   const ref = useScrollReveal<HTMLElement>()
 
@@ -8,67 +16,81 @@ export default function FinalCTA() {
     <section
       ref={ref}
       id="comprar"
-      className="relative py-20 lg:py-28 section-padding overflow-hidden"
+      className="relative py-24 lg:py-32 section-padding overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-rose-900/40" />
-      <div className="absolute top-10 left-10 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 right-10 w-64 h-64 bg-gold-400/10 rounded-full blur-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-rose-900/30" />
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-rose-500/15 rounded-full blur-[100px]" />
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-gold-400/12 rounded-full blur-3xl" />
 
-      <div className="relative z-10 container-main text-center">
-        <div className="fade-in-section max-w-2xl mx-auto">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight text-balance">
-            Chegou a Sua Vez de Ter o Negócio Que Sempre{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-400">
-              Sonhou
-            </span>
+      <div className="relative z-10 container-main">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            Tudo Que Separa Você de Quem Já Está Lucrando
+            <br />
+            é <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-400">Uma Decisão</span>
           </h2>
-
-          <p className="mt-6 text-lg text-white/70 max-w-xl mx-auto">
-            Mais de 930 mulheres já deram o primeiro passo. E você?
+          <p className="mt-5 text-lg text-white/75 max-w-lg mx-auto">
+            Você não precisa de mais coragem. Precisa do acesso certo.
           </p>
+        </div>
 
-          <div className="mt-10 bg-white/10 backdrop-blur-sm rounded-2xl p-8 sm:p-10 border border-white/10">
-            <div className="flex flex-col items-center">
-              <span className="text-white/60 text-sm font-heading uppercase tracking-wide">
+        <div className="mt-16 max-w-lg mx-auto">
+          {/* Container leve: só borda rose sutil, sem glass */}
+          <div className="bg-white/[0.03] border border-rose-500/20 rounded-3xl p-8 sm:p-12">
+            {/* Preço — com glow rose */}
+            <div className="relative text-center py-4">
+              <div className="absolute inset-0 flex justify-center items-center pointer-events-none" aria-hidden>
+                <div className="w-48 h-32 sm:w-56 sm:h-36 bg-rose-500/20 rounded-full blur-3xl" />
+              </div>
+              <p className="relative text-white/65 text-xs font-semibold uppercase tracking-[0.25em]">
                 Acesso completo por apenas
-              </span>
-              <span className="text-white font-display text-5xl sm:text-6xl font-bold mt-2">
+              </p>
+              <p className="relative mt-4 font-display text-5xl sm:text-6xl font-bold text-white tracking-tighter tabular-nums">
                 {PRICE}
-              </span>
-              <span className="text-white/50 text-sm mt-1">Pagamento único</span>
+              </p>
+              <p className="relative mt-6 text-sm font-medium tracking-widest uppercase text-gold-300/90">
+                Pagamento único — Acesso vitalício
+              </p>
             </div>
 
-            <ul className="mt-8 space-y-3 text-left max-w-sm mx-auto">
-              {[
-                '+150 fornecedores verificados',
-                'Grupo VIP com atualizações diárias',
-                'Marcas de blogueiras incluídas',
-                'Sem necessidade de CNPJ',
-                'Acesso imediato',
-                'Garantia de 7 dias',
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white/80">
-                  <svg className="w-5 h-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-sm">{item}</span>
+            {/* Checklist — checkmarks rose */}
+            <ul className="mt-10 space-y-4 max-w-md mx-auto text-left">
+              {checklistItems.map((item, i) => (
+                <li key={i} className="flex items-start gap-3 text-white/90">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-500/20 mt-0.5">
+                    <svg className="w-3 h-3 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <span className="text-sm leading-snug">{item}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-8">
-              <a href={CTA_LINK} className="btn-primary-large w-full sm:w-auto animate-pulse-soft">
-                QUERO ACESSO AGORA POR {PRICE}
+            {/* Botão CTA */}
+            <div className="mt-10 flex flex-col items-center gap-4">
+              <a
+                href={CTA_LINK}
+                className="btn-primary-large w-full sm:w-auto text-center inline-flex items-center justify-center"
+              >
+                QUERO O ACESSO AGORA
               </a>
+              <img
+                src="/kiwify-logo.svg"
+                alt="Kiwify"
+                className="h-6 w-auto object-contain opacity-40 [filter:brightness(0)_invert(1)]"
+              />
             </div>
-
-            <p className="mt-4 text-white/40 text-xs flex items-center justify-center gap-1.5">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-              </svg>
-              Compra segura com garantia de 7 dias
-            </p>
           </div>
+
+          {/* Garantia e prova social — fora do container */}
+          <p className="mt-10 text-center text-sm text-white/50 leading-relaxed">
+            7 dias pra testar — não gostou, devolvemos cada centavo
+          </p>
+          <p className="mt-2 text-center text-sm text-white/45">
+            Mais de 937 mulheres já estão comprando dos mesmos fornecedores.
+          </p>
         </div>
       </div>
     </section>

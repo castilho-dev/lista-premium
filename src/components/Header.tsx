@@ -28,7 +28,7 @@ export default function Header() {
               scrolled ? 'text-gray-800' : 'text-white'
             }`}
           >
-            Lista Prêmio
+            Lista Premium
           </span>
         </div>
         <a

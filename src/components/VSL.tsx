@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK, PRICE } from '../constants'
+import { CTA_LINK } from '../constants'
 
 export default function VSL() {
   const sectionRef = useScrollReveal<HTMLElement>()
@@ -32,18 +32,12 @@ export default function VSL() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28 section-padding">
+    <section ref={sectionRef} className="py-20 lg:py-28 bg-cream-100 section-padding">
       <div className="container-main">
         <div className="text-center mb-12 fade-in-section">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800">
-            Descubra Como{' '}
-            <span className="text-rose-500">+930 Mulheres</span>{' '}
-            Estão Lucrando
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 max-w-3xl mx-auto">
+            Descubra Como <span className="text-rose-500">+937</span> Revendedoras Estão Comprando a <span className="text-green-600">R$3</span> e Vendendo a <span className="text-green-600">R$15</span>
           </h2>
-          <p className="mt-4 text-gray-600 text-lg max-w-2xl mx-auto">
-            Assista ao vídeo da Juliana Martins, criadora da Lista Prêmio,
-            e entenda como tudo funciona
-          </p>
         </div>
 
         <div className="fade-in-section stagger-2 max-w-3xl mx-auto">
@@ -52,7 +46,7 @@ export default function VSL() {
 
         <div className="fade-in-section stagger-3 mt-10 text-center">
           <a href={CTA_LINK} className="btn-primary">
-            QUERO COMEÇAR AGORA POR {PRICE}
+            QUERO CONHECER A LISTA AGORA
           </a>
         </div>
       </div>

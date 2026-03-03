@@ -16,6 +16,14 @@
   ::selection {
     @apply bg-gold-400/30;
   }
+
+  img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: auto;
+  }
 }
 
 @layer components {
@@ -77,3 +85,18 @@
 .stagger-6 { transition-delay: 0.6s; }
 .stagger-7 { transition-delay: 0.7s; }
 .stagger-8 { transition-delay: 0.8s; }
+
+/* Hover dos cards de produto - efeito suave: sobe um pouco + sombra + zoom leve na imagem */
+.product-card {
+  transition: box-shadow 0.35s ease-out, transform 0.35s ease-out;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.12);
+}
+.product-card:hover .product-card-img {
+  transform: scale(1.05);
+}
+.product-card .product-card-img {
+  transition: transform 0.4s ease-out;
+}
