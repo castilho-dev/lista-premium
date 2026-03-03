@@ -42,50 +42,86 @@ export default function Comparison() {
           </p>
         </div>
 
-        <div className="fade-in-section min-w-0 overflow-x-auto">
-          <div className="overflow-hidden rounded-2xl border border-rose-200/60 bg-rose-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] min-w-[320px]">
-          {/* Cabeçalho */}
-          <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-rose-200/80 bg-rose-100/80">
-            <div className="px-5 py-4 sm:px-6 sm:py-5">
-              <span className="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500">
-                Critério
-              </span>
-            </div>
-            <div className="border-x border-rose-200/60 px-5 py-4 text-center sm:px-6 sm:py-5">
-              <span className="font-heading text-xs font-bold uppercase tracking-wider text-gray-500">
-                Listas Comuns
-              </span>
-            </div>
-            <div className="px-5 py-4 text-center sm:px-6 sm:py-5 bg-green-50/70">
-              <span className="font-heading text-xs font-bold uppercase tracking-wider text-green-700">
-                Lista Premium
-              </span>
-            </div>
+        <div className="fade-in-section min-w-0">
+          {/* Mobile: cards empilhados */}
+          <div className="md:hidden space-y-3">
+            {rows.map((row) => (
+              <div
+                key={row.label}
+                className="overflow-hidden rounded-xl border border-rose-200/60 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+              >
+                <div className="px-4 py-3 border-b border-rose-100 bg-rose-50/80">
+                  <span className="font-heading text-sm font-semibold text-gray-800">
+                    {row.label}
+                  </span>
+                </div>
+                <div className="divide-y divide-rose-100">
+                  <div className="px-4 py-3 flex items-start gap-3 bg-white">
+                    <IconX />
+                    <div>
+                      <span className="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500 block mb-0.5">
+                        Listas Comuns
+                      </span>
+                      <span className="text-sm text-gray-600">{row.bad}</span>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3 flex items-start gap-3 bg-green-50/60">
+                    <IconCheck />
+                    <div>
+                      <span className="font-heading text-xs font-semibold uppercase tracking-wider text-green-700 block mb-0.5">
+                        Lista Premium
+                      </span>
+                      <span className="text-sm font-medium text-gray-800">{row.good}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Linhas */}
-          {rows.map((row, i) => (
-            <div
-              key={row.label}
-              className={`grid grid-cols-[1fr_1fr_1fr] border-b border-rose-200/50 last:border-b-0 ${
-                i % 2 === 1 ? 'bg-white/60' : 'bg-rose-50/50'
-              } transition-colors hover:bg-rose-100/40`}
-            >
-              <div className="px-5 py-4 flex items-center sm:px-6 sm:py-4">
-                <span className="font-heading text-sm font-semibold text-gray-800">
-                  {row.label}
-                </span>
+          {/* Desktop: tabela */}
+          <div className="hidden md:block overflow-x-auto">
+            <div className="overflow-hidden rounded-2xl border border-rose-200/60 bg-rose-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] min-w-0">
+              <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-rose-200/80 bg-rose-100/80">
+                <div className="px-5 py-4 sm:px-6 sm:py-5">
+                  <span className="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Critério
+                  </span>
+                </div>
+                <div className="border-x border-rose-200/60 px-5 py-4 text-center sm:px-6 sm:py-5">
+                  <span className="font-heading text-xs font-bold uppercase tracking-wider text-gray-500">
+                    Listas Comuns
+                  </span>
+                </div>
+                <div className="px-5 py-4 text-center sm:px-6 sm:py-5 bg-green-50/70">
+                  <span className="font-heading text-xs font-bold uppercase tracking-wider text-green-700">
+                    Lista Premium
+                  </span>
+                </div>
               </div>
-              <div className="border-x border-rose-200/40 px-5 py-4 flex items-center gap-3 sm:px-6 sm:py-4">
-                <IconX />
-                <span className="text-sm text-gray-600">{row.bad}</span>
-              </div>
-              <div className="px-5 py-4 flex items-center gap-3 sm:px-6 sm:py-4 bg-green-50/50">
-                <IconCheck />
-                <span className="text-sm font-medium text-gray-800">{row.good}</span>
-              </div>
+              {rows.map((row, i) => (
+                <div
+                  key={row.label}
+                  className={`grid grid-cols-[1fr_1fr_1fr] border-b border-rose-200/50 last:border-b-0 ${
+                    i % 2 === 1 ? 'bg-white/60' : 'bg-rose-50/50'
+                  } transition-colors hover:bg-rose-100/40`}
+                >
+                  <div className="px-5 py-4 flex items-center sm:px-6 sm:py-4">
+                    <span className="font-heading text-sm font-semibold text-gray-800">
+                      {row.label}
+                    </span>
+                  </div>
+                  <div className="border-x border-rose-200/40 px-5 py-4 flex items-center gap-3 sm:px-6 sm:py-4">
+                    <IconX />
+                    <span className="text-sm text-gray-600">{row.bad}</span>
+                  </div>
+                  <div className="px-5 py-4 flex items-center gap-3 sm:px-6 sm:py-4 bg-green-50/50">
+                    <IconCheck />
+                    <span className="text-sm font-medium text-gray-800">{row.good}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
           </div>
         </div>
       </div>

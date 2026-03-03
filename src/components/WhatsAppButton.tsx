@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const WHATSAPP_NUMBER = '5535999999999'
 const WHATSAPP_MESSAGE = 'Oi! Tenho interesse na Lista Premium e quero tirar algumas dúvidas antes de garantir a minha.'
@@ -6,9 +6,33 @@ const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
 
 export default function WhatsAppButton() {
   const [showTooltip, setShowTooltip] = useState(false)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setShowBackToTop(window.scrollY > 400)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-3 sm:bottom-6 sm:right-6">
+      {showBackToTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="flex w-11 h-11 items-center justify-center rounded-full bg-white/90 text-gray-500 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-gray-700 hover:shadow-md active:scale-95"
+          aria-label="Voltar ao topo"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </button>
+      )}
       <div className="relative">
         {showTooltip && (
           <span

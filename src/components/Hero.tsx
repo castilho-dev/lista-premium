@@ -15,7 +15,7 @@ export default function Hero() {
 
       <div className="relative z-10 container-main section-padding text-center">
         <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-4xl mx-auto text-balance">
-          A Lista de Fornecedores Que Suas Concorrentes <span className="text-rose-500">Não Querem Que Você Conheça</span>
+          A Lista de Fornecedores Que Suas Concorrentes <span className="text-[#D5004D]">Não Querem Que Você Conheça</span>
         </h1>
 
         <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto font-sans leading-relaxed">
