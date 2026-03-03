@@ -36,51 +36,81 @@ export default function FinalCTA() {
         </div>
 
         <div className="mt-16 max-w-lg mx-auto">
-          {/* Container leve: só borda rose sutil, sem glass */}
-          <div className="bg-white/[0.03] border border-rose-500/20 rounded-3xl p-8 sm:p-12">
-            {/* Preço — com glow rose */}
-            <div className="relative text-center py-4">
-              <div className="absolute inset-0 flex justify-center items-center pointer-events-none" aria-hidden>
-                <div className="w-48 h-32 sm:w-56 sm:h-36 bg-rose-500/20 rounded-full blur-3xl" />
-              </div>
-              <p className="relative text-white/65 text-xs font-semibold uppercase tracking-[0.25em]">
-                Acesso completo por apenas
-              </p>
-              <p className="relative mt-4 font-display text-5xl sm:text-6xl font-bold text-white tracking-tighter tabular-nums">
-                {PRICE}
-              </p>
-              <p className="relative mt-6 text-sm font-medium tracking-widest uppercase text-gold-300/90">
-                Pagamento único — Acesso vitalício
-              </p>
+          {/* Card CTA — visual mais profissional */}
+          <div className="relative rounded-2xl sm:rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-md shadow-2xl shadow-black/20 overflow-hidden">
+            {/* Borda superior: mais alta + gradiente rosa/dourado com brilho passando da esquerda pra direita */}
+            <div className="relative h-2 sm:h-2.5 w-full overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+              {/* Base: gradiente do tema */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(90deg, #D5004D 0%, #ED5A8F 25%, #D4AF37 50%, #E4C36A 75%, #D5004D 100%)',
+                }}
+                aria-hidden
+              />
+              {/* Brilho que atravessa da esquerda para a direita */}
+              <div
+                className="absolute inset-0 bg-shine animate-shine-sweep"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 25%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 75%, transparent 100%)',
+                }}
+                aria-hidden
+              />
             </div>
 
-            {/* Checklist — checkmarks rose */}
-            <ul className="mt-10 space-y-4 max-w-md mx-auto text-left">
-              {checklistItems.map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-white/90">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-500/20 mt-0.5">
-                    <svg className="w-3 h-3 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                  <span className="text-sm leading-snug">{item}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="p-8 sm:p-10">
+              {/* Preço */}
+              <div className="relative text-center py-6 sm:py-8">
+                <div className="absolute inset-0 flex justify-center items-center pointer-events-none" aria-hidden>
+                  <div className="w-40 h-24 sm:w-48 sm:h-28 bg-rose-500/10 rounded-full blur-2xl" />
+                </div>
+                <p className="relative text-white/60 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em]">
+                  Acesso completo por apenas
+                </p>
+                <p className="relative mt-3 font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tighter tabular-nums">
+                  {PRICE}
+                </p>
+                <p className="relative mt-4 text-xs sm:text-sm font-medium tracking-[0.15em] uppercase text-gold-300/90">
+                  Pagamento único — Acesso vitalício
+                </p>
+              </div>
 
-            {/* Botão CTA */}
-            <div className="mt-10 flex flex-col items-center gap-4">
-              <a
-                href={CTA_LINK}
-                className="btn-primary-large w-full sm:w-auto text-center inline-flex items-center justify-center"
-              >
-                QUERO O ACESSO AGORA
-              </a>
-              <img
-                src="/kiwify-logo.svg"
-                alt="Kiwify"
-                className="h-6 w-auto object-contain opacity-40 [filter:brightness(0)_invert(1)]"
-              />
+              {/* Divisor sutil */}
+              <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent max-w-xs mx-auto" aria-hidden />
+
+              {/* Checklist */}
+              <ul className="mt-8 sm:mt-10 space-y-3.5 max-w-md mx-auto text-left">
+                {checklistItems.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-white/90">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 mt-0.5">
+                      <svg className="w-2.5 h-2.5 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Botão CTA */}
+              <div className="mt-8 sm:mt-10 flex flex-col items-center gap-5">
+                <a
+                  href={CTA_LINK}
+                  className="btn-primary-large w-full sm:w-auto text-center inline-flex items-center justify-center shadow-lg shadow-green-600/20"
+                >
+                  QUERO O ACESSO AGORA
+                </a>
+                <div className="flex items-center justify-center gap-4 flex-wrap">
+                  <img
+                    src="/kiwify-logo.svg"
+                    alt="Kiwify"
+                    className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]"
+                  />
+                  <img src="/visa.svg" alt="Visa" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+                  <img src="/mastercard.svg" alt="Mastercard" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+                  <img src="/pix.svg" alt="PIX" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+                </div>
+              </div>
             </div>
           </div>
 
