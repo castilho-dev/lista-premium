@@ -70,19 +70,33 @@ const TESTIMONIAL_VIDEO_SCRIPT = `https://scripts.converteai.net/669adcdb-7c63-4
 export default function Testimonials() {
   const sectionRef = useScrollReveal<HTMLElement>()
   const trackRef = useRef<HTMLDivElement>(null)
+  const textTrackRef = useRef<HTMLDivElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
+  const [currentText, setCurrentText] = useState(0)
+  const [twoCards, setTwoCards] = useState(false) // 2 cards no md+, 1 no mobile
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const textIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const maxIndex = feedbacks.length - 4
+  const textMaxIndex = twoCards ? textTestimonials.length - 2 : textTestimonials.length - 1
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const update = () => setTwoCards(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   const scrollTo = useCallback((index: number) => {
-    const track = trackRef.current
-    if (!track) return
-    const card = track.children[0] as HTMLElement | undefined
+    const scrollEl = trackRef.current
+    if (!scrollEl) return
+    const row = scrollEl.firstElementChild
+    const card = row?.firstElementChild as HTMLElement | undefined
     if (!card) return
     const gap = 20
     const cardWidth = card.offsetWidth + gap
-    track.scrollTo({ left: cardWidth * index, behavior: 'smooth' })
+    scrollEl.scrollTo({ left: cardWidth * index, behavior: 'smooth' })
   }, [])
 
   const startAutoplay = useCallback(() => {
@@ -134,6 +148,47 @@ export default function Testimonials() {
     startAutoplay()
   }, [scrollTo, startAutoplay])
 
+  const scrollTextTo = useCallback((index: number) => {
+    const el = textTrackRef.current
+    if (!el) return
+    const w = el.clientWidth // viewport do scroll container
+    if (w <= 0) return
+    const step = twoCards ? w / 2 : w // 1 card no mobile, 2 no tablet/desktop
+    el.scrollTo({ left: step * index, behavior: 'smooth' })
+  }, [twoCards])
+
+  const startTextAutoplay = useCallback(() => {
+    if (textIntervalRef.current) clearInterval(textIntervalRef.current)
+    textIntervalRef.current = setInterval(() => {
+      setCurrentText(prev => {
+        const next = prev >= textMaxIndex ? 0 : prev + 1
+        scrollTextTo(next)
+        return next
+      })
+    }, 5000)
+  }, [textMaxIndex, scrollTextTo])
+
+  useEffect(() => {
+    setCurrentText(prev => Math.min(prev, textMaxIndex))
+  }, [textMaxIndex])
+
+  useEffect(() => {
+    scrollTextTo(currentText)
+  }, [twoCards])
+
+  useEffect(() => {
+    startTextAutoplay()
+    return () => {
+      if (textIntervalRef.current) clearInterval(textIntervalRef.current)
+    }
+  }, [startTextAutoplay])
+
+  const goToText = useCallback((index: number) => {
+    setCurrentText(index)
+    scrollTextTo(index)
+    startTextAutoplay()
+  }, [scrollTextTo, startTextAutoplay])
+
   return (
     <section ref={sectionRef} className="py-20 lg:py-28 bg-cream-100 section-padding">
       <div className="container-main">
@@ -149,8 +204,9 @@ export default function Testimonials() {
         <div className="fade-in-section stagger-2 relative">
           <div
             ref={trackRef}
-            className="flex gap-5 overflow-hidden scroll-smooth"
+            className="overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
           >
+            <div className="flex gap-5">
             {feedbacks.map((fb, i) => (
               <div
                 key={i}
@@ -166,6 +222,7 @@ export default function Testimonials() {
                 </div>
               </div>
             ))}
+            </div>
           </div>
 
           <button
@@ -201,29 +258,79 @@ export default function Testimonials() {
           ))}
         </div>
 
-        <div className="fade-in-section mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {textTestimonials.map((t, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col"
-            >
-              <p className="text-gray-700 leading-relaxed text-[15px] mb-4 flex-1">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="flex items-center justify-between gap-3 pt-2 border-t border-gray-100">
-                <div className="text-gray-500 text-sm font-sans">
-                  <p>— {t.author}</p>
-                  <p className="text-gray-400 text-xs mt-0.5">{t.location}</p>
+        <div className="fade-in-section mt-14 relative max-w-5xl mx-auto">
+          <div
+            ref={textTrackRef}
+            className="overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth scrollbar-hide w-full"
+            onScroll={() => {
+              const el = textTrackRef.current
+              if (!el) return
+              const step = twoCards ? el.clientWidth / 2 : el.clientWidth
+              if (step <= 0) return
+              const i = Math.round(el.scrollLeft / step)
+              if (i !== currentText) setCurrentText(Math.max(0, Math.min(i, textMaxIndex)))
+            }}
+          >
+            <div className="flex w-[600%] md:w-[300%] items-stretch">
+              {textTestimonials.map((t, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 w-1/6 snap-center px-2 flex"
+                >
+                  <div className="bg-white rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
+                    <p className="text-gray-700 leading-relaxed text-[14px] sm:text-[15px] mb-4 flex-1">
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    <div className="flex-shrink-0 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
+                      <div className="text-gray-500 text-xs sm:text-sm font-sans">
+                        <p>— {t.author}</p>
+                        <p className="text-gray-400 text-xs mt-0.5">{t.location}</p>
+                      </div>
+                      <span className="flex items-center gap-1.5 text-[12px] sm:text-[13px] font-sans text-gray-500">
+                        <InstagramIcon />
+                        <span className="bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 bg-clip-text text-transparent font-medium break-all">
+                          {t.instagram}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <span className="flex items-center gap-1.5 text-[13px] font-sans text-gray-500">
-                  <InstagramIcon />
-                  <span className="bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 bg-clip-text text-transparent font-medium">
-                    {t.instagram}
-                  </span>
-                </span>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => goToText(Math.max(0, currentText - 1))}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-xl transition-all duration-200 z-10"
+            aria-label="Depoimento anterior"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => goToText(Math.min(textMaxIndex, currentText + 1))}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-xl transition-all duration-200 z-10"
+            aria-label="Próximo depoimento"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <div className="flex justify-center gap-2 mt-6">
+            {Array.from({ length: textMaxIndex + 1 }, (_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => goToText(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === currentText ? 'bg-rose-500 w-6' : 'bg-gray-300 hover:bg-gray-400 w-2'
+                }`}
+                aria-label={`Ir para posição ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="fade-in-section mt-14 max-w-[400px] mx-auto">

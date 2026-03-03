@@ -36,12 +36,12 @@ export default function ProductGrid() {
           {products.map((p, i) => (
             <div key={i} className={`fade-in-section stagger-${Math.min(i + 1, 8)}`}>
               <div className="product-card group bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.06)] cursor-default">
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden rounded-t-xl sm:rounded-t-2xl">
                   <div className="product-card-area aspect-square bg-cream-50 flex items-center justify-center p-2 sm:p-4 transition-colors duration-300">
                     <img
                       src={p.img}
                       alt={p.name}
-                      className="product-card-img max-h-full max-w-full object-contain transition-transform duration-400 ease-out"
+                      className="product-card-img max-h-full max-w-full object-contain transition-transform duration-400 ease-out rounded-xl sm:rounded-2xl"
                       loading="lazy"
                     />
                   </div>
