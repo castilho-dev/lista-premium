@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { setMemberSession } from '../auth'
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
@@ -40,12 +41,10 @@ export default function Login() {
       const data = await res.json().catch(() => ({}))
       if (data.access) {
         const customer = data.customer || {}
-        navigate('/app/area', {
-          state: {
-            email: customer.email || trimmed,
-            name: customer.name || null,
-          },
-        })
+        const email = customer.email || trimmed
+        const name = customer.name ?? null
+        setMemberSession({ email, name })
+        navigate('/app/area', { state: { email, name } })
         return
       }
       setError(data.error || 'E-mail não encontrado ou sem acesso. Confira se comprou com este e-mail.')

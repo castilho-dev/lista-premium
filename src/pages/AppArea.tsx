@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, Navigate } from 'react-router-dom'
 import {
   avatars,
   AvatarIcon,
@@ -7,6 +7,8 @@ import {
   setStoredAvatarId,
   INITIALS_AVATAR_ID,
 } from '../components/Avatars'
+import CalculadoraPrecos from '../components/CalculadoraPrecos'
+import { getMemberSession } from '../auth'
 import { WHATSAPP_NUMBER } from '../constants'
 
 function getInitials(name: string | null, email: string): string {
@@ -24,8 +26,13 @@ function getInitials(name: string | null, email: string): string {
 export default function AppArea() {
   const location = useLocation()
   const state = location.state as { email?: string; name?: string | null } | null
-  const email = state?.email ?? ''
-  const name = state?.name ?? null
+  const session = getMemberSession()
+  const email = state?.email ?? session?.email ?? ''
+  const name = state?.name ?? session?.name ?? null
+
+  if (!session && !state?.email) {
+    return <Navigate to="/app" replace />
+  }
   const displayName = name && name.trim() ? name.trim() : null
   const initials = getInitials(displayName, email)
 
@@ -159,19 +166,34 @@ export default function AppArea() {
               ))}
             </nav>
 
-            {/* Conteúdo da aba ativa (placeholders por enquanto) */}
+            {/* Conteúdo da aba ativa */}
             <div className="mt-6 min-h-[200px] rounded-xl bg-gray-50 border border-gray-100 p-6 text-left">
               {activeTab === 'fornecedores' && (
-                <p className="text-gray-500 text-sm">Conteúdo de Fornecedores em breve.</p>
+                <div className="space-y-3">
+                  <p className="text-gray-600 text-sm">Lista de fornecedores com busca, contatos e links diretos.</p>
+                  <Link to="/fornecedores" className="inline-flex items-center gap-2 text-rose-600 hover:text-rose-700 font-heading font-medium text-sm">
+                    Ver lista de fornecedores →
+                  </Link>
+                </div>
               )}
-              {activeTab === 'calculadora' && (
-                <p className="text-gray-500 text-sm">Calculadora de vendas em breve.</p>
-              )}
+              {activeTab === 'calculadora' && <CalculadoraPrecos />}
               {activeTab === 'instagram' && (
-                <p className="text-gray-500 text-sm">Instagram 10K em breve.</p>
+                <div className="rounded-lg overflow-hidden border border-gray-200 bg-white" style={{ minHeight: 320 }}>
+                  <iframe
+                    title="Instagram 10K"
+                    src="/pdf/instagram10k.pdf#toolbar=0"
+                    className="w-full h-[320px] sm:h-[420px]"
+                  />
+                </div>
               )}
               {activeTab === 'whatsapp' && (
-                <p className="text-gray-500 text-sm">WhatsApp Lucrativo em breve.</p>
+                <div className="rounded-lg overflow-hidden border border-gray-200 bg-white" style={{ minHeight: 320 }}>
+                  <iframe
+                    title="WhatsApp Lucrativo"
+                    src="/pdf/whatsapp-lucrativo.pdf#toolbar=0"
+                    className="w-full h-[320px] sm:h-[420px]"
+                  />
+                </div>
               )}
             </div>
 
