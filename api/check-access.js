@@ -1,11 +1,104 @@
 /**
  * Verifica se o e-mail tem acesso ao conteúdo (comprou e não reembolsou).
  * POST { "email": "cliente@email.com" } -> { "access": true } ou { "access": false }
- * TODO: consultar banco/lista de e-mails liberados pelo webhook da Kiwify.
+ *
+ * Ordem de verificação:
+ * 1. ALLOWED_TEST_EMAILS (env) – lista separada por vírgula para testes
+ * 2. API Kiwify – consulta vendas em janelas de 90 dias até 2 anos atrás
  */
 
 export const config = {
   api: { bodyParser: true },
+}
+
+const KIWIFY_API = 'https://public-api.kiwify.com/v1'
+
+function getTestEmails() {
+  const raw = process.env.ALLOWED_TEST_EMAILS || ''
+  return raw
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean)
+}
+
+async function getKiwifyToken() {
+  const clientId = process.env.KIWIFY_CLIENT_ID
+  const clientSecret = process.env.KIWIFY_CLIENT_SECRET
+  if (!clientId || !clientSecret) return null
+
+  const res = await fetch(`${KIWIFY_API}/oauth/token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ client_id: clientId, client_secret: clientSecret }),
+  })
+  if (!res.ok) {
+    console.error('[check-access] Kiwify token error', res.status, await res.text())
+    return null
+  }
+  const data = await res.json()
+  return data.access_token || null
+}
+
+const DAYS_TO_LOOK_BACK = 730 // 2 anos; API Kiwify permite no máximo 90 dias por requisição
+const WINDOW_DAYS = 90
+
+async function findEmailInKiwifySales(normalizedEmail) {
+  const token = await getKiwifyToken()
+  const accountId = process.env.KIWIFY_ACCOUNT_ID
+  if (!token || !accountId) return false
+
+  const productId = process.env.KIWIFY_PRODUCT_ID || ''
+  const now = new Date()
+
+  // Janelas de 90 dias, de hoje até DAYS_TO_LOOK_BACK atrás
+  for (let offset = 0; offset < DAYS_TO_LOOK_BACK; offset += WINDOW_DAYS) {
+    const end = new Date(now)
+    end.setDate(end.getDate() - offset)
+    const start = new Date(now)
+    start.setDate(start.getDate() - offset - WINDOW_DAYS)
+    const startDate = start.toISOString().slice(0, 10)
+    const endDate = end.toISOString().slice(0, 10)
+
+    let page = 1
+    const pageSize = 50
+
+    while (true) {
+      const url = new URL(`${KIWIFY_API}/sales`)
+      url.searchParams.set('start_date', startDate)
+      url.searchParams.set('end_date', endDate)
+      url.searchParams.set('status', 'paid')
+      url.searchParams.set('page_number', String(page))
+      url.searchParams.set('page_size', String(pageSize))
+      if (productId) url.searchParams.set('product_id', productId)
+
+      const res = await fetch(url.toString(), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'x-kiwify-account-id': accountId,
+        },
+      })
+      if (!res.ok) {
+        console.error('[check-access] Kiwify sales error', res.status, await res.text())
+        return false
+      }
+
+      const data = await res.json()
+      const sales = data.data || []
+      for (const sale of sales) {
+        const email = (sale.customer && sale.customer.email) || ''
+        if (email.trim().toLowerCase() === normalizedEmail) {
+          if (sale.refunded_at == null || sale.refunded_at === '') return true
+        }
+      }
+
+      const pagination = data.pagination || {}
+      const total = pagination.count != null ? pagination.count : sales.length
+      if (sales.length < pageSize || page * pageSize >= total) break
+      page += 1
+    }
+  }
+
+  return false
 }
 
 export default async function handler(req, res) {
@@ -28,10 +121,13 @@ export default async function handler(req, res) {
       return
     }
 
-    // TODO: checar em DB/KV se normalized está na lista de compradores ativos
-    // Por enquanto: retorna false (sem acesso). Quando integrar webhook + storage, altere aqui.
-    const hasAccess = false
+    const testEmails = getTestEmails()
+    if (testEmails.length > 0 && testEmails.includes(normalized)) {
+      res.status(200).json({ access: true })
+      return
+    }
 
+    const hasAccess = await findEmailInKiwifySales(normalized)
     res.status(200).json({ access: hasAccess })
   } catch (err) {
     console.error('[check-access]', err)
