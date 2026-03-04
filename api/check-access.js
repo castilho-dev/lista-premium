@@ -42,6 +42,23 @@ async function getKiwifyToken() {
 const DAYS_TO_LOOK_BACK = 730 // 2 anos; API Kiwify permite no máximo 90 dias por requisição
 const WINDOW_DAYS = 90
 
+// Kiwify doc: datas no formato "2020-07-10 15:00:00.000"
+function formatKiwifyDate(d, endOfDay = false) {
+  const x = new Date(d)
+  if (endOfDay) {
+    x.setUTCHours(23, 59, 59, 999)
+  } else {
+    x.setUTCHours(0, 0, 0, 0)
+  }
+  const Y = x.getUTCFullYear()
+  const M = String(x.getUTCMonth() + 1).padStart(2, '0')
+  const D = String(x.getUTCDate()).padStart(2, '0')
+  const h = String(x.getUTCHours()).padStart(2, '0')
+  const m = String(x.getUTCMinutes()).padStart(2, '0')
+  const s = String(x.getUTCSeconds()).padStart(2, '0')
+  return `${Y}-${M}-${D} ${h}:${m}:${s}.000`
+}
+
 async function findEmailInKiwifySales(normalizedEmail) {
   const token = await getKiwifyToken()
   const accountId = process.env.KIWIFY_ACCOUNT_ID
@@ -56,8 +73,8 @@ async function findEmailInKiwifySales(normalizedEmail) {
     end.setDate(end.getDate() - offset)
     const start = new Date(now)
     start.setDate(start.getDate() - offset - WINDOW_DAYS)
-    const startDate = start.toISOString().slice(0, 10)
-    const endDate = end.toISOString().slice(0, 10)
+    const startDate = formatKiwifyDate(start, false)
+    const endDate = formatKiwifyDate(end, true)
 
     let page = 1
     const pageSize = 50

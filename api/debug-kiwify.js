@@ -10,6 +10,20 @@ export const config = {
 
 const KIWIFY_API = 'https://public-api.kiwify.com/v1'
 
+// Kiwify doc: datas no formato "2020-07-10 15:00:00.000"
+function formatKiwifyDate(d, endOfDay = false) {
+  const x = new Date(d)
+  if (endOfDay) x.setUTCHours(23, 59, 59, 999)
+  else x.setUTCHours(0, 0, 0, 0)
+  const Y = x.getUTCFullYear()
+  const M = String(x.getUTCMonth() + 1).padStart(2, '0')
+  const D = String(x.getUTCDate()).padStart(2, '0')
+  const h = String(x.getUTCHours()).padStart(2, '0')
+  const m = String(x.getUTCMinutes()).padStart(2, '0')
+  const s = String(x.getUTCSeconds()).padStart(2, '0')
+  return `${Y}-${M}-${D} ${h}:${m}:${s}.000`
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' })
@@ -77,8 +91,8 @@ export default async function handler(req, res) {
     const end = new Date()
     const start = new Date()
     start.setDate(start.getDate() - 90)
-    const startDate = start.toISOString().slice(0, 10)
-    const endDate = end.toISOString().slice(0, 10)
+    const startDate = formatKiwifyDate(start, false)
+    const endDate = formatKiwifyDate(end, true)
 
     const url = new URL(`${KIWIFY_API}/sales`)
     url.searchParams.set('start_date', startDate)
