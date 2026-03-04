@@ -1,12 +1,19 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK, PRICE } from '../constants'
+import { CTA_LINK, PRICE, PRICE_ANCHOR } from '../constants'
 
-const checklistItems = [
-  '+150 fornecedores testados com compra real — não é lista copiada do Google',
-  'Grupo VIP com fornecedores novos aparecendo TODO DIA',
-  'Marcas que suas clientes já pedem por nome',
-  '100% sem CNPJ — ninguém vai te barrar na porta',
-  'Paga e recebe na hora, tudo no celular',
+const benefits = [
+  '+150 Fornecedores Verificados',
+  'Acesso 100% Online',
+  'Garantia de 15 Dias',
+  'Sem Necessidade de CNPJ',
+  'Grupo VIP Exclusivo',
+  'Marcas de Blogueiras',
+]
+
+const bonuses = [
+  { name: 'Calculadora de vendas', price: 'R$ 97,90' },
+  { name: 'Instagram 10K', price: 'R$ 29,90' },
+  { name: 'WhatsApp Lucrativo', price: 'R$ 59,90' },
 ]
 
 export default function FinalCTA() {
@@ -59,13 +66,56 @@ export default function FinalCTA() {
             </div>
 
             <div className="p-8 sm:p-10">
-              {/* Preço */}
-              <div className="relative text-center py-6 sm:py-8">
+              {/* 1. Benefícios */}
+              <div>
+                <p className="text-center text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">Benefícios</p>
+                <ul className="space-y-3 max-w-md mx-auto text-left">
+                  {benefits.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-white/90">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 mt-0.5">
+                        <svg className="w-2.5 h-2.5 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="text-sm leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* 2. Bônus com preços riscados */}
+              <div className="mt-8">
+                <p className="text-center text-gold-300/90 text-xs font-semibold uppercase tracking-wider mb-4">Bônus</p>
+                <ul className="space-y-2.5 max-w-md mx-auto text-left">
+                  {bonuses.map((item, i) => (
+                    <li key={i} className="flex items-center justify-between gap-3 text-white/90 text-sm">
+                      <span className="flex items-center gap-2">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-gold-400/40 bg-gold-400/10">
+                          <svg className="w-2.5 h-2.5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </span>
+                        <span>{item.name}</span>
+                      </span>
+                      <span className="shrink-0 text-white/70">
+                        <span className="line-through text-white/50">{item.price}</span>
+                        <span className="ml-1 text-gold-300/90">por R$ 00,00</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Risquinho */}
+              <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent max-w-xs mx-auto my-8" aria-hidden />
+
+              {/* 3. De R$ 127 por apenas / R$ 67 / Pagamento único */}
+              <div className="relative text-center py-4">
                 <div className="absolute inset-0 flex justify-center items-center pointer-events-none" aria-hidden>
                   <div className="w-40 h-24 sm:w-48 sm:h-28 bg-rose-500/10 rounded-full blur-2xl" />
                 </div>
-                <p className="relative text-white/60 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em]">
-                  Acesso completo por apenas
+                <p className="relative text-white/70 text-sm sm:text-base font-semibold uppercase tracking-[0.15em]">
+                  De <span className="line-through text-white/50">{PRICE_ANCHOR}</span> por apenas
                 </p>
                 <p className="relative mt-3 font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tighter tabular-nums">
                   {PRICE}
@@ -75,24 +125,7 @@ export default function FinalCTA() {
                 </p>
               </div>
 
-              {/* Divisor sutil */}
-              <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent max-w-xs mx-auto" aria-hidden />
-
-              {/* Checklist */}
-              <ul className="mt-8 sm:mt-10 space-y-3.5 max-w-md mx-auto text-left">
-                {checklistItems.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-white/90">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 mt-0.5">
-                      <svg className="w-2.5 h-2.5 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                    <span className="text-sm leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Botão CTA */}
+              {/* 4. Botão CTA */}
               <div className="mt-8 sm:mt-10 flex flex-col items-center gap-5">
                 <a
                   href={CTA_LINK}
