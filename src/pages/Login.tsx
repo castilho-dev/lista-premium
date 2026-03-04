@@ -1,6 +1,15 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+function isValidEmail(value: string): boolean {
+  const trimmed = value.trim()
+  if (!trimmed) return false
+  if (trimmed.length > 254) return false
+  return EMAIL_REGEX.test(trimmed)
+}
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -11,10 +20,16 @@ export default function Login() {
     e.preventDefault()
     setError('')
     const trimmed = email.trim()
+
     if (!trimmed) {
-      setError('Digite seu e-mail.')
+      setError('Informe seu e-mail.')
       return
     }
+    if (!isValidEmail(trimmed)) {
+      setError('Informe um e-mail válido.')
+      return
+    }
+
     setLoading(true)
     try {
       const res = await fetch('/api/check-access', {
@@ -52,18 +67,19 @@ export default function Login() {
               Use o e-mail da compra para entrar.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
               <div>
                 <label htmlFor="email" className="block font-heading font-medium text-gray-700 text-sm mb-1.5">
                   E-mail
                 </label>
                 <input
                   id="email"
-                  type="email"
+                  type="text"
+                  inputMode="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seu@email.com"
-                  autoComplete="email"
                   disabled={loading}
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:border-rose-400 focus:ring-2 focus:ring-rose-400/20 outline-none transition-all font-sans text-gray-800 placeholder:text-gray-400 disabled:opacity-60"
                 />
