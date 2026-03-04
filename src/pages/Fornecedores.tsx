@@ -78,6 +78,14 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
     const href = url.startsWith('http') ? url : `https://${url}`
     window.open(href, '_blank', 'noopener,noreferrer')
   }
+  const openAddress = (address: string | undefined) => {
+    if (!address) return
+    if (address.startsWith('http')) {
+      window.open(address, '_blank', 'noopener,noreferrer')
+    } else {
+      window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`, '_blank', 'noopener,noreferrer')
+    }
+  }
 
   const hasInsta = Boolean(s.insta?.trim())
   const hasPhone = Boolean(s.phone?.trim())
@@ -137,7 +145,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
             </button>
             <button
               type="button"
-              onClick={() => hasAddress && openLink(s.address)}
+              onClick={() => hasAddress && openAddress(s.address)}
               disabled={!hasAddress}
               className={btnBase + (hasAddress ? btnEnabled.address : btnDisabled)}
               title={hasAddress ? 'Endereço' : 'Endereço não disponível'}
