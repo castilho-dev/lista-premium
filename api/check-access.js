@@ -66,7 +66,7 @@ async function findEmailInKiwifySales(normalizedEmail) {
       const url = new URL(`${KIWIFY_API}/sales`)
       url.searchParams.set('start_date', startDate)
       url.searchParams.set('end_date', endDate)
-      url.searchParams.set('status', 'paid')
+      // Não filtra por status para não perder vendas "approved" (compra aprovada)
       url.searchParams.set('page_number', String(page))
       url.searchParams.set('page_size', String(pageSize))
       if (productId) url.searchParams.set('product_id', productId)
@@ -84,11 +84,12 @@ async function findEmailInKiwifySales(normalizedEmail) {
 
       const data = await res.json()
       const sales = data.data || []
+      const statusOk = (s) => s === 'paid' || s === 'approved'
       for (const sale of sales) {
+        if (!statusOk(sale.status)) continue
+        if (sale.refunded_at != null && sale.refunded_at !== '') continue
         const email = (sale.customer && sale.customer.email) || ''
-        if (email.trim().toLowerCase() === normalizedEmail) {
-          if (sale.refunded_at == null || sale.refunded_at === '') return true
-        }
+        if (email.trim().toLowerCase() === normalizedEmail) return true
       }
 
       const pagination = data.pagination || {}
