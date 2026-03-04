@@ -205,14 +205,9 @@ export default function CalculadoraPrecos() {
 
   return (
     <div className="space-y-6 text-left">
-      <header>
-        <h1 className="font-display text-gray-900 font-bold text-2xl sm:text-3xl tracking-tight">
-          Precificador — Lista Premium
-        </h1>
-        <p className="mt-2 text-gray-600 text-sm leading-relaxed">
-          Ferramenta inteligente para calcular preços de venda com base nos seus custos reais. Receba sugestões de preços, margem real e explicações detalhadas.
-        </p>
-      </header>
+      <p className="text-gray-600 text-sm leading-relaxed">
+        Ferramenta inteligente para calcular preços de venda com base nos seus custos reais. Receba sugestões de preços, margem real e explicações detalhadas.
+      </p>
 
       <div className="rounded-xl bg-rose-50 border border-rose-100 px-4 py-3 text-sm text-gray-700">
         <strong>Dica:</strong> Preencha todos os campos com valores reais do seu negócio. Quanto mais preciso, melhor será o cálculo do preço de venda.
@@ -349,7 +344,7 @@ export default function CalculadoraPrecos() {
         </div>
       </section>
 
-      <p className="text-center text-gray-400 text-xs">Lista Premium · Ferramenta de precificação — personalize conforme sua política comercial.</p>
+      <p className="text-center text-gray-400 text-xs">Lista Premium · Calculadora — personalize conforme sua política comercial.</p>
     </div>
   )
 }

@@ -49,7 +49,10 @@ Envia o formulário da página **Suporte** para o e-mail **fornecedoresmake.list
 
 | Variável | Obrigatória | Descrição |
 |----------|-------------|-----------|
-| `RESEND_API_KEY` | Sim (para este endpoint) | API Key do [Resend](https://resend.com). Crie uma conta, pegue a chave em API Keys e defina na Vercel. O e-mail será enviado de `onboarding@resend.dev` (plano free) para o endereço acima. |
+| `RESEND_API_KEY` | Sim | API Key do [Resend](https://resend.com) (API Keys no painel). |
+| `SUPPORT_FROM_EMAIL` | Sim para Gmail/externos | E-mail de envio com **domínio verificado** no Resend. Ex.: `Suporte Lista Premium <suporte@seudominio.com>`. Sem isso, o Resend só permite enviar para o e-mail da sua conta; ao enviar para Gmail aparece erro 403. |
+
+**Por que “Falha ao enviar e-mail”?** O Resend, com `onboarding@resend.dev`, só envia para o e-mail cadastrado na conta. Para enviar para **fornecedoresmake.list@gmail.com** (ou qualquer outro): (1) em [resend.com/domains](https://resend.com/domains) adicione e verifique seu domínio (registro DNS); (2) defina `SUPPORT_FROM_EMAIL` na Vercel com um e-mail desse domínio (ex.: `suporte@seudominio.com`).
 
 ---
 

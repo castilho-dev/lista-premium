@@ -2,11 +2,14 @@
  * Envio do formulário de suporte para o e-mail da Lista Premium.
  * POST /api/suporte { "title": "...", "message": "..." }
  * Requer RESEND_API_KEY na Vercel (Resend.com).
+ * Para enviar a e-mails externos (ex.: Gmail), é obrigatório verificar um domínio no Resend
+ * e definir SUPPORT_FROM_EMAIL (ex.: Suporte <suporte@seudominio.com>).
+ * Sem domínio verificado, o Resend só permite enviar para o e-mail da sua conta.
  */
 
 const RESEND_URL = 'https://api.resend.com/emails'
 const TO_EMAIL = 'fornecedoresmake.list@gmail.com'
-const FROM_EMAIL = 'Lista Premium <onboarding@resend.dev>'
+const FROM_EMAIL_DEFAULT = 'Lista Premium <onboarding@resend.dev>'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -43,6 +46,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Mensagem com no máximo 5000 caracteres.' })
   }
 
+  const fromEmail = (process.env.SUPPORT_FROM_EMAIL || '').trim() || FROM_EMAIL_DEFAULT
+
   try {
     const response = await fetch(RESEND_URL, {
       method: 'POST',
@@ -51,7 +56,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: FROM_EMAIL,
+        from: fromEmail,
         to: [TO_EMAIL],
         subject: `[Suporte Lista Premium] ${title}`,
         text: message,
@@ -62,10 +67,18 @@ export default async function handler(req, res) {
     const data = await response.json().catch(() => ({}))
 
     if (!response.ok) {
-      console.error('[suporte] Resend error', response.status, data)
+      const msg = data.message || data.msg || data.error?.message || response.statusText
+      console.error('[suporte] Resend', response.status, msg, data)
+
+      let userMessage = msg
+      if (response.status === 403 && /domain|verify|send.*own/i.test(String(msg))) {
+        userMessage =
+          'Para enviar a este e-mail é preciso verificar um domínio no Resend (resend.com/domains) e definir SUPPORT_FROM_EMAIL na Vercel com um e-mail desse domínio (ex: Suporte <suporte@seudominio.com>).'
+      }
+
       return res.status(response.status).json({
         error: 'Falha ao enviar e-mail',
-        detail: data.message || data.msg || response.statusText,
+        detail: userMessage,
       })
     }
 

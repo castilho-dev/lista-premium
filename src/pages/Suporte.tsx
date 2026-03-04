@@ -26,7 +26,8 @@ export default function Suporte() {
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
         setStatus('error')
-        setErrorMsg(data.error || data.detail || 'Não foi possível enviar. Tente de novo.')
+        const msg = data.detail || data.error || 'Não foi possível enviar. Tente de novo.'
+        setErrorMsg(msg)
         return
       }
       setStatus('success')
