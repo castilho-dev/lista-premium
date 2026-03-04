@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { fornecedores, nomeExibivel, iniciaisFornecedor, type Fornecedor } from '../data/fornecedores'
 
@@ -248,7 +248,7 @@ export default function Fornecedores() {
         </p>
 
         <div className="grid sm:grid-cols-2 gap-4">
-          {list.map((s, idx) => (
+          {list.map((s: Fornecedor, idx: number) => (
             <Card key={s.insta || `f-${idx}`} s={s} id={fornecedores.indexOf(s) + 1} />
           ))}
         </div>
