@@ -8,6 +8,7 @@ const navItems = [
   { path: '/calculadora', label: 'Calculadora' },
   { path: '/instagram10k', label: 'Instagram 10K' },
   { path: '/whatsapplucrativo', label: 'WhatsApp Lucrativo' },
+  { path: '/suporte', label: 'Suporte' },
 ]
 
 export default function Header() {
@@ -26,6 +27,17 @@ export default function Header() {
   useEffect(() => {
     setMenuOpen(false)
   }, [location.pathname])
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
 
   const isTransparent = !scrolled && location.pathname === '/'
   const textClass = isTransparent ? 'text-white' : 'text-gray-800'
@@ -70,21 +82,19 @@ export default function Header() {
 
         {/* Desktop: nav + CTA. Mobile: espaçador para manter logo centralizada */}
         <div className="w-10 flex-shrink-0 md:w-auto md:flex-1 flex items-center justify-end gap-3">
-          {isLoggedIn && (
-            <nav className="hidden md:flex items-center gap-6" aria-label="Principal">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`font-heading text-sm font-medium transition-colors ${linkClass} ${
-                    location.pathname === item.path ? (isTransparent ? 'text-white' : 'text-rose-600') : ''
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          )}
+          <nav className="hidden md:flex items-center gap-6" aria-label="Principal">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`font-heading text-sm font-medium transition-colors ${linkClass} ${
+                  location.pathname === item.path ? (isTransparent ? 'text-white' : 'text-rose-600') : ''
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
           {!isLoggedIn && (
             <a
               href={CTA_LINK}
@@ -96,20 +106,24 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile: drawer do menu */}
+      {/* Mobile: aba da esquerda para direita, altura da tela */}
       {menuOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/40 z-40 md:hidden"
+            className="fixed inset-0 bg-black/40 z-[60] md:hidden"
             aria-hidden
             onClick={() => setMenuOpen(false)}
           />
-          <div className="fixed top-0 right-0 bottom-0 w-full max-w-xs bg-white shadow-xl z-50 md:hidden py-6 px-6">
-            <div className="flex justify-end mb-6">
+          <div
+            className="fixed top-0 left-0 bottom-0 w-full max-w-[280px] sm:max-w-xs bg-white shadow-2xl z-[70] md:hidden flex flex-col"
+            role="dialog"
+            aria-label="Menu"
+          >
+            <div className="flex justify-end p-4 border-b border-gray-100">
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}
-                className="p-2 text-gray-500 hover:text-gray-700"
+                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100"
                 aria-label="Fechar menu"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -117,13 +131,13 @@ export default function Header() {
                 </svg>
               </button>
             </div>
-            <nav className="flex flex-col gap-1" aria-label="Menu mobile">
-              {isLoggedIn && navItems.map((item) => (
+            <nav className="flex-1 py-4 px-3 overflow-y-auto" aria-label="Menu mobile">
+              {navItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={() => setMenuOpen(false)}
-                  className={`font-heading font-medium py-3 px-4 rounded-lg transition-colors ${
+                  className={`block font-heading font-medium py-3 px-4 rounded-xl transition-colors ${
                     location.pathname === item.path
                       ? 'bg-rose-50 text-rose-600'
                       : 'text-gray-700 hover:bg-gray-50'
@@ -135,7 +149,7 @@ export default function Header() {
               {!isLoggedIn && (
                 <a
                   href={CTA_LINK}
-                  className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-lg transition-colors"
+                  className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-xl transition-colors"
                 >
                   Quero Acesso
                 </a>

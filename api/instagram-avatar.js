@@ -18,7 +18,10 @@ export default async function handler(req, res) {
   }
 
   const url = `${UNAVATAR_URL}/${encodeURIComponent(username)}`
-  const headers = {}
+  const headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    Accept: 'image/webp,image/apng,image/*,*/*;q=0.8',
+  }
   const apiKey = process.env.MICROLINK_API_KEY || process.env.UNAVATAR_API_KEY
   if (apiKey) headers['x-api-key'] = apiKey
 
@@ -26,7 +29,7 @@ export default async function handler(req, res) {
     const response = await fetch(url, {
       redirect: 'follow',
       headers,
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(10000),
     })
 
     if (!response.ok) {

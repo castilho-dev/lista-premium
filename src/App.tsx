@@ -7,6 +7,7 @@ import Fornecedores from './pages/Fornecedores'
 import Calculadora from './pages/Calculadora'
 import Instagram10k from './pages/Instagram10k'
 import WhatsAppLucrativo from './pages/WhatsAppLucrativo'
+import Suporte from './pages/Suporte'
 import Login from './pages/Login'
 import Header from './components/Header'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -65,6 +66,7 @@ function AppContent() {
         <Route path="/calculadora" element={<ProtectedMemberRoute><Calculadora /></ProtectedMemberRoute>} />
         <Route path="/instagram10k" element={<ProtectedMemberRoute><Instagram10k /></ProtectedMemberRoute>} />
         <Route path="/whatsapplucrativo" element={<ProtectedMemberRoute><WhatsAppLucrativo /></ProtectedMemberRoute>} />
+        <Route path="/suporte" element={<Suporte />} />
         <Route path="/app" element={<Login />} />
         <Route path="/app/area" element={<Navigate to="/fornecedores" replace />} />
       </Routes>

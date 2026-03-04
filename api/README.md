@@ -41,21 +41,25 @@ Se `tokenOk` for false, revise Client ID / Client Secret. Se `salesCount` for 0 
 
 ---
 
-## instagram-avatar – proxy da foto de perfil do Instagram
+## suporte – formulário de contato
 
-Usado na página de Fornecedores para exibir a foto de perfil de cada fornecedor a partir do @ do Instagram.
+Envia o formulário da página **Suporte** para o e-mail **fornecedoresmake.list@gmail.com**.
+
+- **POST** `/api/suporte` com body JSON: `{ "title": "Título", "message": "Mensagem" }`.
+
+| Variável | Obrigatória | Descrição |
+|----------|-------------|-----------|
+| `RESEND_API_KEY` | Sim (para este endpoint) | API Key do [Resend](https://resend.com). Crie uma conta, pegue a chave em API Keys e defina na Vercel. O e-mail será enviado de `onboarding@resend.dev` (plano free) para o endereço acima. |
+
+---
+
+## instagram-avatar – proxy da foto de perfil do Instagram (opcional)
+
+A **lista de fornecedores** não usa mais fotos de perfil nem posts; exibe apenas nome, @ do Instagram (com link) e botões para WhatsApp, endereço e site. Este endpoint permanece disponível caso queira usá-lo em outra parte do app.
 
 - **GET** `/api/instagram-avatar?username=afife.oficial` → retorna a imagem (ou 404/502).
 
-### Variáveis opcionais
-
-| Variável | Descrição |
-|----------|-----------|
-| `MICROLINK_API_KEY` ou `UNAVATAR_API_KEY` | Chave do [Microlink](https://microlink.io) para uso do Unavatar com Instagram (plano Pro). Sem a chave, o Unavatar pode não retornar foto para Instagram. |
-
-Se as fotos não aparecerem, você pode: (1) adicionar a chave acima na Vercel; ou (2) preencher o campo `avatarUrl` de cada fornecedor no dado (CSV/`fornecedores.ts`) com uma URL direta da imagem.
-
-**Sobre os 6 posts:** o Instagram não oferece API pública para listar posts de perfis arbitrários. Para exibir fotos de posts, preencha o campo `photoUrls` (até 6 URLs) no dado do fornecedor, ou coloque imagens em `public/fornecedores/id01/1.jpg` … `6.jpg` (e id02, id03, etc.).
+Variáveis opcionais: `MICROLINK_API_KEY` ou `UNAVATAR_API_KEY` (Microlink/Unavatar).
 
 ### instagram-stats – dados da sua conta (Instagram Graph API)
 
@@ -78,6 +82,6 @@ Resposta é cacheada por 5 minutos (`s-maxage=300`) para não estourar limites d
 A **Instagram Graph API** só funciona para contas **Instagram Business ou Creator** vinculadas a uma **Página do Facebook** e que **autorizem seu app** (via Facebook Login). Não é possível consultar perfis públicos de terceiros por username.
 
 - **instagram-stats:** usa o token em `INSTAGRAM_ACCESS_TOKEN` para exibir dados da **sua** conta (ex.: página “Instagram 10K”).
-- **Avatar de fornecedores:** perfis de terceiros continuam usando o proxy `instagram-avatar` (Unavatar/Microlink).
+- A lista de fornecedores não usa mais avatar por API; o endpoint `instagram-avatar` fica disponível para uso opcional em outras partes do app.
 
 Documentação: [Meta for Developers – Instagram Graph API](https://developers.facebook.com/docs/instagram-api).
