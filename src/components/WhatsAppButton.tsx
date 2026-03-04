@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
+import { WHATSAPP_NUMBER } from '../constants'
 
-const WHATSAPP_NUMBER = '5535999999999'
 const WHATSAPP_MESSAGE = 'Oi! Tenho interesse na Lista Premium e quero tirar algumas dúvidas antes de garantir a minha.'
 const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
