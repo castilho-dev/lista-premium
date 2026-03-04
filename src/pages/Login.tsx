@@ -39,7 +39,13 @@ export default function Login() {
       })
       const data = await res.json().catch(() => ({}))
       if (data.access) {
-        navigate('/app/area', { state: { email: trimmed } })
+        const customer = data.customer || {}
+        navigate('/app/area', {
+          state: {
+            email: customer.email || trimmed,
+            name: customer.name || null,
+          },
+        })
         return
       }
       setError(data.error || 'E-mail não encontrado ou sem acesso. Confira se comprou com este e-mail.')

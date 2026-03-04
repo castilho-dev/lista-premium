@@ -59,15 +59,15 @@ function formatKiwifyDate(d, endOfDay = false) {
   return `${Y}-${M}-${D} ${h}:${m}:${s}.000`
 }
 
-async function findEmailInKiwifySales(normalizedEmail) {
+/** Retorna { name, email } do cliente quando encontra venda, ou null */
+async function findCustomerInKiwifySales(normalizedEmail) {
   const token = await getKiwifyToken()
   const accountId = process.env.KIWIFY_ACCOUNT_ID
-  if (!token || !accountId) return false
+  if (!token || !accountId) return null
 
   const productId = process.env.KIWIFY_PRODUCT_ID || ''
   const now = new Date()
 
-  // Janelas de 90 dias, de hoje até DAYS_TO_LOOK_BACK atrás
   for (let offset = 0; offset < DAYS_TO_LOOK_BACK; offset += WINDOW_DAYS) {
     const end = new Date(now)
     end.setDate(end.getDate() - offset)
@@ -83,7 +83,6 @@ async function findEmailInKiwifySales(normalizedEmail) {
       const url = new URL(`${KIWIFY_API}/sales`)
       url.searchParams.set('start_date', startDate)
       url.searchParams.set('end_date', endDate)
-      // Não filtra por status para não perder vendas "approved" (compra aprovada)
       url.searchParams.set('page_number', String(page))
       url.searchParams.set('page_size', String(pageSize))
       if (productId) url.searchParams.set('product_id', productId)
@@ -96,7 +95,7 @@ async function findEmailInKiwifySales(normalizedEmail) {
       })
       if (!res.ok) {
         console.error('[check-access] Kiwify sales error', res.status, await res.text())
-        return false
+        return null
       }
 
       const data = await res.json()
@@ -105,8 +104,14 @@ async function findEmailInKiwifySales(normalizedEmail) {
       for (const sale of sales) {
         if (!statusOk(sale.status)) continue
         if (sale.refunded_at != null && sale.refunded_at !== '') continue
-        const email = (sale.customer && sale.customer.email) || ''
-        if (email.trim().toLowerCase() === normalizedEmail) return true
+        const cust = sale.customer || {}
+        const email = (cust.email || '').trim().toLowerCase()
+        if (email === normalizedEmail) {
+          return {
+            name: (cust.name || '').trim() || null,
+            email: cust.email || normalizedEmail,
+          }
+        }
       }
 
       const pagination = data.pagination || {}
@@ -116,7 +121,7 @@ async function findEmailInKiwifySales(normalizedEmail) {
     }
   }
 
-  return false
+  return null
 }
 
 export default async function handler(req, res) {
@@ -141,12 +146,16 @@ export default async function handler(req, res) {
 
     const testEmails = getTestEmails()
     if (testEmails.length > 0 && testEmails.includes(normalized)) {
-      res.status(200).json({ access: true })
+      res.status(200).json({ access: true, customer: { name: null, email: normalized } })
       return
     }
 
-    const hasAccess = await findEmailInKiwifySales(normalized)
-    res.status(200).json({ access: hasAccess })
+    const customer = await findCustomerInKiwifySales(normalized)
+    if (customer) {
+      res.status(200).json({ access: true, customer })
+      return
+    }
+    res.status(200).json({ access: false })
   } catch (err) {
     console.error('[check-access]', err)
     res.status(500).json({ access: false, error: 'Erro ao verificar acesso' })
