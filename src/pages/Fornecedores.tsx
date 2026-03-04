@@ -1,6 +1,19 @@
 import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import { fornecedores, nomeExibivel, iniciaisFornecedor, type Fornecedor } from '../data/fornecedores'
+
+/** Extrai o username do Instagram a partir da URL (ex: instagram.com/afife.oficial -> afife.oficial) */
+function getInstagramUsername(instaUrl: string | undefined): string | null {
+  if (!instaUrl?.trim()) return null
+  try {
+    const url = instaUrl.startsWith('http') ? instaUrl : `https://${instaUrl}`
+    const parsed = new URL(url)
+    if (!/instagram\.com|instagr\.am/i.test(parsed.hostname)) return null
+    const path = parsed.pathname.replace(/^\/+|\/+$/g, '').split('/')[0]
+    return path || null
+  } catch {
+    return null
+  }
+}
 
 function searchSuppliers(query: string): Fornecedor[] {
   const q = (query || '').toLowerCase().trim()
@@ -71,7 +84,11 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
   const idStr = String(id).padStart(2, '0')
 
   const [avatarError, setAvatarError] = useState(false)
-  const avatarSrc = s.avatarUrl || `/fornecedores/id${idStr}/avatar.jpg`
+  const instaUsername = getInstagramUsername(s.insta)
+  const avatarSrc =
+    s.avatarUrl ||
+    (instaUsername ? `/api/instagram-avatar?username=${encodeURIComponent(instaUsername)}` : null) ||
+    `/fornecedores/id${idStr}/avatar.jpg`
 
   const openLink = (url: string | undefined) => {
     if (!url) return
@@ -92,7 +109,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
   const hasAddress = Boolean(s.address?.trim())
   const hasSite = Boolean(s.site?.trim())
 
-  const btnBase = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors '
+  const btnBase = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex-shrink-0 '
   const btnEnabled = {
     insta: 'bg-gray-100 text-gray-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer',
     phone: 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-700 cursor-pointer',
@@ -122,7 +139,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
         <div className="min-w-0 flex-1">
           <h3 className="font-heading font-semibold text-gray-800 truncate">{nome}</h3>
           <p className="text-xs text-gray-500 mt-0.5">ID: {idStr}</p>
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-nowrap gap-1.5 mt-3 overflow-x-auto">
             <button
               type="button"
               onClick={() => hasInsta && openLink(s.insta)}
@@ -192,55 +209,16 @@ export default function Fornecedores() {
           <p className="mt-1 text-gray-500 text-sm">Lista Premium — maquiagem e cosméticos</p>
         </div>
 
-        {/* O que é isso? */}
-        <section className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8">
-          <h2 className="font-heading font-bold text-lg text-gray-800 mb-2">O que é isso?</h2>
-          <p className="text-gray-600 text-sm mb-6">
-            Esta é uma <strong>lista de fornecedores</strong> de maquiagem e cosméticos para você comprar direto da fonte, seja no <strong>atacado ou varejo</strong>!
-          </p>
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold flex-shrink-0">1</div>
-              <div>
-                <strong className="text-gray-800 text-sm">Escolha um fornecedor</strong>
-                <span className="block text-gray-500 text-xs mt-0.5">Navegue pela lista abaixo e encontre fornecedores de maquiagem</span>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold flex-shrink-0">2</div>
-              <div>
-                <strong className="text-gray-800 text-sm">Clique nos botões</strong>
-                <span className="block text-gray-500 text-xs mt-0.5">Acesse o Instagram, WhatsApp, site ou endereço do fornecedor</span>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold flex-shrink-0">3</div>
-              <div>
-                <strong className="text-gray-800 text-sm">Compre direto</strong>
-                <span className="block text-gray-500 text-xs mt-0.5">Negocie e compre produtos no atacado ou varejo para revender</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Barra de busca + link Calculadora */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="flex-1 relative">
-            <input
-              type="search"
-              placeholder="Buscar por fornecedor, Instagram, cidade ou parte do link..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-400/20 outline-none transition-all"
-              aria-label="Buscar fornecedores"
-            />
-          </div>
-          <Link
-            to="/calculadora"
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-rose-500 text-white font-heading font-medium text-sm hover:bg-rose-600 transition-colors whitespace-nowrap"
-          >
-            Calculadora
-          </Link>
+        {/* Barra de busca */}
+        <div className="mb-6">
+          <input
+            type="search"
+            placeholder="Buscar por fornecedor, Instagram, cidade ou parte do link..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-400/20 outline-none transition-all"
+            aria-label="Buscar fornecedores"
+          />
         </div>
 
         <p className="text-sm text-gray-500 mb-4">
@@ -256,10 +234,6 @@ export default function Fornecedores() {
         {list.length === 0 && (
           <p className="text-center text-gray-500 py-8">Nenhum fornecedor encontrado. Tente outro termo na busca.</p>
         )}
-
-        <Link to="/" className="inline-block mt-8 text-rose-600 hover:text-rose-700 font-heading text-sm font-medium">
-          ← Voltar ao início
-        </Link>
       </div>
     </div>
   )

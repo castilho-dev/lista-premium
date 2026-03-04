@@ -41,12 +41,7 @@ export default function Header() {
     >
       <div className="container-main section-padding flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-            <span className="text-white font-display font-bold text-sm">LP</span>
-          </div>
-          <span className={`font-display font-bold text-lg transition-colors duration-300 ${textClass}`}>
-            Lista Premium
-          </span>
+          <img src="/logo-1.png" alt="Lista Premium" className="h-9 w-auto object-contain" />
         </Link>
 
         {/* Tablet/Desktop: links no topo (só quando logado) */}

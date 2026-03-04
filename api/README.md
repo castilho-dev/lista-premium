@@ -38,3 +38,21 @@ curl -X POST https://listapremium.vercel.app/api/debug-kiwify \
    - **error**: mensagem se algo falhou
 
 Se `tokenOk` for false, revise Client ID / Client Secret. Se `salesCount` for 0 e você tem venda, **remova** `KIWIFY_PRODUCT_ID` (deixe em branco) para listar todas as vendas. Depois de resolver, remova `DEBUG_ACCESS_KEY` se quiser.
+
+---
+
+## instagram-avatar – proxy da foto de perfil do Instagram
+
+Usado na página de Fornecedores para exibir a foto de perfil de cada fornecedor a partir do @ do Instagram.
+
+- **GET** `/api/instagram-avatar?username=afife.oficial` → retorna a imagem (ou 404/502).
+
+### Variáveis opcionais
+
+| Variável | Descrição |
+|----------|-----------|
+| `MICROLINK_API_KEY` ou `UNAVATAR_API_KEY` | Chave do [Microlink](https://microlink.io) para uso do Unavatar com Instagram (plano Pro). Sem a chave, o Unavatar pode não retornar foto para Instagram. |
+
+Se as fotos não aparecerem, você pode: (1) adicionar a chave acima na Vercel; ou (2) preencher o campo `avatarUrl` de cada fornecedor no dado (CSV/`fornecedores.ts`) com uma URL direta da imagem.
+
+**Sobre os 6 posts:** o Instagram não oferece API pública para listar posts. Para exibir fotos de posts, preencha o campo `photoUrls` (até 6 URLs) no dado do fornecedor, ou coloque imagens em `public/fornecedores/id01/1.jpg` … `6.jpg` (e id02, id03, etc.).
