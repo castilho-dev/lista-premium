@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "webhook": "node server/webhook-server.cjs"
   },
   "dependencies": {
     "react": "^19.0.0",
