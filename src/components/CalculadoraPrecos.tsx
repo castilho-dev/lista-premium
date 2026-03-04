@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 function toCurrency(v: number): string {
   return (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -158,11 +157,11 @@ export default function CalculadoraPrecos() {
 
   useEffect(() => {
     if (marginRealPct > 0 && marginRealPct < 10) {
-      setAlert({ message: '🚨 Margem muito baixa! Considere aumentar o preço ou reduzir custos.', type: 'danger' })
+      setAlert({ message: 'Margem muito baixa! Considere aumentar o preço ou reduzir custos.', type: 'danger' })
     } else if (marginRealPct >= 10 && marginRealPct < 20) {
-      setAlert({ message: '⚠️ Margem baixa. Avalie se vale a pena vender neste preço.', type: 'warning' })
+      setAlert({ message: 'Margem baixa. Avalie se vale a pena vender neste preço.', type: 'warning' })
     } else if (marginRealPct >= 40) {
-      setAlert({ message: '✅ Excelente margem! Preço competitivo e lucrativo.', type: 'success' })
+      setAlert({ message: 'Excelente margem! Preço competitivo e lucrativo.', type: 'success' })
     }
     const t = setTimeout(() => setAlert(null), 5000)
     return () => clearTimeout(t)
@@ -174,7 +173,7 @@ export default function CalculadoraPrecos() {
   const copyPrice = () => {
     if (!lastComputation) return
     const text = `${toCurrency(lastComputation.suggestedPrice)} — margem estimada ${lastComputation.marginRealPct.toFixed(2)}%`
-    navigator.clipboard.writeText(text).then(() => setAlert({ message: '✅ Preço copiado para área de transferência!', type: 'success' }))
+    navigator.clipboard.writeText(text).then(() => setAlert({ message: 'Preço copiado para área de transferência!', type: 'success' }))
   }
 
   const downloadCsv = () => {
@@ -206,10 +205,6 @@ export default function CalculadoraPrecos() {
 
   return (
     <div className="space-y-6 text-left">
-      <Link to="/fornecedores" className="inline-flex items-center gap-1 text-rose-600 hover:text-rose-700 font-heading text-sm font-medium">
-        ← Voltar para Fornecedores
-      </Link>
-
       <header>
         <h1 className="font-display text-gray-900 font-bold text-2xl sm:text-3xl tracking-tight">
           Precificador — Lista Premium

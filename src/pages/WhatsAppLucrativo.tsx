@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 export default function WhatsAppLucrativo() {
   return (
     <div className="min-h-screen bg-cream-100 font-sans pt-24 pb-16">
@@ -18,10 +16,6 @@ export default function WhatsAppLucrativo() {
             className="w-full h-[calc(100vh-12rem)] min-h-[500px] border-0"
           />
         </div>
-
-        <Link to="/" className="inline-block mt-8 text-rose-600 hover:text-rose-700 font-heading text-sm font-medium">
-          ← Voltar ao início
-        </Link>
       </div>
     </div>
   )

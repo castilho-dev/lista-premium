@@ -25,25 +25,25 @@ function searchSuppliers(query: string): Fornecedor[] {
 }
 
 const IconInstagram = () => (
-  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
   </svg>
 )
 const IconWhatsApp = () => (
-  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
   </svg>
 )
 const IconEndereco = () => (
-  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
     <circle cx="12" cy="10" r="3" />
   </svg>
 )
 const IconSite = () => (
-  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10" />
     <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
     <path d="M2 12h20" />
@@ -109,7 +109,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
   const hasAddress = Boolean(s.address?.trim())
   const hasSite = Boolean(s.site?.trim())
 
-  const btnBase = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex-shrink-0 '
+  const btnBase = 'inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium transition-colors flex-shrink-0 whitespace-nowrap '
   const btnEnabled = {
     insta: 'bg-gray-100 text-gray-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer',
     phone: 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-700 cursor-pointer',
@@ -139,7 +139,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
         <div className="min-w-0 flex-1">
           <h3 className="font-heading font-semibold text-gray-800 truncate">{nome}</h3>
           <p className="text-xs text-gray-500 mt-0.5">ID: {idStr}</p>
-          <div className="flex flex-nowrap gap-1.5 mt-3 overflow-x-auto">
+          <div className="flex flex-nowrap items-center justify-start gap-1 mt-3 overflow-x-auto scrollbar-hide">
             <button
               type="button"
               onClick={() => hasInsta && openLink(s.insta)}
@@ -148,7 +148,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
               title={hasInsta ? 'Instagram' : 'Instagram não disponível'}
             >
               <IconInstagram />
-              Instagram
+              <span>Instagram</span>
             </button>
             <button
               type="button"
@@ -158,7 +158,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
               title={hasPhone ? 'WhatsApp' : 'WhatsApp não disponível'}
             >
               <IconWhatsApp />
-              WhatsApp
+              <span>WhatsApp</span>
             </button>
             <button
               type="button"
@@ -168,7 +168,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
               title={hasAddress ? 'Endereço' : 'Endereço não disponível'}
             >
               <IconEndereco />
-              Endereço
+              <span>Endereço</span>
             </button>
             <button
               type="button"
@@ -178,7 +178,7 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
               title={hasSite ? 'Site' : 'Site não disponível'}
             >
               <IconSite />
-              Site
+              <span>Site</span>
             </button>
           </div>
         </div>

@@ -39,43 +39,13 @@ export default function Header() {
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="container-main section-padding flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/logo-1.png" alt="Lista Premium" className="h-9 w-auto object-contain" />
-        </Link>
-
-        {/* Tablet/Desktop: links no topo (só quando logado) */}
-        {isLoggedIn && (
-          <nav className="hidden md:flex items-center gap-6" aria-label="Principal">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`font-heading text-sm font-medium transition-colors ${linkClass} ${
-                  location.pathname === item.path ? (isTransparent ? 'text-white' : 'text-rose-600') : ''
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        )}
-
-        <div className="flex items-center gap-3">
-          {!isLoggedIn && (
-            <a
-              href={CTA_LINK}
-              className="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-lg transition-all duration-300 hover:scale-[1.03] shadow-md"
-            >
-              Quero Acesso
-            </a>
-          )}
-
-          {/* Mobile: hamburger (sempre visível no mobile; ao abrir mostra menu com links se logado ou só CTA) */}
+      <div className="container-main section-padding flex items-center">
+        {/* Mobile: hamburger à esquerda */}
+        <div className="w-10 flex-shrink-0 md:hidden">
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex w-10 h-10 items-center justify-center rounded-lg transition-colors hover:bg-black/5"
+            className="flex w-10 h-10 items-center justify-center rounded-lg transition-colors hover:bg-black/5"
             aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
             aria-expanded={menuOpen}
           >
@@ -89,6 +59,40 @@ export default function Header() {
               </svg>
             )}
           </button>
+        </div>
+
+        {/* Logo: centralizada no mobile, à esquerda no desktop */}
+        <div className="flex-1 flex justify-center md:justify-start min-w-0">
+          <Link to="/" className="inline-flex items-center gap-2">
+            <img src="/logo-1.png" alt="Lista Premium" className="h-11 w-auto object-contain" />
+          </Link>
+        </div>
+
+        {/* Desktop: nav + CTA. Mobile: espaçador para manter logo centralizada */}
+        <div className="w-10 flex-shrink-0 md:w-auto md:flex-1 flex items-center justify-end gap-3">
+          {isLoggedIn && (
+            <nav className="hidden md:flex items-center gap-6" aria-label="Principal">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`font-heading text-sm font-medium transition-colors ${linkClass} ${
+                    location.pathname === item.path ? (isTransparent ? 'text-white' : 'text-rose-600') : ''
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          )}
+          {!isLoggedIn && (
+            <a
+              href={CTA_LINK}
+              className="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-lg transition-all duration-300 hover:scale-[1.03] shadow-md"
+            >
+              Quero Acesso
+            </a>
+          )}
         </div>
       </div>
 

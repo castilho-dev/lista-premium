@@ -55,4 +55,29 @@ Usado na página de Fornecedores para exibir a foto de perfil de cada fornecedor
 
 Se as fotos não aparecerem, você pode: (1) adicionar a chave acima na Vercel; ou (2) preencher o campo `avatarUrl` de cada fornecedor no dado (CSV/`fornecedores.ts`) com uma URL direta da imagem.
 
-**Sobre os 6 posts:** o Instagram não oferece API pública para listar posts. Para exibir fotos de posts, preencha o campo `photoUrls` (até 6 URLs) no dado do fornecedor, ou coloque imagens em `public/fornecedores/id01/1.jpg` … `6.jpg` (e id02, id03, etc.).
+**Sobre os 6 posts:** o Instagram não oferece API pública para listar posts de perfis arbitrários. Para exibir fotos de posts, preencha o campo `photoUrls` (até 6 URLs) no dado do fornecedor, ou coloque imagens em `public/fornecedores/id01/1.jpg` … `6.jpg` (e id02, id03, etc.).
+
+### instagram-stats – dados da sua conta (Instagram Graph API)
+
+Retorna dados do perfil Instagram da conta vinculada à sua Página do Facebook (seguidores, publicações, foto, etc.).
+
+- **GET** `/api/instagram-stats` → JSON com `username`, `followers_count`, `media_count`, `profile_picture_url`, `follows_count`, `id`.
+
+A API usa a **Instagram Graph API** (oficial Meta). O token deve ser de um usuário que tenha uma Página do Facebook com conta Instagram Business/Creator vinculada.
+
+| Variável | Obrigatória | Descrição |
+|----------|-------------|-----------|
+| `INSTAGRAM_ACCESS_TOKEN` | Sim (para este endpoint) | Token de acesso da Meta (User Access Token) com a Página e a conta IG vinculada. Configure na Vercel e **nunca** commite no repositório. |
+
+Resposta é cacheada por 5 minutos (`s-maxage=300`) para não estourar limites da API.
+
+---
+
+### Instagram Graph API (oficial Meta)
+
+A **Instagram Graph API** só funciona para contas **Instagram Business ou Creator** vinculadas a uma **Página do Facebook** e que **autorizem seu app** (via Facebook Login). Não é possível consultar perfis públicos de terceiros por username.
+
+- **instagram-stats:** usa o token em `INSTAGRAM_ACCESS_TOKEN` para exibir dados da **sua** conta (ex.: página “Instagram 10K”).
+- **Avatar de fornecedores:** perfis de terceiros continuam usando o proxy `instagram-avatar` (Unavatar/Microlink).
+
+Documentação: [Meta for Developers – Instagram Graph API](https://developers.facebook.com/docs/instagram-api).
