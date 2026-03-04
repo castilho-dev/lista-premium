@@ -67,7 +67,6 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
     }
   }
 
-  const hasInsta = Boolean(s.insta?.trim())
   const hasPhone = Boolean(s.phone?.trim())
   const hasAddress = Boolean(s.address?.trim())
   const hasSite = Boolean(s.site?.trim())
