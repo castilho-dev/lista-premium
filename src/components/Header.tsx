@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { CTA_LINK } from '../constants'
+import { isMemberLoggedIn } from '../auth'
+
+const navItems = [
+  { path: '/fornecedores', label: 'Fornecedores' },
+  { path: '/calculadora', label: 'Calculadora' },
+  { path: '/instagram10k', label: 'Instagram 10K' },
+  { path: '/whatsapplucrativo', label: 'WhatsApp Lucrativo' },
+]
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
+  const isLoggedIn = isMemberLoggedIn()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -20,6 +29,7 @@ export default function Header() {
 
   const isTransparent = !scrolled && location.pathname === '/'
   const textClass = isTransparent ? 'text-white' : 'text-gray-800'
+  const linkClass = isTransparent ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-rose-600'
 
   return (
     <header
@@ -39,17 +49,34 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Links de Fornecedores, Calculadora, Instagram 10K e WhatsApp Lucrativo só aparecem na área de membros (/app/area) */}
+        {/* Tablet/Desktop: links no topo (só quando logado) */}
+        {isLoggedIn && (
+          <nav className="hidden md:flex items-center gap-6" aria-label="Principal">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`font-heading text-sm font-medium transition-colors ${linkClass} ${
+                  location.pathname === item.path ? (isTransparent ? 'text-white' : 'text-rose-600') : ''
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         <div className="flex items-center gap-3">
-          <a
-            href={CTA_LINK}
-            className="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-lg transition-all duration-300 hover:scale-[1.03] shadow-md"
-          >
-            Quero Acesso
-          </a>
+          {!isLoggedIn && (
+            <a
+              href={CTA_LINK}
+              className="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-lg transition-all duration-300 hover:scale-[1.03] shadow-md"
+            >
+              Quero Acesso
+            </a>
+          )}
 
-          {/* Mobile: hamburger */}
+          {/* Mobile: hamburger (sempre visível no mobile; ao abrir mostra menu com links se logado ou só CTA) */}
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -92,12 +119,28 @@ export default function Header() {
               </button>
             </div>
             <nav className="flex flex-col gap-1" aria-label="Menu mobile">
-              <a
-                href={CTA_LINK}
-                className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-lg transition-colors"
-              >
-                Quero Acesso
-              </a>
+              {isLoggedIn && navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMenuOpen(false)}
+                  className={`font-heading font-medium py-3 px-4 rounded-lg transition-colors ${
+                    location.pathname === item.path
+                      ? 'bg-rose-50 text-rose-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              {!isLoggedIn && (
+                <a
+                  href={CTA_LINK}
+                  className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-lg transition-colors"
+                >
+                  Quero Acesso
+                </a>
+              )}
             </nav>
           </div>
         </>

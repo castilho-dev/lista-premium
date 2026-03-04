@@ -44,7 +44,7 @@ export default function Login() {
         const email = customer.email || trimmed
         const name = customer.name ?? null
         setMemberSession({ email, name })
-        navigate('/app/area', { state: { email, name } })
+        navigate('/fornecedores')
         return
       }
       setError(data.error || 'E-mail não encontrado ou sem acesso. Confira se comprou com este e-mail.')
