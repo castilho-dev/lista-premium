@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -39,13 +39,6 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-b from-cream-100 to-cream-200 flex flex-col">
       <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-gray-500 hover:text-rose-600 text-sm font-heading font-medium mb-8 transition-colors"
-          >
-            ← Voltar ao site
-          </Link>
-
           <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 sm:p-10">
             <img
               src="/logo-1.png"
