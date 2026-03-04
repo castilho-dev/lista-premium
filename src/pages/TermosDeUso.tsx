@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function TermosDeUso() {
   return (
-    <div className="min-h-screen bg-cream-100 font-sans">
+    <div className="min-h-screen bg-cream-100 font-sans pt-24">
       <div className="max-w-3xl mx-auto px-6 sm:px-8 py-12 sm:py-20">
         <Link
           to="/"
