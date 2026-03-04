@@ -60,15 +60,16 @@ function AppContent() {
       {showHeader && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/termos" element={<TermosDeUso />} />
-        <Route path="/privacidade" element={<PoliticaPrivacidade />} />
+        <Route path="/app" element={<Login />} />
+        <Route path="/termos" element={<ProtectedMemberRoute><TermosDeUso /></ProtectedMemberRoute>} />
+        <Route path="/privacidade" element={<ProtectedMemberRoute><PoliticaPrivacidade /></ProtectedMemberRoute>} />
         <Route path="/fornecedores" element={<ProtectedMemberRoute><Fornecedores /></ProtectedMemberRoute>} />
         <Route path="/calculadora" element={<ProtectedMemberRoute><Calculadora /></ProtectedMemberRoute>} />
         <Route path="/instagram10k" element={<ProtectedMemberRoute><Instagram10k /></ProtectedMemberRoute>} />
         <Route path="/whatsapplucrativo" element={<ProtectedMemberRoute><WhatsAppLucrativo /></ProtectedMemberRoute>} />
-        <Route path="/suporte" element={<Suporte />} />
-        <Route path="/app" element={<Login />} />
+        <Route path="/suporte" element={<ProtectedMemberRoute><Suporte /></ProtectedMemberRoute>} />
         <Route path="/app/area" element={<Navigate to="/fornecedores" replace />} />
+        <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       {!isAppRoute && <WhatsAppButton />}
     </>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router-dom'
 import { CTA_LINK } from '../constants'
 import { isMemberLoggedIn } from '../auth'
@@ -106,58 +107,62 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile: aba da esquerda para direita, altura da tela */}
-      {menuOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/40 z-[60] md:hidden"
-            aria-hidden
-            onClick={() => setMenuOpen(false)}
-          />
-          <div
-            className="fixed top-0 left-0 bottom-0 w-full max-w-[280px] sm:max-w-xs bg-white shadow-2xl z-[70] md:hidden flex flex-col"
-            role="dialog"
-            aria-label="Menu"
-          >
-            <div className="flex justify-end p-4 border-b border-gray-100">
-              <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100"
-                aria-label="Fechar menu"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <nav className="flex-1 py-4 px-3 overflow-y-auto" aria-label="Menu mobile">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
+      {/* Mobile: menu em portal (body) para não ser cortado; aba esquerda → direita, altura total */}
+      {menuOpen &&
+        createPortal(
+          <>
+            <div
+              className="fixed inset-0 bg-black/50 z-[9998] md:hidden"
+              style={{ touchAction: 'none' }}
+              aria-hidden
+              onClick={() => setMenuOpen(false)}
+            />
+            <div
+              className="fixed top-0 left-0 bottom-0 w-[min(280px,85vw)] max-w-[280px] bg-white shadow-2xl z-[9999] md:hidden flex flex-col"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu"
+            >
+              <div className="flex justify-end p-4 border-b border-gray-100 shrink-0">
+                <button
+                  type="button"
                   onClick={() => setMenuOpen(false)}
-                  className={`block font-heading font-medium py-3 px-4 rounded-xl transition-colors ${
-                    location.pathname === item.path
-                      ? 'bg-rose-50 text-rose-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                  className="p-2 -m-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100"
+                  aria-label="Fechar menu"
                 >
-                  {item.label}
-                </Link>
-              ))}
-              {!isLoggedIn && (
-                <a
-                  href={CTA_LINK}
-                  className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-xl transition-colors"
-                >
-                  Quero Acesso
-                </a>
-              )}
-            </nav>
-          </div>
-        </>
-      )}
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <nav className="flex-1 py-4 px-3 overflow-y-auto min-h-0" aria-label="Menu mobile">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setMenuOpen(false)}
+                    className={`block font-heading font-medium py-3 px-4 rounded-xl transition-colors ${
+                      location.pathname === item.path
+                        ? 'bg-rose-50 text-rose-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                {!isLoggedIn && (
+                  <a
+                    href={CTA_LINK}
+                    className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-xl transition-colors"
+                  >
+                    Quero Acesso
+                  </a>
+                )}
+              </nav>
+            </div>
+          </>,
+          document.body
+        )}
     </header>
   )
 }

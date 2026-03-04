@@ -67,9 +67,19 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
     }
   }
 
+  const hasInsta = Boolean(instaUsername)
   const hasPhone = Boolean(s.phone?.trim())
   const hasAddress = Boolean(s.address?.trim())
   const hasSite = Boolean(s.site?.trim())
+
+  const btnBase = 'flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors w-full '
+  const btnEnabled = {
+    insta: 'bg-gradient-to-r from-[#f09433] via-[#e6683c] to-[#bc1888] text-white hover:opacity-95 cursor-pointer',
+    phone: 'bg-green-50 text-green-800 hover:bg-green-100 cursor-pointer',
+    address: 'bg-slate-50 text-slate-700 hover:bg-slate-100 cursor-pointer',
+    site: 'bg-amber-50 text-amber-800 hover:bg-amber-100 cursor-pointer',
+  }
+  const btnDisabled = 'bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none'
 
   return (
     <article className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden hover:shadow-md hover:border-rose-200/80 transition-all duration-200">
@@ -80,67 +90,65 @@ function Card({ s, id }: { s: Fornecedor; id: number }) {
           <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded shrink-0">#{idStr}</span>
         </div>
 
-        {/* @ Instagram com cores e ícone */}
-        {instaUsername && (
-          <div className="mb-4">
+        {/* Sempre 4 botões: Instagram, WhatsApp, Endereço, Site (desabilitado quando não tiver) */}
+        <div className="space-y-2.5">
+          {hasInsta ? (
             <a
               href={s.insta?.startsWith('http') ? s.insta : `https://instagram.com/${instaUsername}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-white font-medium text-sm shadow-sm hover:shadow transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
-              style={{
-                background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
-              }}
+              className={btnBase + btnEnabled.insta}
             >
-              <IconInstagram />
-              <span>@{instaUsername}</span>
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/20 shrink-0">
+                <IconInstagram />
+              </span>
+              <span className="text-sm font-medium">Instagram</span>
             </a>
-          </div>
-        )}
+          ) : (
+            <div className={btnBase + btnDisabled}>
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-200 shrink-0">
+                <IconInstagram />
+              </span>
+              <span className="text-sm font-medium">Instagram</span>
+            </div>
+          )}
 
-        {/* WhatsApp, Endereço, Site */}
-        <div className="space-y-2.5">
-          {hasPhone && (
-            <button
-              type="button"
-              onClick={() => openLink(s.phone)}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-green-50 text-green-800 hover:bg-green-100 transition-colors text-left"
-            >
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-green-500/15 text-green-600 shrink-0">
-                <IconWhatsApp />
-              </span>
-              <span className="text-sm font-medium">WhatsApp</span>
-            </button>
-          )}
-          {hasAddress && (
-            <button
-              type="button"
-              onClick={() => openAddress(s.address)}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition-colors text-left"
-            >
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-slate-200/80 text-slate-600 shrink-0">
-                <IconEndereco />
-              </span>
-              <span className="text-sm font-medium truncate">{s.address}</span>
-            </button>
-          )}
-          {hasSite && (
-            <button
-              type="button"
-              onClick={() => openLink(s.site)}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-50 text-amber-800 hover:bg-amber-100 transition-colors text-left"
-            >
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-amber-500/15 text-amber-600 shrink-0">
-                <IconSite />
-              </span>
-              <span className="text-sm font-medium truncate">Site / Link</span>
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => hasPhone && openLink(s.phone)}
+            disabled={!hasPhone}
+            className={btnBase + (hasPhone ? btnEnabled.phone : btnDisabled)}
+          >
+            <span className={`flex items-center justify-center w-9 h-9 rounded-lg shrink-0 ${hasPhone ? 'bg-green-500/15 text-green-600' : 'bg-gray-200'}`}>
+              <IconWhatsApp />
+            </span>
+            <span className="text-sm font-medium">WhatsApp</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => hasAddress && openAddress(s.address)}
+            disabled={!hasAddress}
+            className={btnBase + (hasAddress ? btnEnabled.address : btnDisabled)}
+          >
+            <span className={`flex items-center justify-center w-9 h-9 rounded-lg shrink-0 ${hasAddress ? 'bg-slate-200/80 text-slate-600' : 'bg-gray-200'}`}>
+              <IconEndereco />
+            </span>
+            <span className="text-sm font-medium">Endereço</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => hasSite && openLink(s.site)}
+            disabled={!hasSite}
+            className={btnBase + (hasSite ? btnEnabled.site : btnDisabled)}
+          >
+            <span className={`flex items-center justify-center w-9 h-9 rounded-lg shrink-0 ${hasSite ? 'bg-amber-500/15 text-amber-600' : 'bg-gray-200'}`}>
+              <IconSite />
+            </span>
+            <span className="text-sm font-medium">Site</span>
+          </button>
         </div>
-
-        {!hasPhone && !hasAddress && !hasSite && (
-          <p className="text-sm text-gray-400 italic">Apenas Instagram disponível</p>
-        )}
       </div>
     </article>
   )
