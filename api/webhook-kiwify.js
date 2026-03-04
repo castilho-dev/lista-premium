@@ -21,13 +21,19 @@ export default async function handler(req, res) {
 
   try {
     const body = req.body || {}
-    const token = req.headers['x-webhook-token'] || req.headers['x-kiwify-token']
+    const incomingToken = req.headers['x-webhook-token'] || req.headers['x-kiwify-token'] || ''
+    const expectedToken = process.env.KIWIFY_WEBHOOK_TOKEN || ''
 
-    // TODO: validar token contra o configurado na Kiwify
+    if (expectedToken && incomingToken !== expectedToken) {
+      console.warn('[webhook-kiwify] token inválido ou ausente')
+      res.status(401).json({ error: 'Token inválido' })
+      return
+    }
+
     // TODO: se evento for compra aprovada -> salvar email como "tem acesso"
     // TODO: se evento for reembolso -> remover email do acesso
 
-    console.log('[webhook-kiwify]', new Date().toISOString(), token ? 'token presente' : 'sem token', body)
+    console.log('[webhook-kiwify]', new Date().toISOString(), body)
 
     res.status(200).json({ received: true })
   } catch (err) {
