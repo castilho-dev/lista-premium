@@ -128,14 +128,8 @@ export default function AppArea() {
             )}
 
             <h1 className="font-display text-2xl sm:text-3xl font-bold text-gray-800 mt-6">
-              {displayName ? `Olá, ${displayName.split(/\s+/)[0]}` : 'Acesso liberado'}
+              {displayName ? `Olá, ${displayName}` : 'Acesso liberado'}
             </h1>
-            {email && (
-              <p className="mt-2 text-gray-500 text-sm">
-                {displayName ? 'Logado como ' : ''}
-                <span className="font-medium text-gray-700">{displayName || email}</span>
-              </p>
-            )}
             <p className="mt-4 text-gray-600 text-sm leading-relaxed">
               Em breve você terá aqui o conteúdo exclusivo da Lista Premium.
             </p>
