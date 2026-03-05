@@ -1,5 +1,5 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK } from '../constants'
+import { CTA_ANCHOR } from '../constants'
 
 const products = [
   { img: '/lista/lista-1.png', name: 'Sadoer Nicotinamide Marshmallow Body Lotion', market: 48.10, list: 5.00, discount: 90 },
@@ -79,7 +79,7 @@ export default function ProductGrid() {
           <p className="text-gray-600 mb-6 text-lg max-w-2xl mx-auto">
             Compra a R$ 3,79. Vende a R$ 18,90. Mais de 400% de margem. A diferença entre quem lucra e quem empata? Saber onde comprar.
           </p>
-          <a href={CTA_LINK} className="btn-primary">
+          <a href={CTA_ANCHOR} className="btn-primary">
             QUERO ACESSO AOS FORNECEDORES
           </a>
         </div>

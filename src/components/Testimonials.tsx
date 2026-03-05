@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback, useId } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK } from '../constants'
+import { CTA_ANCHOR } from '../constants'
 
 const feedbacks = Array.from({ length: 8 }, (_, i) => ({
   src: `/feedback/feedback-${i + 1}.jpeg`,
@@ -356,7 +356,7 @@ export default function Testimonials() {
           </div>
 
           <div className="mt-8">
-            <a href={CTA_LINK} className="btn-primary">
+            <a href={CTA_ANCHOR} className="btn-primary">
               TAMBÉM QUERO FAZER PARTE
             </a>
           </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router-dom'
-import { CTA_LINK } from '../constants'
+import { CTA_ANCHOR } from '../constants'
 import { isMemberLoggedIn } from '../auth'
 
 const navItems = [
@@ -98,7 +98,7 @@ export default function Header() {
           </nav>
           {!isLoggedIn && (
             <a
-              href={CTA_LINK}
+              href={CTA_ANCHOR}
               className="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-lg transition-all duration-300 hover:scale-[1.03] shadow-md"
             >
               Quero Acesso
@@ -152,7 +152,7 @@ export default function Header() {
                 ))}
                 {!isLoggedIn && (
                   <a
-                    href={CTA_LINK}
+                    href={CTA_ANCHOR}
                     className="mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-heading font-semibold text-sm py-3.5 px-5 rounded-xl transition-colors"
                   >
                     Quero Acesso

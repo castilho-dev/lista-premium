@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK } from '../constants'
+import { CTA_ANCHOR } from '../constants'
 
 export default function VSL() {
   const sectionRef = useScrollReveal<HTMLElement>()
@@ -45,7 +45,7 @@ export default function VSL() {
         </div>
 
         <div className="fade-in-section stagger-3 mt-10 text-center">
-          <a href={CTA_LINK} className="btn-primary">
+          <a href={CTA_ANCHOR} className="btn-primary">
             QUERO CONHECER A LISTA AGORA
           </a>
         </div>

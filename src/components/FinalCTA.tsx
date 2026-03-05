@@ -1,5 +1,5 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_LINK, PRICE, PRICE_ANCHOR } from '../constants'
+import { CHECKOUT_LINK, PRICE, PRICE_ANCHOR } from '../constants'
 
 const benefits = [
   '+150 Fornecedores Verificados',
@@ -128,7 +128,7 @@ export default function FinalCTA() {
               {/* 4. Botão CTA */}
               <div className="mt-8 sm:mt-10 flex flex-col items-center gap-5">
                 <a
-                  href={CTA_LINK}
+                  href={CHECKOUT_LINK}
                   className="btn-primary-large w-full sm:w-auto text-center inline-flex items-center justify-center shadow-lg shadow-green-600/20"
                 >
                   QUERO O ACESSO AGORA
