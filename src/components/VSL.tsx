@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_ANCHOR } from '../constants'
 
 export default function VSL() {
   const sectionRef = useScrollReveal<HTMLElement>()
