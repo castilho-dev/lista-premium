@@ -24,8 +24,9 @@ export default function ProductGrid() {
       <div className="container-main">
         <div className="text-center mb-14 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
-            Veja Produtos Que Você Poderia{' '}
-            <span className="text-rose-500">Estar Vendendo Hoje</span>
+            Veja Produtos Que Você{' '}
+            <br className="sm:hidden" />
+            <span className="text-rose-500">Poderia Estar Vendendo Hoje</span>
           </h2>
           <p className="mt-4 text-gray-600 text-lg max-w-xl mx-auto">
             Preço do mercado vs. preço com a lista. Faça as contas.
