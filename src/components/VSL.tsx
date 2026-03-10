@@ -44,11 +44,11 @@ export default function VSL() {
           <div ref={playerContainerRef} />
         </div>
 
-        <div className="fade-in-section stagger-3 mt-10 text-center">
+        {/* <div className="fade-in-section stagger-3 mt-10 text-center">
           <a href={CTA_ANCHOR} className="btn-primary">
             QUERO CONHECER A LISTA AGORA
           </a>
-        </div>
+        </div> */}
       </div>
     </section>
   )
