@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { CTA_ANCHOR } from '../constants'
 
@@ -12,67 +13,241 @@ const products = [
   { img: '/lista/lista-8.png', name: 'Esponja Feels Mood Angle Blender Ruby Rose', market: 29.90, list: 4.90, discount: 83 },
 ]
 
+const galleryImages = Array.from({ length: 10 }, (_, i) => ({
+  src: `/produtos/produto${i + 1}.jpeg`,
+  alt: `Produto de maquiagem ${i + 1}`,
+}))
+
 function formatBRL(v: number) {
   return `R$ ${v.toFixed(2).replace('.', ',')}`
 }
 
 export default function ProductGrid() {
   const ref = useScrollReveal<HTMLElement>()
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [current, setCurrent] = useState(0)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const maxIndex = Math.max(0, products.length - 4)
+  const galleryTrackRef = useRef<HTMLDivElement>(null)
+  const [currentGallery, setCurrentGallery] = useState(0)
+  const galleryIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const maxIndexGallery = Math.max(0, galleryImages.length - 4)
+
+  const scrollTo = useCallback((index: number) => {
+    const track = trackRef.current
+    if (!track) return
+    const card = track.children[0] as HTMLElement | undefined
+    if (!card) return
+    const gap = 20
+    const cardWidth = card.offsetWidth + gap
+    track.scrollTo({ left: cardWidth * index, behavior: 'smooth' })
+  }, [])
+
+  const startAutoplay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      setCurrent(prev => {
+        const next = prev >= maxIndex ? 0 : prev + 1
+        scrollTo(next)
+        return next
+      })
+    }, 3000)
+  }, [maxIndex, scrollTo])
+
+  useEffect(() => {
+    startAutoplay()
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [startAutoplay])
+
+  const goTo = useCallback((index: number) => {
+    setCurrent(index)
+    scrollTo(index)
+    startAutoplay()
+  }, [scrollTo, startAutoplay])
+
+  const scrollToGallery = useCallback((index: number) => {
+    const track = galleryTrackRef.current
+    if (!track) return
+    const card = track.children[0] as HTMLElement | undefined
+    if (!card) return
+    const gap = 20
+    const cardWidth = card.offsetWidth + gap
+    track.scrollTo({ left: cardWidth * index, behavior: 'smooth' })
+  }, [])
+
+  const startGalleryAutoplay = useCallback(() => {
+    if (galleryIntervalRef.current) clearInterval(galleryIntervalRef.current)
+    galleryIntervalRef.current = setInterval(() => {
+      setCurrentGallery(prev => {
+        const next = prev >= maxIndexGallery ? 0 : prev + 1
+        scrollToGallery(next)
+        return next
+      })
+    }, 3000)
+  }, [maxIndexGallery, scrollToGallery])
+
+  useEffect(() => {
+    startGalleryAutoplay()
+    return () => {
+      if (galleryIntervalRef.current) clearInterval(galleryIntervalRef.current)
+    }
+  }, [startGalleryAutoplay])
+
+  const goToGallery = useCallback((index: number) => {
+    setCurrentGallery(index)
+    scrollToGallery(index)
+    startGalleryAutoplay()
+  }, [scrollToGallery, startGalleryAutoplay])
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-cream-100 section-padding">
+    <section ref={ref} className="py-14 lg:py-20 bg-white section-padding">
       <div className="container-main">
-        <div className="text-center mb-14 fade-in-section">
+        <div className="text-center mb-10 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
-            Veja Produtos Que Você{' '}
-            <br className="sm:hidden" />
-            <span className="text-rose-500">Poderia Estar Vendendo Hoje</span>
+            Exemplos de Produtos Que Você{' '}
+            <span className="text-rose-500">Encontrará na Lista</span>
           </h2>
           <p className="mt-4 text-gray-600 text-lg max-w-xl mx-auto">
-            Preço do mercado vs. preço com a lista. Faça as contas.
+            Fornecedores selecionados com preços reais de atacado
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
-          {products.map((p, i) => (
-            <div key={i} className={`fade-in-section stagger-${Math.min(i + 1, 8)}`}>
-              <div className="product-card group bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.06)] cursor-default">
-                <div className="relative overflow-hidden rounded-t-xl sm:rounded-t-2xl">
-                  <div className="product-card-area aspect-square bg-cream-50 flex items-center justify-center p-2 sm:p-4 transition-colors duration-300">
-                    <img
-                      src={p.img}
-                      alt={p.name}
-                      className="product-card-img max-h-full max-w-full object-contain transition-transform duration-400 ease-out rounded-xl sm:rounded-2xl"
-                      loading="lazy"
-                    />
+        <div className="fade-in-section stagger-2 relative">
+          <div
+            ref={trackRef}
+            className="flex gap-5 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
+          >
+            {products.map((p, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 w-[calc(50%-10px)] sm:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)]"
+              >
+                <div className="product-card group bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.06)] cursor-default">
+                  <div className="relative overflow-hidden rounded-t-xl sm:rounded-t-2xl">
+                    <div className="product-card-area aspect-square bg-cream-50 flex items-center justify-center p-2 sm:p-4 transition-colors duration-300">
+                      <img
+                        src={p.img}
+                        alt={p.name}
+                        className="product-card-img max-h-full max-w-full object-contain transition-transform duration-400 ease-out rounded-xl sm:rounded-2xl"
+                        loading="lazy"
+                      />
+                    </div>
+                    <span className="product-card-badge absolute top-2 left-2 sm:top-3 sm:left-3 bg-rose-500 text-white text-[10px] sm:text-xs font-bold px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg shadow-sm transition-all duration-300">
+                      -{p.discount}%
+                    </span>
                   </div>
-                  <span className="product-card-badge absolute top-2 left-2 sm:top-3 sm:left-3 bg-rose-500 text-white text-[10px] sm:text-xs font-bold px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg shadow-sm transition-all duration-300">
-                    -{p.discount}%
-                  </span>
-                </div>
 
-                <div className="p-3 sm:p-5">
-                  <h3 className="font-heading font-medium text-gray-700 text-[11px] sm:text-[13px] leading-snug tracking-tight line-clamp-2 min-h-[2.25rem] sm:min-h-[2.5rem] mb-2 sm:mb-4">
-                    {p.name}
-                  </h3>
+                  <div className="p-3 sm:p-5">
+                    <h3 className="font-heading font-medium text-gray-700 text-[11px] sm:text-[13px] leading-snug tracking-tight line-clamp-2 min-h-[2.25rem] sm:min-h-[2.5rem] mb-2 sm:mb-4">
+                      {p.name}
+                    </h3>
 
-                  <div className="space-y-1 sm:space-y-1.5">
-                    <p className="text-gray-400 text-[10px] sm:text-xs">
-                      <span className="line-through tabular-nums">{formatBRL(p.market)}</span>
-                      <span className="text-gray-400/80 ml-1 sm:ml-1.5">no mercado</span>
-                    </p>
-                    <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
-                      <span className="text-green-600 font-bold text-base sm:text-xl tabular-nums tracking-tight">
-                        {formatBRL(p.list)}
-                      </span>
-                      <span className="text-[9px] sm:text-[10px] font-semibold text-green-700 uppercase tracking-wider bg-green-50 px-1.5 py-0.5 sm:px-2 rounded">
-                        Lista Premium
-                      </span>
+                    <div className="space-y-1 sm:space-y-1.5">
+                      <p className="text-gray-400 text-[10px] sm:text-xs">
+                        <span className="line-through tabular-nums">{formatBRL(p.market)}</span>
+                        <span className="text-gray-400/80 ml-1 sm:ml-1.5">no mercado</span>
+                      </p>
+                      <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
+                        <span className="text-green-600 font-bold text-base sm:text-xl tabular-nums tracking-tight">
+                          {formatBRL(p.list)}
+                        </span>
+                        <span className="text-[9px] sm:text-[10px] font-semibold text-green-700 uppercase tracking-wider bg-green-50 px-1.5 py-0.5 sm:px-2 rounded">
+                          Lista Premium
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => goTo(Math.max(0, current - 1))}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-xl transition-all duration-200 z-10"
+            aria-label="Anterior"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => goTo(Math.min(maxIndex, current + 1))}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-xl transition-all duration-200 z-10"
+            aria-label="Próximo"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex justify-center gap-2 mt-6">
+          {Array.from({ length: maxIndex + 1 }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                i === current ? 'bg-rose-500 w-6' : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Ir para slide ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Carrossel da galeria (exemplos de produtos) */}
+        <div className="mt-14 relative">
+          <div
+            ref={galleryTrackRef}
+            className="flex gap-5 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
+          >
+            {galleryImages.map((img, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 w-[calc(50%-10px)] sm:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)] group"
+              >
+                <div className="rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-gray-50">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-auto object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => goToGallery(Math.max(0, currentGallery - 1))}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-xl transition-all duration-200 z-10"
+            aria-label="Anterior galeria"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => goToGallery(Math.min(maxIndexGallery, currentGallery + 1))}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-xl transition-all duration-200 z-10"
+            aria-label="Próximo galeria"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+        <div className="flex justify-center gap-2 mt-6">
+          {Array.from({ length: maxIndexGallery + 1 }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => goToGallery(i)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                i === currentGallery ? 'bg-rose-500 w-6' : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Ir para slide galeria ${i + 1}`}
+            />
           ))}
         </div>
 

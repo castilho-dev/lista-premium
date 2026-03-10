@@ -1,7 +1,6 @@
 import Hero from '../components/Hero'
 import Benefits from '../components/Benefits'
 import ProductGrid from '../components/ProductGrid'
-import ProductGallery from '../components/ProductGallery'
 import Testimonials from '../components/Testimonials'
 import Comparison from '../components/Comparison'
 import FAQ from '../components/FAQ'
@@ -14,7 +13,6 @@ export default function Home() {
       <main>
         <Hero />
         <ProductGrid />
-        <ProductGallery />
         <Testimonials />
         <Benefits />
         <Comparison />

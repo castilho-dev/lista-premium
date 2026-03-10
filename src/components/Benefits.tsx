@@ -91,9 +91,9 @@ export default function Benefits() {
   const ref = useScrollReveal<HTMLElement>()
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white section-padding">
+    <section ref={ref} className="py-14 lg:py-20 bg-white section-padding">
       <div className="container-main">
-        <div className="text-center mb-14 fade-in-section">
+        <div className="text-center mb-10 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
             Veja exatamente o que você vai receber para{' '}
             <span className="text-rose-500">começar a lucrar</span>{' '}

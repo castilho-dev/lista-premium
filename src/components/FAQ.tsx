@@ -81,9 +81,9 @@ export default function FAQ() {
   const ref = useScrollReveal<HTMLElement>()
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-cream-100 section-padding">
+    <section ref={ref} className="py-14 lg:py-20 bg-cream-100 section-padding">
       <div className="container-main max-w-3xl">
-        <div className="text-center mb-14 fade-in-section">
+        <div className="text-center mb-10 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800">
             Ainda Com <span className="text-rose-500">Dúvida</span>?
           </h2>

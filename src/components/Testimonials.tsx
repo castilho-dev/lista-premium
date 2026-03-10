@@ -190,9 +190,9 @@ export default function Testimonials() {
   }, [scrollTextTo, startTextAutoplay])
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28 bg-cream-100 section-padding">
+    <section ref={sectionRef} className="py-14 lg:py-20 bg-cream-100 section-padding">
       <div className="container-main">
-        <div className="text-center mb-14 fade-in-section">
+        <div className="text-center mb-10 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
             Elas Estavam <span className="text-rose-500">No Mesmo Lugar Que Você</span>
           </h2>

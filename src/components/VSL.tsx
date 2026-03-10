@@ -31,9 +31,9 @@ export default function VSL() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28 bg-white section-padding">
+    <section ref={sectionRef} className="py-14 lg:py-20 bg-white section-padding">
       <div className="container-main">
-        <div className="text-center mb-12 fade-in-section">
+        <div className="text-center mb-10 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 max-w-3xl mx-auto">
             Os fornecedores que permitem comprar maquiagem a <span className="text-green-600">R$ 3</span> no atacado
           </h2>
