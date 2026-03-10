@@ -48,8 +48,10 @@ export default function Hero() {
           alt="Lista Premium"
           className="h-20 sm:h-24 lg:h-28 w-auto object-contain mx-auto mb-6"
         />
-        <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight max-w-2xl mx-auto text-balance mb-10">
-          Os fornecedores que permitem comprar maquiagem a <span className="text-green-400">R$ 3</span> no atacado
+        <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight max-w-2xl mx-auto mb-10">
+          A lista de fornecedores que permitem
+          <br />
+          comprar maquiagem a <span className="text-green-400">R$ 3</span> no atacado
         </h1>
         <div className="max-w-3xl mx-auto" ref={playerContainerRef} />
       </div>
