@@ -15,10 +15,10 @@ export default function Home() {
       <main>
         <Hero />
         <VSL />
-        <Benefits />
         <ProductGrid />
         <ProductGallery />
         <Testimonials />
+        <Benefits />
         <Comparison />
         <FinalCTA />
         <FAQ />

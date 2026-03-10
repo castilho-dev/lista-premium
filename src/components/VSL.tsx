@@ -32,7 +32,7 @@ export default function VSL() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28 bg-cream-100 section-padding">
+    <section ref={sectionRef} className="py-20 lg:py-28 bg-white section-padding">
       <div className="container-main">
         <div className="text-center mb-12 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 max-w-3xl mx-auto">

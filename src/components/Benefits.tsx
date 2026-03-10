@@ -95,9 +95,9 @@ export default function Benefits() {
       <div className="container-main">
         <div className="text-center mb-14 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
-            Tudo Que Você Precisa Para{' '}
-            <span className="text-rose-500">Começar a Lucrar</span>{' '}
-            Hoje Mesmo
+            Veja exatamente o que você vai receber para{' '}
+            <span className="text-rose-500">começar a lucrar</span>{' '}
+            ainda hoje
           </h2>
         </div>
 
