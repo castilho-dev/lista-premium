@@ -1,5 +1,4 @@
 import Hero from '../components/Hero'
-import VSL from '../components/VSL'
 import Benefits from '../components/Benefits'
 import ProductGrid from '../components/ProductGrid'
 import ProductGallery from '../components/ProductGallery'
@@ -14,7 +13,6 @@ export default function Home() {
     <>
       <main>
         <Hero />
-        <VSL />
         <ProductGrid />
         <ProductGallery />
         <Testimonials />
