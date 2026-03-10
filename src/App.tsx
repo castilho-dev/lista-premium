@@ -71,7 +71,7 @@ function AppContent() {
         <Route path="/app/area" element={<Navigate to="/fornecedores" replace />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
-      {!isAppRoute && <WhatsAppButton />}
+      {!isAppRoute && location.pathname !== '/' && <WhatsAppButton />}
     </>
   )
 }
