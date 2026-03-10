@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="relative min-h-0 pt-12 pb-20 lg:pb-28 flex items-center overflow-hidden">
+    <section className="relative min-h-0 pt-6 pb-16 lg:pb-24 flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-rose-900/40" />
 
       <div className="absolute inset-0 opacity-[0.03]"
@@ -17,10 +17,10 @@ export default function Hero() {
         <img
           src="/logo-1.png"
           alt="Lista Premium"
-          className="h-28 sm:h-32 lg:h-40 w-auto object-contain mx-auto mb-12"
+          className="h-20 sm:h-24 lg:h-28 w-auto object-contain mx-auto mb-6"
         />
-        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-4xl mx-auto text-balance">
-          A Lista de Fornecedores Que Suas Concorrentes <span className="text-[#D5004D]">Não Querem Que Você Conheça</span>
+        <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight max-w-2xl mx-auto text-balance">
+          A Lista de Fornecedores que está por trás do <span className="text-[#D5004D]">lucro das suas concorrentes</span>
         </h1>
 
         <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto font-sans leading-relaxed">
