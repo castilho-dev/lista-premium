@@ -22,10 +22,6 @@ export default function Hero() {
         <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight max-w-2xl mx-auto text-balance">
           A Lista de Fornecedores que está por trás do <span className="text-[#D5004D]">lucro das suas concorrentes</span>
         </h1>
-
-        <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto font-sans leading-relaxed">
-          Os mesmos fornecedores que as revendedoras que mais lucram usam — enquanto você ainda paga caro comprando no lugar errado.
-        </p>
       </div>
 
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">

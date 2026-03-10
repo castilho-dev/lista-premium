@@ -36,7 +36,7 @@ export default function VSL() {
       <div className="container-main">
         <div className="text-center mb-12 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 max-w-3xl mx-auto">
-            Descubra Como <span className="text-rose-500">+937</span> Revendedoras Estão Comprando a <span className="text-green-600">R$3</span> e Vendendo a <span className="text-green-600">R$15</span>
+            Os fornecedores que permitem comprar maquiagem a <span className="text-green-600">R$ 3</span>
           </h2>
         </div>
 
