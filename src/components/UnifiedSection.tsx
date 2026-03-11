@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 /**
@@ -62,7 +63,7 @@ const IconHeart = () => (
   </svg>
 )
 
-const STEP_ICONS: Record<string, () => JSX.Element> = {
+const STEP_ICONS: Record<string, () => ReactElement> = {
   phone: IconPhone,
   catalog: IconCatalog,
   bag: IconBag,

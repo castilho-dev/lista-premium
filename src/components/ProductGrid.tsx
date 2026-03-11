@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_ANCHOR } from '../constants'
-
 const products = [
   { img: '/lista/lista-1.png', name: 'Sadoer Nicotinamide Marshmallow Body Lotion', market: 48.10, list: 5.00, discount: 90 },
   { img: '/lista/lista-2.png', name: 'BTX Lisoterapia Organic', market: 23.90, list: 4.00, discount: 83 },
