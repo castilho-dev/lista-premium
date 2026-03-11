@@ -74,6 +74,8 @@ export default function Testimonials() {
   const textIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const maxIndex = feedbacks.length - 4
   const textMaxIndex = twoCards ? textTestimonials.length - 2 : textTestimonials.length - 1
+  const [expandedImageIndex, setExpandedImageIndex] = useState<number | null>(null)
+  const [expandedTextIndex, setExpandedTextIndex] = useState<number | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)')
@@ -159,6 +161,24 @@ export default function Testimonials() {
     startTextAutoplay()
   }, [scrollTextTo, startTextAutoplay])
 
+  useEffect(() => {
+    if (expandedImageIndex == null && expandedTextIndex == null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setExpandedImageIndex(null); setExpandedTextIndex(null); return }
+      if (expandedImageIndex != null) {
+        if (e.key === 'ArrowLeft') setExpandedImageIndex(i => (i ?? 0) <= 0 ? feedbacks.length - 1 : (i ?? 0) - 1)
+        if (e.key === 'ArrowRight') setExpandedImageIndex(i => (i ?? 0) >= feedbacks.length - 1 ? 0 : (i ?? 0) + 1)
+      }
+      if (expandedTextIndex != null) {
+        if (e.key === 'ArrowLeft') setExpandedTextIndex(i => (i ?? 0) <= 0 ? textTestimonials.length - 1 : (i ?? 0) - 1)
+        if (e.key === 'ArrowRight') setExpandedTextIndex(i => (i ?? 0) >= textTestimonials.length - 1 ? 0 : (i ?? 0) + 1)
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [expandedImageIndex, expandedTextIndex])
+
   return (
     <section ref={sectionRef} className="py-14 lg:py-20 bg-cream-100 section-padding">
       <div className="container-main">
@@ -182,14 +202,18 @@ export default function Testimonials() {
                 key={i}
                 className="flex-shrink-0 w-[calc(50%-10px)] sm:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)] group"
               >
-                <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white border border-gray-100 hover:-translate-y-1">
+                <button
+                  type="button"
+                  onClick={() => setExpandedImageIndex(i)}
+                  className="w-full rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white border border-gray-100 hover:-translate-y-1 cursor-pointer text-left"
+                >
                   <img
                     src={fb.src}
                     alt={fb.alt}
                     className="w-full h-auto"
                     loading="lazy"
                   />
-                </div>
+                </button>
               </div>
             ))}
             </div>
@@ -247,8 +271,12 @@ export default function Testimonials() {
                   key={i}
                   className="flex-shrink-0 w-1/6 snap-center px-2 flex"
                 >
-                  <div className="bg-white rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                    <p className="text-gray-700 leading-relaxed text-[14px] sm:text-[15px] mb-4 flex-1">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedTextIndex(i)}
+                    className="w-full bg-white rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0 text-left cursor-pointer hover:shadow-md transition-shadow"
+                  >
+                    <p className="text-gray-700 leading-relaxed text-[14px] sm:text-[15px] mb-4 flex-1 line-clamp-4">
                       &ldquo;{t.quote}&rdquo;
                     </p>
                     <div className="flex-shrink-0 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
@@ -263,7 +291,7 @@ export default function Testimonials() {
                         </span>
                       </span>
                     </div>
-                  </div>
+                  </button>
                 </div>
               ))}
             </div>
@@ -329,6 +357,89 @@ export default function Testimonials() {
           </div>
         </div>
         */}
+
+      {/* Modal: imagem do depoimento expandida — carrossel + X fixo canto superior direito */}
+      {expandedImageIndex != null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+          onClick={() => setExpandedImageIndex(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Depoimento em destaque"
+        >
+          <button
+            type="button"
+            onClick={() => setExpandedImageIndex(null)}
+            className="fixed top-4 right-4 z-[60] w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow flex items-center justify-center text-gray-600"
+            aria-label="Fechar"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+          <button type="button" onClick={e => { e.stopPropagation(); setExpandedImageIndex(expandedImageIndex <= 0 ? feedbacks.length - 1 : expandedImageIndex - 1) }} className="absolute left-2 top-1/2 -translate-y-1/2 z-[55] w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow flex items-center justify-center text-gray-600" aria-label="Anterior">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <button type="button" onClick={e => { e.stopPropagation(); setExpandedImageIndex(expandedImageIndex >= feedbacks.length - 1 ? 0 : expandedImageIndex + 1) }} className="absolute right-2 top-1/2 -translate-y-1/2 z-[55] w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow flex items-center justify-center text-gray-600" aria-label="Próximo">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </button>
+          <img
+            src={feedbacks[expandedImageIndex].src}
+            alt={feedbacks[expandedImageIndex].alt}
+            className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl relative z-10"
+            onClick={e => e.stopPropagation()}
+          />
+        </div>
+      )}
+
+      {/* Modal: depoimento (texto) expandido — carrossel + X fixo canto superior direito */}
+      {expandedTextIndex != null && (() => {
+        const t = textTestimonials[expandedTextIndex]
+        const prev = () => setExpandedTextIndex(expandedTextIndex <= 0 ? textTestimonials.length - 1 : expandedTextIndex - 1)
+        const next = () => setExpandedTextIndex(expandedTextIndex >= textTestimonials.length - 1 ? 0 : expandedTextIndex + 1)
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
+            onClick={() => setExpandedTextIndex(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Depoimento completo"
+          >
+            <button
+              type="button"
+              onClick={() => setExpandedTextIndex(null)}
+              className="fixed top-4 right-4 z-[60] w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow flex items-center justify-center text-gray-600"
+              aria-label="Fechar"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <button type="button" onClick={e => { e.stopPropagation(); prev() }} className="absolute left-2 top-1/2 -translate-y-1/2 z-[55] w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow flex items-center justify-center text-gray-600" aria-label="Anterior">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button type="button" onClick={e => { e.stopPropagation(); next() }} className="absolute right-2 top-1/2 -translate-y-1/2 z-[55] w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow flex items-center justify-center text-gray-600" aria-label="Próximo">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </button>
+            <div
+              className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-auto p-6 sm:p-8"
+              onClick={e => e.stopPropagation()}
+            >
+              <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <div className="mt-6 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
+                <div className="text-gray-600 text-sm font-sans">
+                  <p className="font-medium">— {t.author}</p>
+                  <p className="text-gray-400 text-sm mt-0.5">{t.location}</p>
+                </div>
+                <span className="flex items-center gap-2 text-sm font-sans text-gray-500">
+                  <InstagramIcon />
+                  <span className="bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 bg-clip-text text-transparent font-medium">
+                    {t.instagram}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
       </div>
     </section>
   )
