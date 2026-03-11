@@ -22,9 +22,6 @@ const CHECKLIST = ['+150 fornecedores', 'Sem CNPJ', 'Marcas de blogueiras', 'Gar
 
 const CTA_TEXT = 'QUERO COMEÇAR AINDA HOJE'
 
-const POST_CTA_LINE1 = '15 dias pra você testar. Não gostou, devolvemos cada centavo.'
-const POST_CTA_LINE2 = 'Mais de 937 mulheres já estão comprando dos mesmos fornecedores.'
-
 export default function FinalCTA() {
   const ref = useScrollReveal<HTMLElement>()
 
@@ -103,9 +100,6 @@ export default function FinalCTA() {
             >
               {CTA_TEXT}
             </a>
-            <p className="text-[12px] text-white/40 uppercase tracking-wider">
-              Pagamento seguro
-            </p>
             <div className="flex items-center justify-center gap-5 flex-wrap">
               <img src="/kiwify-logo.svg" alt="Kiwify" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
               <img src="/visa.svg" alt="Visa" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
@@ -113,13 +107,6 @@ export default function FinalCTA() {
               <img src="/pix.svg" alt="PIX" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
             </div>
           </div>
-
-          <p className="mt-8 text-center text-[13px] text-white/45 leading-relaxed">
-            {POST_CTA_LINE1}
-          </p>
-          <p className="mt-2 text-center text-[13px] text-white/40">
-            {POST_CTA_LINE2}
-          </p>
         </div>
       </div>
     </section>
