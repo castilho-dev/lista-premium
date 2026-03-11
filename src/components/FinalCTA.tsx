@@ -6,19 +6,22 @@ import { CHECKOUT_LINK, PRICE, PRICE_ANCHOR } from '../constants'
  * Conecta a visão da seção 4 com o preço. Garantia em destaque. Bônus, checklist, CTA.
  */
 
-const HEADLINE = 'R$67 é a distância entre a vida que você tem e a que você acabou de imaginar.'
-const SUBHEADLINE = 'Se em 15 dias você não gostar, devolvemos tudo. Sem perguntas.'
+const HEADLINE = 'A distância entre a vida que você tem e a que você acabou de imaginar é menor do que você pensa.'
+const RECEIVE_HEADLINE = 'Você vai receber:'
+const RECEIVE_ITEMS = [
+  { name: 'Acesso', desc: 'Mais de 150 fornecedores no app, sempre atualizados. Tudo no seu celular.' },
+  { name: 'Catálogo', desc: 'As marcas que sua cliente já pede: Ruby Rose, Mari Maria, Bruna Tavares e mais. Tudo com preço de atacado.' },
+  { name: 'Garantia', desc: '15 dias pra testar. Não gostou? Devolvemos tudo, sem enrolação.' },
+]
 
 const BONUS_HEADLINE = 'E de bônus você ainda leva:'
 
 const BONUS_ITEMS = [
-  { name: 'Grupo VIP Exclusivo', desc: 'Fornecedores novos todo dia, com preço ainda menor. Você não fica dependendo só da lista — ela cresce com você.', priceStruck: 'R$ 127,00' },
-  { name: 'Calculadora de Vendas', desc: 'Você sabe quanto vai lucrar antes de comprar qualquer produto. Para de adivinhar e fecha a margem de verdade.', priceStruck: 'R$ 97,90' },
-  { name: 'Instagram 10K', desc: 'Atraia cliente sem gastar com anúncio. Cresce no orgânico, do jeito que sua bolsa permite.', priceStruck: 'R$ 29,90' },
-  { name: 'WhatsApp Lucrativo', desc: 'Modelo de catálogo que vende enquanto você dorme. Seu negócio não para quando você para.', priceStruck: 'R$ 59,90' },
+  { name: 'Grupo VIP Exclusivo', desc: 'Grupo fechado com fornecedor novo todo dia e preço melhor. Você nunca fica só na lista.', priceStruck: 'R$ 127' },
+  { name: 'Calculadora de Vendas', desc: 'Descubra sua margem e o preço certo na hora. Acabou o achismo na hora de vender.', priceStruck: 'R$ 97,90' },
+  { name: 'Instagram 10K', desc: 'Cresça no orgânico sem gastar com anúncio. No seu ritmo, no seu bolso.', priceStruck: 'R$ 29,90' },
+  { name: 'WhatsApp Lucrativo', desc: 'Catálogo que vende no automático. Seu negócio não para quando você para.', priceStruck: 'R$ 59,90' },
 ]
-
-const CHECKLIST = ['+150 fornecedores', 'Sem CNPJ', 'Marcas de blogueiras', 'Garantia 15 dias', '4 bônus']
 
 const CTA_TEXT = 'QUERO COMEÇAR AINDA HOJE'
 
@@ -38,74 +41,65 @@ export default function FinalCTA() {
 
       <div className="relative z-10 container-main">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-center font-display text-2xl sm:text-3xl lg:text-[1.75rem] font-extrabold text-white leading-tight mb-4">
+          <h2 className="text-center font-display text-2xl sm:text-3xl lg:text-[1.75rem] font-extrabold text-white leading-tight mb-8">
             {HEADLINE}
           </h2>
-          <p className="text-center text-[15px] sm:text-base text-white/80 max-w-md mx-auto mb-10">
-            {SUBHEADLINE}
-          </p>
 
-          <h3 className="text-center text-base font-heading font-semibold text-white/95 mb-4">
-            {BONUS_HEADLINE}
-          </h3>
-          <ul className="space-y-3 mb-8">
-            {BONUS_ITEMS.map((item, i) => (
-              <li
-                key={i}
-                className="flex flex-wrap items-start gap-3 p-4 rounded-xl bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm"
-              >
-                <span className="flex-shrink-0 bg-rose-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md">
-                  Bônus
-                </span>
-                <div className="flex-1 min-w-0">
-                  <span className="font-semibold text-[15px] text-white block">{item.name}</span>
-                  <span className="text-[13px] text-white/60 leading-snug">{item.desc}</span>
-                </div>
-                <span className="flex-shrink-0 text-right">
-                  <span className="line-through text-[13px] text-white/40">{item.priceStruck}</span>
-                  <span className="ml-2 text-[15px] font-bold text-green-400">R$ 0,00</span>
-                </span>
-              </li>
-            ))}
-          </ul>
+          {/* Card único: você vai receber, bônus, preço e CTA */}
+          <div className="rounded-2xl bg-white/[0.06] border border-white/[0.12] px-6 pt-6 pb-4 sm:px-8 sm:pt-8 sm:pb-5 text-center">
+            <h3 className="text-base font-heading font-semibold text-white mb-4">
+              {RECEIVE_HEADLINE}
+            </h3>
+            <ul className="space-y-3 mb-6 text-left">
+              {RECEIVE_ITEMS.map((item, i) => (
+                <li key={i} className="flex flex-wrap items-start gap-2 py-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="font-semibold text-[15px] sm:text-base text-[#E39A23]">{item.name}</span>
+                    <span className="text-[14px] sm:text-[15px] text-white/80 leading-snug"> — {item.desc}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
-          {/* Mini-checklist: uma linha, sutil */}
-          <div className="flex flex-wrap justify-center gap-x-3 gap-y-2 text-[13px] text-white/50 mb-8">
-            {CHECKLIST.map((item, i) => (
-              <span key={i} className="inline-flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-green-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                {item}
-              </span>
-            ))}
-          </div>
+            <div className="border-t border-white/10 pt-5 mb-5" aria-hidden />
+            <h3 className="text-base font-heading font-semibold text-white mb-4">
+              {BONUS_HEADLINE}
+            </h3>
+            <ul className="space-y-3 mb-6 text-left">
+              {BONUS_ITEMS.map((item, i) => (
+                <li key={i} className="flex flex-wrap items-center gap-3 py-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="font-semibold text-[15px] sm:text-base text-green-400">{item.name}</span>
+                    <span className="text-[14px] sm:text-[15px] text-white/80 leading-snug"> — {item.desc}</span>
+                  </div>
+                  <span className="flex-shrink-0 text-[15px] sm:text-base line-through text-white/50">
+                    {item.priceStruck}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
-          <div className="rounded-2xl bg-white/[0.05] border border-white/[0.1] p-8 sm:p-10 text-center mb-8">
-            <p className="text-sm text-white/50 uppercase tracking-wider">
+            <p className="text-sm sm:text-base text-white/50 uppercase tracking-wider">
               De <span className="line-through text-white/40">{PRICE_ANCHOR}</span> por apenas
             </p>
-            <p className="mt-2 font-display text-5xl sm:text-6xl font-black text-white tabular-nums tracking-tight">
+            <p className="mt-4 font-display text-5xl sm:text-6xl font-black text-white tabular-nums tracking-tight mb-6">
               {PRICE}
             </p>
-            <p className="mt-2 text-xs font-medium uppercase tracking-widest text-white/40">
-              Pagamento único — Acesso vitalício
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center gap-6">
             <a
               href={CHECKOUT_LINK}
-              className="w-full sm:max-w-md text-center inline-flex items-center justify-center py-4 px-8 rounded-xl font-heading font-extrabold text-base sm:text-lg uppercase text-white bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 shadow-lg shadow-green-600/25 hover:shadow-green-500/30 hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full text-center inline-flex items-center justify-center py-3.5 px-6 rounded-xl font-heading font-extrabold text-sm sm:text-base uppercase text-white bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 shadow-lg shadow-green-600/25 hover:scale-[1.02] active:scale-[0.98]"
             >
               {CTA_TEXT}
             </a>
-            <div className="flex items-center justify-center gap-5 flex-wrap">
-              <img src="/kiwify-logo.svg" alt="Kiwify" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
-              <img src="/visa.svg" alt="Visa" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
-              <img src="/mastercard.svg" alt="Mastercard" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
-              <img src="/pix.svg" alt="PIX" className="h-5 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+            <div className="flex items-center justify-center gap-4 flex-wrap mt-4">
+              <img src="/kiwify-logo.svg" alt="Kiwify" className="h-4 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+              <img src="/visa.svg" alt="Visa" className="h-4 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+              <img src="/mastercard.svg" alt="Mastercard" className="h-4 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
+              <img src="/pix.svg" alt="PIX" className="h-4 w-auto object-contain opacity-50 [filter:brightness(0)_invert(1)]" />
             </div>
+            <p className="mt-8 text-xs sm:text-sm font-medium uppercase tracking-widest text-white/40">
+              Pagamento único — Acesso vitalício
+            </p>
           </div>
         </div>
       </div>
