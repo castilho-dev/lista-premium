@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback, useId } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CTA_ANCHOR } from '../constants'
 
 const feedbacks = Array.from({ length: 8 }, (_, i) => ({
   src: `/feedback/feedback-${i + 1}.jpeg`,
@@ -64,14 +63,10 @@ const textTestimonials = [
   },
 ]
 
-const TESTIMONIAL_VIDEO_ID = '69a664ad39c8b3b8846e747b'
-const TESTIMONIAL_VIDEO_SCRIPT = `https://scripts.converteai.net/669adcdb-7c63-4fd9-8ad4-f5fa06e38092/players/${TESTIMONIAL_VIDEO_ID}/v4/player.js`
-
 export default function Testimonials() {
   const sectionRef = useScrollReveal<HTMLElement>()
   const trackRef = useRef<HTMLDivElement>(null)
   const textTrackRef = useRef<HTMLDivElement>(null)
-  const videoContainerRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
   const [currentText, setCurrentText] = useState(0)
   const [twoCards, setTwoCards] = useState(false) // 2 cards no md+, 1 no mobile
@@ -116,31 +111,6 @@ export default function Testimonials() {
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
   }, [startAutoplay])
-
-  useEffect(() => {
-    const container = videoContainerRef.current
-    if (!container) return
-
-    const smartPlayer = document.createElement('vturb-smartplayer')
-    smartPlayer.id = `vid-${TESTIMONIAL_VIDEO_ID}`
-    smartPlayer.style.display = 'block'
-    smartPlayer.style.margin = '0 auto'
-    smartPlayer.style.width = '100%'
-    smartPlayer.style.maxWidth = '400px'
-    container.appendChild(smartPlayer)
-
-    const script = document.createElement('script')
-    script.src = TESTIMONIAL_VIDEO_SCRIPT
-    script.async = true
-    document.head.appendChild(script)
-
-    return () => {
-      script.remove()
-      if (container.contains(smartPlayer)) {
-        container.removeChild(smartPlayer)
-      }
-    }
-  }, [])
 
   const goTo = useCallback((index: number) => {
     setCurrent(index)
@@ -333,10 +303,7 @@ export default function Testimonials() {
           </div>
         </div>
 
-        <div className="fade-in-section mt-14 max-w-[400px] mx-auto">
-          <div ref={videoContainerRef} />
-        </div>
-
+        {/* Junte-se a +937 mulheres + botão comentados
         <div className="fade-in-section mt-14 text-center">
           <div className="inline-flex items-center gap-3 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100">
             <div className="flex -space-x-2">
@@ -361,6 +328,7 @@ export default function Testimonials() {
             </a>
           </div>
         </div>
+        */}
       </div>
     </section>
   )

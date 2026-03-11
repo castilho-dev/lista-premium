@@ -255,9 +255,9 @@ export default function ProductGrid() {
           <p className="text-gray-600 mb-6 text-lg max-w-2xl mx-auto">
             Compra a R$ 3,79. Vende a R$ 18,90. Mais de 400% de margem. A diferença entre quem lucra e quem empata? Saber onde comprar.
           </p>
-          <a href={CTA_ANCHOR} className="btn-primary">
+          {/* <a href={CTA_ANCHOR} className="btn-primary">
             QUERO ACESSO AOS FORNECEDORES
-          </a>
+          </a> */}
         </div>
       </div>
     </section>
