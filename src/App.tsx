@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
+import VSL from './pages/VSL'
 import TermosDeUso from './pages/TermosDeUso'
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade'
 import Fornecedores from './pages/Fornecedores'
@@ -53,13 +54,14 @@ export default function App() {
 function AppContent() {
   const location = useLocation()
   const isAppRoute = location.pathname.startsWith('/app')
-  const isSalesPage = location.pathname === '/'
+  const isSalesPage = location.pathname === '/' || location.pathname === '/vsl'
   const showHeader = !isAppRoute && !isSalesPage
   return (
     <>
       {showHeader && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/vsl" element={<VSL />} />
         <Route path="/app" element={<Login />} />
         <Route path="/termos" element={<ProtectedMemberRoute><TermosDeUso /></ProtectedMemberRoute>} />
         <Route path="/privacidade" element={<ProtectedMemberRoute><PoliticaPrivacidade /></ProtectedMemberRoute>} />
@@ -71,7 +73,7 @@ function AppContent() {
         <Route path="/app/area" element={<Navigate to="/fornecedores" replace />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
-      {!isAppRoute && location.pathname !== '/' && <WhatsAppButton />}
+      {!isAppRoute && location.pathname !== '/' && location.pathname !== '/vsl' && <WhatsAppButton />}
     </>
   )
 }
