@@ -1,5 +1,68 @@
-<!-- Cole isso no VTURB: botão com estilos base inline + hover/active no <style> -->
+<!--
+  ============================================================
+  CÓDIGO PARA COLAR NA VTURB — BOTÃO QUE REVELA O CONTEÚDO DA /vsl
+  ============================================================
+  Use o "Botão 1" (recomendado: não recarrega a página).
+  Se a VTURB não aceitar onclick, use o "Botão 2" (pode recarregar).
+-->
 
+
+<!-- ========== BOTÃO 1: RECOMENDADO — NÃO RECARREGA A PÁGINA ========== -->
+<!-- Cole o <style> e o <a> abaixo no HTML do botão da VTURB. -->
+<!-- No clique, envia postMessage para a página /vsl revelar o conteúdo e faz scroll suave. -->
+
+<style>
+  @keyframes cta-vsl-pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.25), 0 4px 6px -4px rgba(22, 163, 74, 0.25);
+    }
+    50% {
+      transform: scale(1.03);
+      box-shadow: 0 20px 25px -5px rgba(22, 163, 74, 0.3), 0 8px 10px -6px rgba(22, 163, 74, 0.3);
+    }
+  }
+  .cta-vsl {
+    animation: cta-vsl-pulse 2s ease-in-out infinite;
+  }
+  .cta-vsl:hover {
+    box-shadow: 0 20px 25px -5px rgba(22, 163, 74, 0.3), 0 8px 10px -6px rgba(22, 163, 74, 0.3);
+    transform: scale(1.03);
+    animation: none;
+  }
+  .cta-vsl:active {
+    transform: scale(0.98);
+  }
+</style>
+
+<br>
+<a href="javascript:void(0)"
+   class="cta-vsl"
+   onclick="try { window.parent.postMessage('vsl-reveal', '*'); } catch (e) { window.top.postMessage('vsl-reveal', '*'); }"
+   style="
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     background: linear-gradient(to right, #16a34a, #22c55e);
+     color: #ffffff;
+     font-family: 'Poppins', system-ui, sans-serif;
+     font-weight: 700;
+     font-size: 18px;
+     padding: 16px 32px;
+     border-radius: 8px;
+     box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.25), 0 4px 6px -4px rgba(22, 163, 74, 0.25);
+     text-decoration: none;
+     transition: all 0.3s ease-out;
+     cursor: pointer;
+   ">
+  QUERO CONHECER A LISTA AGORA
+</a>
+
+
+<!-- ========== BOTÃO 2: ALTERNATIVA — SE A VTURB NÃO ACEITAR onclick ========== -->
+<!-- Use este se o Botão 1 não funcionar. Ao clicar a página pode recarregar. -->
+
+<!--
 <style>
   .cta-vsl:hover {
     box-shadow: 0 20px 25px -5px rgba(22, 163, 74, 0.3), 0 8px 10px -6px rgba(22, 163, 74, 0.3);
@@ -10,7 +73,7 @@
   }
 </style>
 
-<a href="#comprar"
+<a href="#mostrar"
    class="cta-vsl"
    style="
      display: inline-flex;
@@ -30,3 +93,4 @@
    ">
   QUERO CONHECER A LISTA AGORA
 </a>
+-->

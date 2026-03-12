@@ -21,7 +21,9 @@ function formatBRL(v: number) {
   return `R$ ${v.toFixed(2).replace('.', ',')}`
 }
 
-export default function ProductGrid() {
+type ProductGridProps = { showLogo?: boolean }
+
+export default function ProductGrid({ showLogo = true }: ProductGridProps) {
   const ref = useScrollReveal<HTMLElement>()
   const trackRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
@@ -124,11 +126,13 @@ export default function ProductGrid() {
     <section ref={ref} className="py-14 lg:py-20 bg-white section-padding">
       <div className="container-main">
         <div className="text-center mb-10 fade-in-section">
-          <img
-            src="/logo-1.png"
-            alt="Lista Premium"
-            className="h-24 sm:h-28 lg:h-32 w-auto object-contain mx-auto mb-6"
-          />
+          {showLogo && (
+            <img
+              src="/logo-1.png"
+              alt="Lista Premium"
+              className="h-24 sm:h-28 lg:h-32 w-auto object-contain mx-auto mb-6"
+            />
+          )}
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
             Exemplos de Produtos Que Você{' '}
             <span className="text-rose-500">Encontrará na Lista</span>

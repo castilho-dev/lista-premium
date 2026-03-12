@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import VSL from './pages/VSL'
@@ -17,6 +17,34 @@ import { isMemberLoggedIn } from './auth'
 function ProtectedMemberRoute({ children }: { children: React.ReactNode }) {
   if (!isMemberLoggedIn()) return <Navigate to="/app" replace />
   return <>{children}</>
+}
+
+/** IDs do Microsoft Clarity por rota */
+const CLARITY_IDS = {
+  /** Landing principal (/) e demais páginas */
+  main: 'vun7nydhxj',
+  /** Página /vsl (teste A/B) */
+  vsl: 'vun7x69vpo',
+} as const
+
+function ClarityScript() {
+  const location = useLocation()
+  const injected = useRef(false)
+  useEffect(() => {
+    if (injected.current) return
+    injected.current = true
+    const id = location.pathname === '/vsl' ? CLARITY_IDS.vsl : CLARITY_IDS.main
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.async = true
+    script.textContent = `(function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "${id}");`
+    document.head.appendChild(script)
+  }, [location.pathname])
+  return null
 }
 
 function ScrollToTop() {
@@ -47,6 +75,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <AppContent />
+      <ClarityScript />
     </BrowserRouter>
   )
 }
