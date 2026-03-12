@@ -6,7 +6,8 @@ import { CHECKOUT_LINK, PRICE, PRICE_ANCHOR } from '../constants'
  * Conecta a visão da seção 4 com o preço. Garantia em destaque. Bônus, checklist, CTA.
  */
 
-const HEADLINE = 'A distância entre a vida que você tem e a que você acabou de imaginar é menor do que você pensa.'
+const HEADLINE_MAIN = 'O que separa você de lucrar com maquiagem é o acesso aos fornecedores certos.'
+const HEADLINE_VSL = 'A distância entre a vida que você tem e a que você acabou de imaginar é menor do que você pensa.'
 const RECEIVE_HEADLINE = 'Você vai receber:'
 const RECEIVE_ITEMS = [
   { name: 'Acesso', desc: 'Mais de 150 fornecedores no app, sempre atualizados. Tudo no seu celular.' },
@@ -25,8 +26,15 @@ const BONUS_ITEMS = [
 
 const CTA_TEXT = 'QUERO COMEÇAR AINDA HOJE'
 
-export default function FinalCTA() {
+type FinalCTAProps = { variant?: 'main' | 'vsl' }
+
+export default function FinalCTA({ variant = 'vsl' }: FinalCTAProps) {
   const ref = useScrollReveal<HTMLElement>()
+  const isMain = variant === 'main'
+  const headline = isMain ? HEADLINE_MAIN : HEADLINE_VSL
+  const headlineClass = isMain
+    ? 'text-center font-display text-3xl sm:text-4xl lg:text-4xl font-extrabold text-white leading-tight mb-8'
+    : 'text-center font-display text-2xl sm:text-3xl lg:text-[1.75rem] font-extrabold text-white leading-tight mb-8'
 
   return (
     <section
@@ -41,8 +49,8 @@ export default function FinalCTA() {
 
       <div className="relative z-10 container-main">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-center font-display text-2xl sm:text-3xl lg:text-[1.75rem] font-extrabold text-white leading-tight mb-8">
-            {HEADLINE}
+          <h2 className={headlineClass}>
+            {headline}
           </h2>
 
           {/* Card único: você vai receber, bônus, preço e CTA */}

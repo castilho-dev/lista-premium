@@ -63,8 +63,11 @@ const textTestimonials = [
   },
 ]
 
-export default function Testimonials() {
+type TestimonialsProps = { variant?: 'main' | 'vsl' }
+
+export default function Testimonials({ variant = 'vsl' }: TestimonialsProps) {
   const sectionRef = useScrollReveal<HTMLElement>()
+  const isMain = variant === 'main'
   const trackRef = useRef<HTMLDivElement>(null)
   const textTrackRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
@@ -184,11 +187,17 @@ export default function Testimonials() {
       <div className="container-main">
         <div className="text-center mb-10 fade-in-section">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 text-balance">
-            Elas Estavam <span className="text-rose-500">No Mesmo Lugar Que Você</span>
+            {isMain ? (
+              <>Direto de quem já tem acesso à <span className="text-rose-500">Lista Premium</span>:</>
+            ) : (
+              <>Elas Estavam <span className="text-rose-500">No Mesmo Lugar Que Você</span></>
+            )}
           </h2>
-          <p className="mt-4 text-gray-600 text-lg max-w-xl mx-auto">
-            A diferença? Elas deram o primeiro passo.
-          </p>
+          {!isMain && (
+            <p className="mt-4 text-gray-600 text-lg max-w-xl mx-auto">
+              A diferença? Elas deram o primeiro passo.
+            </p>
+          )}
         </div>
 
         <div className="fade-in-section stagger-2 relative">
@@ -252,6 +261,7 @@ export default function Testimonials() {
           ))}
         </div>
 
+        {!isMain && (
         <div className="fade-in-section mt-14 relative max-w-5xl mx-auto">
           <div
             ref={textTrackRef}
@@ -330,6 +340,7 @@ export default function Testimonials() {
             ))}
           </div>
         </div>
+        )}
 
         {/* Junte-se a +937 mulheres + botão comentados
         <div className="fade-in-section mt-14 text-center">
