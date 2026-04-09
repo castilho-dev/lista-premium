@@ -83,8 +83,9 @@ export default function App() {
 function AppContent() {
   const location = useLocation()
   const isAppRoute = location.pathname.startsWith('/app')
-  const isSalesPage = location.pathname === '/' || location.pathname === '/vsl'
-  const showHeader = !isAppRoute && !isSalesPage
+  /** Landing / e /vsl: sem header (logo, Quero Acesso, menu) para focar na conversão */
+  const hideSiteChrome = location.pathname === '/' || location.pathname === '/vsl'
+  const showHeader = !isAppRoute && !hideSiteChrome
   return (
     <>
       {showHeader && <Header />}
@@ -102,7 +103,7 @@ function AppContent() {
         <Route path="/app/area" element={<Navigate to="/fornecedores" replace />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
-      {!isAppRoute && location.pathname !== '/' && location.pathname !== '/vsl' && <WhatsAppButton />}
+      {!isAppRoute && location.pathname !== '/' && <WhatsAppButton />}
     </>
   )
 }
