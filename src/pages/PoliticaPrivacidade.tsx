@@ -2,16 +2,16 @@ import { Link } from 'react-router-dom'
 
 export default function PoliticaPrivacidade() {
   return (
-    <div className="min-h-screen bg-cream-100 font-sans pt-24">
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 py-12 sm:py-20">
+    <div className="min-h-screen bg-cream-200 pb-24 font-sans md:pb-12">
+      <div className="mx-auto max-w-3xl px-6 py-12 sm:px-8 sm:py-16">
         <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-rose-600 text-sm font-heading font-medium mb-12 transition-colors"
+          to="/inicio"
+          className="mb-10 inline-flex items-center gap-2 font-heading text-sm font-medium text-gray-600 transition-colors hover:text-[#D5004D]"
         >
-          ← Voltar
+          ← Voltar ao início
         </Link>
 
-        <div className="border-l-4 border-rose-500/60 pl-6 mb-10">
+        <div className="mb-10 border-l-4 border-[#D4AF37] pl-6">
           <h1 className="font-display text-gray-900 font-bold text-2xl sm:text-3xl tracking-tight">
             Política de Privacidade
           </h1>

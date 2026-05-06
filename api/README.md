@@ -41,21 +41,6 @@ Se `tokenOk` for false, revise Client ID / Client Secret. Se `salesCount` for 0 
 
 ---
 
-## suporte – formulário de contato
-
-Envia o formulário da página **Suporte** para o e-mail **fornecedoresmake.list@gmail.com**.
-
-- **POST** `/api/suporte` com body JSON: `{ "title": "Título", "message": "Mensagem" }`.
-
-| Variável | Obrigatória | Descrição |
-|----------|-------------|-----------|
-| `RESEND_API_KEY` | Sim | API Key do [Resend](https://resend.com) (API Keys no painel). |
-| `SUPPORT_FROM_EMAIL` | Sim para Gmail/externos | E-mail de envio com **domínio verificado** no Resend. Ex.: `Suporte Lista Premium <suporte@seudominio.com>`. Sem isso, o Resend só permite enviar para o e-mail da sua conta; ao enviar para Gmail aparece erro 403. |
-
-**Por que “Falha ao enviar e-mail”?** O Resend, com `onboarding@resend.dev`, só envia para o e-mail cadastrado na conta. Para enviar para **fornecedoresmake.list@gmail.com** (ou qualquer outro): (1) em [resend.com/domains](https://resend.com/domains) adicione e verifique seu domínio (registro DNS); (2) defina `SUPPORT_FROM_EMAIL` na Vercel com um e-mail desse domínio (ex.: `suporte@seudominio.com`).
-
----
-
 ## instagram-avatar – proxy da foto de perfil do Instagram (opcional)
 
 A **lista de fornecedores** não usa mais fotos de perfil nem posts; exibe apenas nome, @ do Instagram (com link) e botões para WhatsApp, endereço e site. Este endpoint permanece disponível caso queira usá-lo em outra parte do app.

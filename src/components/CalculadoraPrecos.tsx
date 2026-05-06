@@ -18,6 +18,9 @@ interface LastComputation {
   totalProfitQty: number
 }
 
+const inputClass =
+  'w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3 outline-none transition-all focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]'
+
 function InputGroup({
   id,
   label,
@@ -44,14 +47,11 @@ function InputGroup({
   options?: { value: string; label: string }[]
 }) {
   const input = options ? (
-    <select
-      id={id}
-      value={String(value)}
-      onChange={(e) => onChange(e.target.value)}
-      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:border-rose-400 focus:ring-2 focus:ring-rose-400/20 outline-none transition-all"
-    >
+    <select id={id} value={String(value)} onChange={(e) => onChange(e.target.value)} className={inputClass}>
       {options.map((o) => (
-        <option key={o.value} value={o.value}>{o.label}</option>
+        <option key={o.value} value={o.value}>
+          {o.label}
+        </option>
       ))}
     </select>
   ) : (
@@ -62,19 +62,21 @@ function InputGroup({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:border-rose-400 focus:ring-2 focus:ring-rose-400/20 outline-none transition-all"
+      className={inputClass}
     />
   )
   return (
     <div className={full ? 'sm:col-span-2' : ''}>
-      <label htmlFor={id} className="block font-heading font-medium text-gray-700 text-sm mb-1.5" title={tooltip}>
+      <label htmlFor={id} className="mb-1.5 block font-heading text-sm font-medium text-gray-700" title={tooltip}>
         {label}
       </label>
       {input}
-      {help && <div className="text-xs text-gray-500 mt-1">{help}</div>}
+      {help && <div className="mt-1 text-xs text-gray-500">{help}</div>}
     </div>
   )
 }
+
+const stepCard = 'rounded-2xl border border-gray-100 bg-white p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'
 
 export default function CalculadoraPrecos() {
   const [cost, setCost] = useState('20')
@@ -168,12 +170,18 @@ export default function CalculadoraPrecos() {
   }, [marginRealPct])
 
   const marginColorClass =
-    marginRealPct >= 30 ? 'text-green-600' : marginRealPct >= 15 ? 'text-amber-600' : 'text-rose-600'
+    marginRealPct >= 30 ? 'text-emerald-600' : marginRealPct >= 15 ? 'text-amber-600' : 'text-[#D5004D]'
 
-  const copyPrice = () => {
+  const copyValues = () => {
     if (!lastComputation) return
-    const text = `${toCurrency(lastComputation.suggestedPrice)} — margem estimada ${lastComputation.marginRealPct.toFixed(2)}%`
-    navigator.clipboard.writeText(text).then(() => setAlert({ message: 'Preço copiado para área de transferência!', type: 'success' }))
+    const text = [
+      `Preço sugerido: ${toCurrency(lastComputation.suggestedPrice)}`,
+      `Lucro por unidade: ${toCurrency(lastComputation.profitBRL)}`,
+      `Margem real: ${lastComputation.marginRealPct.toFixed(2)}%`,
+      `Custo por unidade: ${toCurrency(lastComputation.custoDireto)}`,
+      `Taxa (${feePctNum}%): ${toCurrency(lastComputation.feeAmount)}`,
+    ].join('\n')
+    navigator.clipboard.writeText(text).then(() => setAlert({ message: 'Valores copiados para a área de transferência!', type: 'success' }))
   }
 
   const downloadCsv = () => {
@@ -203,148 +211,197 @@ export default function CalculadoraPrecos() {
     setAlert({ message: 'Arquivo CSV baixado com sucesso!', type: 'success' })
   }
 
-  return (
-    <div className="space-y-6 text-left">
-      <p className="text-gray-600 text-sm leading-relaxed">
-        Ferramenta inteligente para calcular preços de venda com base nos seus custos reais. Receba sugestões de preços, margem real e explicações detalhadas.
-      </p>
+  const alertBlock =
+    alert && (
+      <div
+        className={`rounded-xl px-4 py-3 text-sm ${
+          alert.type === 'success'
+            ? 'border border-emerald-200 bg-emerald-50 text-emerald-800'
+            : alert.type === 'warning'
+              ? 'border border-amber-200 bg-amber-50 text-amber-800'
+              : 'border border-rose-200 bg-rose-50 text-rose-800'
+        }`}
+      >
+        {alert.message}
+      </div>
+    )
 
-      <div className="rounded-xl bg-rose-50 border border-rose-100 px-4 py-3 text-sm text-gray-700">
-        <strong>Dica:</strong> Preencha todos os campos com valores reais do seu negócio. Quanto mais preciso, melhor será o cálculo do preço de venda.
+  return (
+    <div className="lg:grid lg:grid-cols-3 lg:items-start lg:gap-10">
+      <div className="min-w-0 space-y-6 text-left lg:col-span-2">
+        <p className="font-heading text-sm leading-relaxed text-gray-600">
+          Ferramenta inteligente para calcular preços de venda com base nos seus custos reais. Receba sugestões de preços, margem real e explicações detalhadas.
+        </p>
+
+        <div className="rounded-2xl border border-[#D5004D]/15 bg-white px-4 py-3 font-heading text-sm text-gray-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <strong className="text-gray-900">Dica:</strong> Preencha todos os campos com valores reais do seu negócio. Quanto mais preciso, melhor será o cálculo do preço de venda.
+        </div>
+
+        <section className={`space-y-4 ${stepCard}`}>
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D5004D] font-display text-sm font-bold text-white">1</div>
+            <h3 className="font-heading font-bold text-gray-900">Custos diretos do produto</h3>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <InputGroup id="cost" label="Custo do produto (preço que você pagou)" tooltip="Valor que você pagou para comprar o produto do fornecedor, sem frete ou taxas." value={cost} onChange={setCost} placeholder="Ex: 15.50" help="Exemplo: R$ 15,50 para um batom" />
+            <InputGroup id="shipping" label="Frete por unidade" tooltip="Custo do frete dividido pela quantidade de produtos comprados." value={shipping} onChange={setShipping} placeholder="Ex: 3.00" help="Se comprou 10 produtos e pagou R$ 30 de frete, coloque R$ 3,00" />
+            <InputGroup id="taxes" label="Impostos/Taxas por unidade" tooltip="ICMS, IPI, PIS, COFINS e outras taxas divididas por unidade." value={taxes} onChange={setTaxes} placeholder="Ex: 1.80" help="Geralmente 8-12% do valor do produto" />
+            <InputGroup id="pack" label="Embalagem / Insumos por unidade" tooltip="Custo de caixas, etiquetas, fitas, papel de presente, etc. por produto." value={pack} onChange={setPack} placeholder="Ex: 0.80" help="Caixas, etiquetas, papel de presente" />
+          </div>
+        </section>
+
+        <section className={`space-y-4 ${stepCard}`}>
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D5004D] font-display text-sm font-bold text-white">2</div>
+            <h3 className="font-heading font-bold text-gray-900">Taxas e comissões</h3>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <InputGroup id="feePct" label="Taxa de marketplace / cartão (% sobre o preço de venda)" tooltip="Porcentagem que a plataforma ou operadora de cartão cobra sobre cada venda." value={feePct} onChange={setFeePct} placeholder="Ex: 12" help="Mercado Livre: 12-15% | Shopee: 8-12% | Cartão: 3-5%" />
+            <InputGroup id="fixed" label="Custos fixos por unidade" tooltip="Marketing, armazenamento, devolução, tempo de trabalho dividido pela quantidade vendida." value={fixed} onChange={setFixed} placeholder="Ex: 2.50" help="Marketing, estoque, devoluções, seu tempo" />
+          </div>
+        </section>
+
+        <section className={`space-y-4 ${stepCard}`}>
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D5004D] font-display text-sm font-bold text-white">3</div>
+            <h3 className="font-heading font-bold text-gray-900">Estratégia de precificação</h3>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <InputGroup
+              id="mode"
+              label="Modo de precificação"
+              tooltip="Escolha como você quer calcular o preço: por margem desejada, markup sobre custo, ou baseado no concorrente."
+              value={mode}
+              onChange={(v) => setMode(v as Mode)}
+              full
+              options={[
+                { value: 'margin', label: 'Baseado em Margem Desejada (recomendado)' },
+                { value: 'markup', label: 'Baseado em Markup (multiplicador)' },
+                { value: 'competitor', label: 'Preço com ajuste ao concorrente' },
+              ]}
+              help="Margem = % de lucro sobre o preço final | Markup = % sobre o custo total"
+            />
+            <InputGroup id="marginPct" label="Margem desejada (%)" tooltip="Porcentagem de lucro que você quer ter sobre o preço de venda final." value={marginPct} onChange={setMarginPct} placeholder="Ex: 40" help="30-50% é uma margem saudável para maquiagem" />
+            <InputGroup id="markupPct" label="Markup (% sobre custo total)" tooltip="Porcentagem que você quer adicionar sobre o custo total para chegar no preço de venda." value={markupPct} onChange={setMarkupPct} placeholder="Ex: 80" help="Se custo é R$ 20 e markup 80%, preço será R$ 36" />
+            <InputGroup id="compPrice" label="Preço do concorrente" tooltip="Preço que seus concorrentes vendem o mesmo produto (opcional)." value={compPrice} onChange={setCompPrice} placeholder="Ex: 45.90" help="Pesquise em marketplaces e redes sociais" />
+            <InputGroup id="qty" label="Quantidade para simular" value={qty} onChange={setQty} type="number" step="1" placeholder="Ex: 10" help="Para calcular totais de uma compra maior" />
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <span className="font-heading text-sm text-gray-500">Cálculo em tempo real</span>
+            <button type="button" onClick={downloadCsv} className="rounded-xl border border-gray-200 px-4 py-2 font-heading text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
+              Baixar CSV
+            </button>
+          </div>
+        </section>
+
+        <section className={`space-y-4 ${stepCard}`}>
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D5004D] font-display text-sm font-bold text-white">4</div>
+            <h3 className="font-heading font-bold text-gray-900">Análise detalhada</h3>
+          </div>
+          {alertBlock}
+          <div className="space-y-4 rounded-xl border border-gray-100 bg-gray-50/80 p-4 text-sm text-gray-700 sm:p-5">
+            <strong className="text-gray-900">Resumo financeiro</strong>
+            <ul className="mt-2 space-y-1">
+              <li>
+                Custo total por unidade: <strong>{toCurrency(custoDireto)}</strong>
+              </li>
+              <li>
+                Preço sugerido: <strong>{toCurrency(suggestedPrice)}</strong>
+              </li>
+              <li>
+                Taxa de marketplace: <strong>{toCurrency(feeAmount)}</strong> ({feePctNum}%)
+              </li>
+              <li>
+                Lucro por unidade: <strong className="text-[#D4AF37]">{toCurrency(profitBRL)}</strong>
+              </li>
+              <li>
+                Margem real: <strong className={marginColorClass}>{marginRealPct.toFixed(2)}%</strong>
+              </li>
+            </ul>
+            <div className="border-t border-gray-200 pt-4">
+              <strong className="text-gray-900">Passo a passo</strong>
+              <ol className="mt-2 list-inside list-decimal space-y-1">
+                <li>
+                  <strong>Custos diretos:</strong> {toCurrency(costNum)} (produto) + {toCurrency(shippingNum)} (frete) + {toCurrency(taxesNum)} (impostos) + {toCurrency(packNum)} (embalagem) + {toCurrency(fixedNum)} (custos fixos) = <strong>{toCurrency(custoDireto)}</strong>
+                </li>
+                <li>
+                  <strong>Estratégia aplicada:</strong> {modeUsed}
+                </li>
+                <li>
+                  <strong>Taxas sobre venda:</strong> {feePctNum}% de {toCurrency(suggestedPrice)} = <strong>{toCurrency(feeAmount)}</strong>
+                </li>
+                <li>
+                  <strong>Lucro líquido:</strong> {toCurrency(suggestedPrice)} − {toCurrency(feeAmount)} − {toCurrency(custoDireto)} = <strong>{toCurrency(profitBRL)}</strong>
+                </li>
+              </ol>
+            </div>
+            {qtyNum > 1 && (
+              <div className="rounded-lg border border-[#D4AF37]/25 bg-white p-4">
+                <strong className="text-gray-900">Projeção para {qtyNum} unidades</strong>
+                <ul className="mt-2 space-y-1">
+                  <li>
+                    Custo total: <strong>{toCurrency(totalCostQty)}</strong>
+                  </li>
+                  <li>
+                    Receita total: <strong>{toCurrency(totalRevenueQty)}</strong>
+                  </li>
+                  <li>
+                    Lucro total: <strong>{toCurrency(totalProfitQty)}</strong>
+                  </li>
+                </ul>
+              </div>
+            )}
+            <div className="rounded-lg border border-amber-100 bg-amber-50/80 p-3 text-xs text-amber-900">
+              <strong>Dica:</strong> Margens entre 30-50% são ideais para produtos de maquiagem. Ajuste os valores conforme sua estratégia de negócio.
+            </div>
+          </div>
+        </section>
+
+        <p className="text-center font-heading text-xs text-gray-400">Lista Premium · Calculadora — personalize conforme sua política comercial.</p>
       </div>
 
-      {/* 1. Custos Diretos */}
-      <section className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold text-sm">1</div>
-          <h3 className="font-heading font-bold text-gray-800">Custos Diretos do Produto</h3>
-        </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <InputGroup id="cost" label="Custo do produto (preço que você pagou)" tooltip="Valor que você pagou para comprar o produto do fornecedor, sem frete ou taxas." value={cost} onChange={setCost} placeholder="Ex: 15.50" help="Exemplo: R$ 15,50 para um batom" />
-          <InputGroup id="shipping" label="Frete por unidade" tooltip="Custo do frete dividido pela quantidade de produtos comprados." value={shipping} onChange={setShipping} placeholder="Ex: 3.00" help="Se comprou 10 produtos e pagou R$ 30 de frete, coloque R$ 3,00" />
-          <InputGroup id="taxes" label="Impostos/Taxas por unidade" tooltip="ICMS, IPI, PIS, COFINS e outras taxas divididas por unidade." value={taxes} onChange={setTaxes} placeholder="Ex: 1.80" help="Geralmente 8-12% do valor do produto" />
-          <InputGroup id="pack" label="Embalagem / Insumos por unidade" tooltip="Custo de caixas, etiquetas, fitas, papel de presente, etc. por produto." value={pack} onChange={setPack} placeholder="Ex: 0.80" help="Caixas, etiquetas, papel de presente" />
-        </div>
-      </section>
+      <aside className="mt-10 lg:sticky lg:top-[calc(4.5rem+1rem)] lg:col-span-1 lg:mt-0">
+        <div className="rounded-2xl border-2 border-[#D4AF37] bg-gray-900 p-6 text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] sm:p-8">
+          <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">Painel de resultado</p>
+          <p className="mt-2 font-heading text-sm text-white/70">Preço sugerido</p>
+          <p className="mt-1 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">{toCurrency(suggestedPrice)}</p>
 
-      {/* 2. Taxas e Comissões */}
-      <section className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold text-sm">2</div>
-          <h3 className="font-heading font-bold text-gray-800">Taxas e Comissões</h3>
-        </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <InputGroup id="feePct" label="Taxa de marketplace / cartão (% sobre o preço de venda)" tooltip="Porcentagem que a plataforma (Mercado Livre, Shopee, etc.) ou operadora de cartão cobra sobre cada venda." value={feePct} onChange={setFeePct} placeholder="Ex: 12" help="Mercado Livre: 12-15% | Shopee: 8-12% | Cartão: 3-5%" />
-          <InputGroup id="fixed" label="Custos fixos por unidade" tooltip="Marketing, armazenamento, devolução, tempo de trabalho dividido pela quantidade vendida." value={fixed} onChange={setFixed} placeholder="Ex: 2.50" help="Marketing, estoque, devoluções, seu tempo" />
-        </div>
-      </section>
+          <div className="mt-8 border-t border-white/10 pt-6">
+            <p className="font-heading text-xs uppercase tracking-wide text-white/60">Lucro por unidade</p>
+            <p className="mt-1 font-display text-2xl font-bold text-[#D4AF37]">{toCurrency(profitBRL)}</p>
+          </div>
 
-      {/* 3. Estratégia */}
-      <section className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold text-sm">3</div>
-          <h3 className="font-heading font-bold text-gray-800">Estratégia de Precificação</h3>
-        </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <InputGroup
-            id="mode"
-            label="Modo de precificação"
-            tooltip="Escolha como você quer calcular o preço: por margem desejada, markup sobre custo, ou baseado no concorrente."
-            value={mode}
-            onChange={(v) => setMode(v as Mode)}
-            full
-            options={[
-              { value: 'margin', label: 'Baseado em Margem Desejada (recomendado)' },
-              { value: 'markup', label: 'Baseado em Markup (multiplicador)' },
-              { value: 'competitor', label: 'Preço com ajuste ao concorrente' },
-            ]}
-            help="Margem = % de lucro sobre o preço final | Markup = % sobre o custo total"
-          />
-          <InputGroup id="marginPct" label="Margem desejada (%)" tooltip="Porcentagem de lucro que você quer ter sobre o preço de venda final." value={marginPct} onChange={setMarginPct} placeholder="Ex: 40" help="30-50% é uma margem saudável para maquiagem" />
-          <InputGroup id="markupPct" label="Markup (% sobre custo total)" tooltip="Porcentagem que você quer adicionar sobre o custo total para chegar no preço de venda." value={markupPct} onChange={setMarkupPct} placeholder="Ex: 80" help="Se custo é R$ 20 e markup 80%, preço será R$ 36" />
-          <InputGroup id="compPrice" label="Preço do concorrente" tooltip="Preço que seus concorrentes vendem o mesmo produto (opcional)." value={compPrice} onChange={setCompPrice} placeholder="Ex: 45.90" help="Pesquise em marketplaces e redes sociais" />
-          <InputGroup id="qty" label="Quantidade para simular" value={qty} onChange={setQty} type="number" step="1" placeholder="Ex: 10" help="Para calcular totais de uma compra maior" />
-        </div>
-        <div className="flex flex-wrap gap-3 items-center mt-4">
-          <span className="text-sm text-gray-500">Cálculo em tempo real</span>
-          <button type="button" onClick={downloadCsv} className="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 font-heading text-sm font-medium hover:bg-gray-50 transition-colors">
-            Baixar CSV
-          </button>
-          <button type="button" onClick={copyPrice} className="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 font-heading text-sm font-medium hover:bg-gray-50 transition-colors">
-            Copiar Preço
-          </button>
-        </div>
-      </section>
-
-      {/* 4. Resultados */}
-      <section className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-display font-bold text-sm">4</div>
-          <h3 className="font-heading font-bold text-gray-800">Resultados da Precificação</h3>
-        </div>
-        <div className="grid sm:grid-cols-3 gap-4">
-          <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wide">Custo total por unidade</div>
-            <div className="text-lg font-bold text-gray-800 mt-1">{toCurrency(custoDireto)}</div>
-          </div>
-          <div className="rounded-xl bg-rose-50 border border-rose-100 p-4">
-            <div className="text-xs text-rose-600 font-medium uppercase tracking-wide">Preço sugerido</div>
-            <div className="text-lg font-bold text-rose-700 mt-1">{toCurrency(suggestedPrice)}</div>
-          </div>
-          <div className={`rounded-xl border p-4 ${marginRealPct >= 30 ? 'bg-green-50 border-green-100' : marginRealPct >= 15 ? 'bg-amber-50 border-amber-100' : 'bg-rose-50 border-rose-100'}`}>
-            <div className="text-xs font-medium uppercase tracking-wide text-gray-500">Margem real esperada</div>
-            <div className={`text-lg font-bold mt-1 ${marginColorClass}`}>{marginRealPct.toFixed(2)} %</div>
-          </div>
-        </div>
-
-        {alert && (
-          <div
-            className={`rounded-xl px-4 py-3 text-sm ${
-              alert.type === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : alert.type === 'warning' ? 'bg-amber-50 border border-amber-200 text-amber-800' : 'bg-rose-50 border border-rose-200 text-rose-800'
-            }`}
-          >
-            {alert.message}
-          </div>
-        )}
-
-        <div className="rounded-xl bg-gray-50 border border-gray-100 p-4 sm:p-5 text-sm text-gray-700 space-y-4">
-          <strong className="text-gray-800">Análise detalhada do cálculo</strong>
-          <div className="rounded-lg bg-white border border-gray-100 p-4 border-l-4 border-l-rose-400">
-            <strong className="text-gray-800">Resumo financeiro</strong>
-            <ul className="mt-2 space-y-1">
-              <li>Custo total por unidade: <strong>{toCurrency(custoDireto)}</strong></li>
-              <li>Preço sugerido: <strong>{toCurrency(suggestedPrice)}</strong></li>
-              <li>Taxa de marketplace: <strong>{toCurrency(feeAmount)}</strong> ({feePctNum}%)</li>
-              <li>Lucro por unidade: <strong>{toCurrency(profitBRL)}</strong></li>
-              <li>Margem real: <strong>{marginRealPct.toFixed(2)}%</strong></li>
-            </ul>
-          </div>
-          <div>
-            <strong className="text-gray-800">Passo a passo</strong>
-            <ol className="mt-2 list-decimal list-inside space-y-1">
-              <li><strong>Custos diretos:</strong> {toCurrency(costNum)} (produto) + {toCurrency(shippingNum)} (frete) + {toCurrency(taxesNum)} (impostos) + {toCurrency(packNum)} (embalagem) + {toCurrency(fixedNum)} (custos fixos) = <strong>{toCurrency(custoDireto)}</strong></li>
-              <li><strong>Estratégia aplicada:</strong> {modeUsed}</li>
-              <li><strong>Taxas sobre venda:</strong> {feePctNum}% de {toCurrency(suggestedPrice)} = <strong>{toCurrency(feeAmount)}</strong></li>
-              <li><strong>Lucro líquido:</strong> {toCurrency(suggestedPrice)} − {toCurrency(feeAmount)} − {toCurrency(custoDireto)} = <strong>{toCurrency(profitBRL)}</strong></li>
-            </ol>
-          </div>
-          {qtyNum > 1 && (
-            <div className="rounded-lg bg-rose-50/50 border border-rose-100 p-4 border-l-4 border-l-rose-400">
-              <strong className="text-gray-800">Projeção para {qtyNum} unidades</strong>
-              <ul className="mt-2 space-y-1">
-                <li>Custo total: <strong>{toCurrency(totalCostQty)}</strong></li>
-                <li>Receita total: <strong>{toCurrency(totalRevenueQty)}</strong></li>
-                <li>Lucro total: <strong>{toCurrency(totalProfitQty)}</strong></li>
-              </ul>
+          <div className="mt-6 grid gap-4 font-heading text-sm">
+            <div className="flex justify-between gap-4 text-white/80">
+              <span>Margem real</span>
+              <span
+                className={`font-semibold tabular-nums ${
+                  marginRealPct >= 30 ? 'text-emerald-400' : marginRealPct >= 15 ? 'text-amber-300' : 'text-rose-300'
+                }`}
+              >
+                {marginRealPct.toFixed(2)}%
+              </span>
             </div>
-          )}
-          <div className="rounded-lg bg-amber-50 border border-amber-100 p-3 text-xs">
-            <strong>Dica:</strong> Margens entre 30-50% são ideais para produtos de maquiagem. Ajuste os valores conforme sua estratégia de negócio.
+            <div className="flex justify-between gap-4 text-white/80">
+              <span>Custo / unidade</span>
+              <span className="font-medium tabular-nums text-white">{toCurrency(custoDireto)}</span>
+            </div>
+            <div className="flex justify-between gap-4 text-white/80">
+              <span>Taxas ({feePctNum}%)</span>
+              <span className="font-medium tabular-nums text-white">{toCurrency(feeAmount)}</span>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <p className="text-center text-gray-400 text-xs">Lista Premium · Calculadora — personalize conforme sua política comercial.</p>
+          <button
+            type="button"
+            onClick={copyValues}
+            className="mt-8 w-full rounded-full bg-[#D5004D] py-3.5 font-heading text-sm font-bold text-white shadow-lg transition hover:bg-[#b80042] active:scale-[0.99]"
+          >
+            Copiar Valores
+          </button>
+        </div>
+      </aside>
     </div>
   )
 }

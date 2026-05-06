@@ -9,7 +9,6 @@ const navItems = [
   { path: '/calculadora', label: 'Calculadora' },
   { path: '/instagram10k', label: 'Instagram 10K' },
   { path: '/whatsapplucrativo', label: 'WhatsApp Lucrativo' },
-  { path: '/suporte', label: 'Suporte' },
 ]
 
 export default function Header() {
