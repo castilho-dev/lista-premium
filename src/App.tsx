@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MemberAreaLayout from './layouts/MemberAreaLayout';
+import LegalPageShell from './layouts/LegalPageShell';
 import Login from './pages/Login';
+import VSL from './pages/VSL';
 import MemberHome from './pages/MemberHome';
 import Fornecedores from './pages/Fornecedores';
 import Calculadora from './pages/Calculadora';
@@ -14,6 +16,23 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/vsl" element={<VSL />} />
+        <Route
+          path="/termos"
+          element={
+            <LegalPageShell>
+              <TermosDeUso />
+            </LegalPageShell>
+          }
+        />
+        <Route
+          path="/privacidade"
+          element={
+            <LegalPageShell>
+              <PoliticaPrivacidade />
+            </LegalPageShell>
+          }
+        />
 
         <Route element={<MemberAreaLayout />}>
           <Route path="/inicio" element={<MemberHome />} />
@@ -21,8 +40,6 @@ function App() {
           <Route path="/calculadora" element={<Calculadora />} />
           <Route path="/instagram10k" element={<Instagram10k />} />
           <Route path="/whatsapplucrativo" element={<WhatsAppLucrativo />} />
-          <Route path="/termos" element={<TermosDeUso />} />
-          <Route path="/privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/bonus" element={<Navigate to="/instagram10k" replace />} />
         </Route>
 

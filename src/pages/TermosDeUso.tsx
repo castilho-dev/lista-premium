@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { isAuthenticated } from '../auth';
 
 export default function TermosDeUso() {
+  const backTo = isAuthenticated() ? '/inicio' : '/';
+  const backLabel = isAuthenticated() ? 'Voltar para o início' : 'Voltar ao login';
+
   return (
     <div className="space-y-6 max-w-3xl">
       <Link
-        to="/inicio"
+        to={backTo}
         className="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
       >
         <ChevronLeft className="h-4 w-4" />
-        Voltar para o início
+        {backLabel}
       </Link>
 
       <h1 className="text-3xl md:text-4xl font-serif font-medium text-neutral-900 tracking-tight">
