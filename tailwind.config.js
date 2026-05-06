@@ -4,6 +4,15 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  // Cores hex arbitrárias usadas nos componentes da área de membros
+  safelist: [
+    'bg-[#B88A56]',
+    'hover:bg-[#A07641]',
+    'from-[#EADBC5]',
+    'to-[#C9A679]',
+    'text-[#8C5E33]',
+    'hover:border-[#B88A56]/50',
+  ],
   theme: {
     extend: {
       colors: {

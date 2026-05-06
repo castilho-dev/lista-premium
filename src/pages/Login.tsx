@@ -1,65 +1,65 @@
-import { FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Mail, ArrowRight, Loader2 } from 'lucide-react'
-import Logo from '../components/Logo'
-import { setMemberSession } from '../auth'
-import { SUPPORT_EMAIL } from '../constants'
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Mail, ArrowRight, Loader2 } from 'lucide-react';
+import Logo from '../components/Logo';
+import { setMemberSession } from '../auth';
+import { SUPPORT_EMAIL } from '../constants';
 
 export default function Login() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const isDev = import.meta.env.DEV
+  const isDev = import.meta.env.DEV;
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    const trimmed = email.trim().toLowerCase()
+    e.preventDefault();
+    setError(null);
+    const trimmed = email.trim().toLowerCase();
     if (!trimmed || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(trimmed)) {
-      setError('Informe um e-mail válido.')
-      return
+      setError('Informe um e-mail válido.');
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     try {
-      let access = false
-      let name: string | undefined
+      let access = false;
+      let name: string | undefined;
 
       try {
         const res = await fetch('/api/check-access', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: trimmed }),
-        })
+        });
         if (res.ok) {
-          const data = await res.json()
-          access = !!data?.access
-          name = data?.customer?.name
+          const data = await res.json();
+          access = !!data?.access;
+          name = data?.customer?.name;
         }
       } catch {
         // fallback handled below
       }
 
-      if (!access && isDev) access = true
+      if (!access && isDev) access = true;
 
       if (!access) {
-        setError('E-mail não encontrado. Verifique ou contate o suporte.')
-        return
+        setError('E-mail não encontrado. Verifique ou contate o suporte.');
+        return;
       }
 
-      setMemberSession({ email: trimmed, name })
-      navigate('/inicio', { replace: true })
+      setMemberSession({ email: trimmed, name });
+      navigate('/inicio', { replace: true });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const entrarDev = () => {
-    setMemberSession({ email: 'dev@listapremium.local', name: 'Convidada' })
-    navigate('/inicio', { replace: true })
-  }
+    setMemberSession({ email: 'dev@listapremium.local', name: 'Convidada' });
+    navigate('/inicio', { replace: true });
+  };
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-neutral-900 flex flex-col relative overflow-hidden">
@@ -109,7 +109,11 @@ export default function Login() {
             </label>
 
             {error && (
-              <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="mt-3 text-xs text-rose-600">
+              <motion.p
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-3 text-xs text-rose-600"
+              >
                 {error}
               </motion.p>
             )}
@@ -142,12 +146,15 @@ export default function Login() {
 
           <p className="mt-8 text-center text-xs text-neutral-500">
             Problemas para acessar? Fale com{' '}
-            <a href={`mailto:${SUPPORT_EMAIL}`} className="text-[#8C5E33] font-medium hover:underline">
+            <a
+              href={`mailto:${SUPPORT_EMAIL}`}
+              className="text-[#8C5E33] font-medium hover:underline"
+            >
               {SUPPORT_EMAIL}
             </a>
           </p>
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

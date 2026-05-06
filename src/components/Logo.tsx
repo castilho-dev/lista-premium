@@ -30,4 +30,3 @@ export default function Logo({ size = 36, className = '' }: Props) {
     </svg>
   );
 }
-

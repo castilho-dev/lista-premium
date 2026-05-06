@@ -1,25 +1,26 @@
-import type { ReactNode } from 'react'
-import { NavLink, Link, useNavigate } from 'react-router-dom'
-import { Users, Calculator, Instagram, LogOut } from 'lucide-react'
-import Logo from '../Logo'
-import WhatsAppIcon from '../icons/WhatsAppIcon'
-import { clearMemberSession, getMemberSession, firstName } from '../../auth'
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Users, Calculator, Instagram, LogOut } from 'lucide-react';
+import { ReactNode } from 'react';
+import Logo from '../Logo';
+import WhatsAppButton from '../WhatsAppButton';
+import WhatsAppIcon from '../icons/WhatsAppIcon';
+import { clearMemberSession, getMemberSession, firstName } from '../../auth';
 
 const navItems = [
   { to: '/fornecedores', label: 'Fornecedores', icon: Users },
   { to: '/calculadora', label: 'Calculadora', icon: Calculator },
   { to: '/instagram10k', label: 'Instagram 10K', icon: Instagram },
   { to: '/whatsapplucrativo', label: 'WhatsApp Lucrativo', icon: WhatsAppIcon },
-]
+];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
-  const navigate = useNavigate()
-  const session = getMemberSession()
+  const navigate = useNavigate();
+  const session = getMemberSession();
 
   const handleLogout = () => {
-    clearMemberSession()
-    navigate('/app', { replace: true })
-  }
+    clearMemberSession();
+    navigate('/', { replace: true });
+  };
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-neutral-900">
@@ -68,7 +69,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-12 pb-28 md:pb-16">{children}</main>
+      <main className="max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-12 pb-28 md:pb-16">
+        {children}
+      </main>
 
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-xl border-t border-neutral-200">
         <div className="grid grid-cols-4">
@@ -98,6 +101,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           ))}
         </div>
       </nav>
+
+      <WhatsAppButton />
     </div>
-  )
+  );
 }

@@ -1,79 +1,33 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 
 export default function PoliticaPrivacidade() {
   return (
-    <div className="min-h-screen bg-cream-200 pb-24 font-sans md:pb-12">
-      <div className="mx-auto max-w-3xl px-6 py-12 sm:px-8 sm:py-16">
-        <Link
-          to="/inicio"
-          className="mb-10 inline-flex items-center gap-2 font-heading text-sm font-medium text-gray-600 transition-colors hover:text-[#D5004D]"
-        >
-          ← Voltar ao início
-        </Link>
+    <div className="space-y-6 max-w-3xl">
+      <Link
+        to="/inicio"
+        className="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
+      >
+        <ChevronLeft className="h-4 w-4" />
+        Voltar para o início
+      </Link>
 
-        <div className="mb-10 border-l-4 border-[#D4AF37] pl-6">
-          <h1 className="font-display text-gray-900 font-bold text-2xl sm:text-3xl tracking-tight">
-            Política de Privacidade
-          </h1>
-          <p className="mt-1 text-gray-500 text-sm">
-            Lista Premium
-          </p>
-        </div>
+      <h1 className="text-3xl md:text-4xl font-serif font-medium text-neutral-900 tracking-tight">
+        Política de Privacidade
+      </h1>
 
-        <div className="text-gray-700 leading-relaxed space-y-6 text-[15px]">
-          <p>
-            Esta política descreve como a Lista Premium trata os dados das usuárias.
-          </p>
-
-          <section className="pt-4">
-            <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">1. Dados coletados</h2>
-            <p>
-              Coletamos nome, e-mail e dados necessários ao processamento do pagamento (realizado pela plataforma Kiwify). Não armazenamos dados de cartão de crédito ou dados bancários em nossos servidores.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">2. Uso dos dados</h2>
-            <p>
-              Os dados são utilizados para: liberar seu acesso ao produto após a compra, enviar comunicações relacionadas ao produto (acesso, atualizações, grupo VIP), prestar suporte e cumprir obrigações legais quando aplicável.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">3. Compartilhamento</h2>
-            <p>
-              Não vendemos nem compartilhamos seus dados pessoais com terceiros para fins de marketing. Os dados de pagamento são processados exclusivamente pela Kiwify, em conformidade com as normas de segurança aplicáveis.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">4. Direito de exclusão</h2>
-            <p>
-              Você pode solicitar a exclusão dos seus dados pessoais entrando em contato conosco. A exclusão pode implicar a perda de acesso ao produto, conforme nossos termos de uso.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">5. Cookies</h2>
-            <p>
-              O site pode utilizar cookies para melhorar a experiência de navegação e para fins técnicos (por exemplo, lembrar preferências). Você pode configurar seu navegador para recusar cookies, observando que isso pode afetar algumas funcionalidades.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-heading text-gray-900 font-bold text-lg mb-2">6. Contato</h2>
-            <p>
-              Para dúvidas, solicitações de exclusão de dados ou outras questões sobre privacidade, entre em contato: fornecedoresmake.list@gmail.com
-            </p>
-          </section>
-
-          <div className="mt-14 pt-8 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
-              Última atualização: 2024.
-            </p>
-          </div>
-        </div>
+      <div className="text-neutral-600 text-sm leading-relaxed space-y-4">
+        <p>
+          Armazenamos apenas os dados necessários para validar seu acesso (e-mail e nome, quando
+          disponível). Sua sessão é mantida no navegador via sessionStorage e é encerrada ao fechar
+          a aba.
+        </p>
+        <p>
+          Não compartilhamos seus dados com terceiros para fins de marketing. O contato direto com
+          fornecedores ocorre fora do aplicativo, nos canais próprios de cada marca.
+        </p>
+        <p>Você pode solicitar a remoção dos seus dados contatando o suporte a qualquer momento.</p>
       </div>
     </div>
-  )
+  );
 }

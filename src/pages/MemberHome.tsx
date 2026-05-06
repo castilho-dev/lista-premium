@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Users, Calculator, Instagram, ArrowUpRight, Sparkles } from 'lucide-react'
-import WhatsAppIcon from '../components/icons/WhatsAppIcon'
-import { getMemberSession, firstName } from '../auth'
-import { fornecedores } from '../data/fornecedores'
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Users, Calculator, Instagram, ArrowUpRight, Sparkles } from 'lucide-react';
+import WhatsAppIcon from '../components/icons/WhatsAppIcon';
+import { getMemberSession, firstName } from '../auth';
+import { fornecedores } from '../data/fornecedores';
 
 const shortcuts = [
   {
@@ -38,11 +38,11 @@ const shortcuts = [
     accent: 'from-[#ECDFCF] to-[#DDC6A8]',
     badge: 'Bônus PDF',
   },
-]
+];
 
 export default function MemberHome() {
-  const session = getMemberSession()
-  const nome = firstName(session?.name)
+  const session = getMemberSession();
+  const nome = firstName(session?.name);
 
   return (
     <div className="space-y-10">
@@ -78,8 +78,8 @@ export default function MemberHome() {
             )}
           </h1>
           <p className="mt-4 text-sm md:text-base text-neutral-300 max-w-xl leading-relaxed">
-            Seu diretório exclusivo de fornecedores, ferramentas de precificação e materiais estratégicos para o
-            mercado de beleza de alto padrão.
+            Seu diretório exclusivo de fornecedores, ferramentas de precificação e materiais
+            estratégicos para o mercado de beleza de alto padrão.
           </p>
           <Link
             to="/fornecedores"
@@ -94,14 +94,18 @@ export default function MemberHome() {
       <section>
         <div className="flex items-end justify-between mb-5">
           <div>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-[#8C5E33] font-medium">Atalhos</p>
-            <h2 className="mt-1 text-2xl font-serif font-medium text-neutral-900">Suas seções</h2>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-[#8C5E33] font-medium">
+              Atalhos
+            </p>
+            <h2 className="mt-1 text-2xl font-serif font-medium text-neutral-900">
+              Suas seções
+            </h2>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
           {shortcuts.map((s, i) => {
-            const Icon = s.icon
+            const Icon = s.icon;
             return (
               <motion.div
                 key={s.to}
@@ -134,10 +138,10 @@ export default function MemberHome() {
                   </div>
                 </Link>
               </motion.div>
-            )
+            );
           })}
         </div>
       </section>
     </div>
-  )
+  );
 }

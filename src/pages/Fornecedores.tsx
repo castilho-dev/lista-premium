@@ -1,5 +1,5 @@
-import FornecedoresList from '../components/member/FornecedoresList'
+import FornecedoresList from '../components/member/FornecedoresList';
 
 export default function Fornecedores() {
-  return <FornecedoresList />
+  return <FornecedoresList />;
 }
