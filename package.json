@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "export-logo": "node scripts/export-logo-png.mjs",
     "export-vsl-bg": "node scripts/export-vsl-hero-background.mjs",
+    "export-logo-vsl": "node scripts/export-logo-on-vsl-background.mjs",
     "webhook": "node server/webhook-server.cjs"
   },
   "dependencies": {
